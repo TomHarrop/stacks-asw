@@ -116,10 +116,10 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        dynamic('output/stacks_denovo/{f_individual}.alleles.tsv.gz'),
-        dynamic('output/stacks_denovo/{f_individual}.snps.tsv.gz'),
-        dynamic('output/stacks_denovo/{f_individual}.models.tsv.gz'),
-        dynamic('output/stacks_denovo/{f_individual}.tags.tsv.gz')
+        dynamic('output/stacks_denovo/{individual}.alleles.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual}.snps.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual}.models.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual}.tags.tsv.gz')
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -196,7 +196,7 @@ rule select_filtered_samples:
     input:
         map = filtered_popmap
     output:
-        dynamic('output/run_stats/pass/{individual}.tmp')
+        dynamic('output/run_stats/pass/{individual}')
     params:
         outdir = 'output/run_stats/pass'
     run:
@@ -205,23 +205,22 @@ rule select_filtered_samples:
            delimiter='\t',
            header=None)
         for individual in sorted(set(my_popmap[0])):
-            my_path = os.path.join(params.wd, individual)
+            my_path = os.path.join(params.outdir, individual)
             touch(my_path)
 
 rule ustacks:
     input:
-        popmap = filtered_popmap,
-        flagfile = dynamic('output/run_stats/pass/{individual}.tmp')
+        flagfile = dynamic('output/run_stats/pass/{individual}')
     params:
-        fastq = 'output/demux/{f_individual}.fq.gz',
+        fastq = 'output/demux/{individual}.fq.gz',
         wd = 'output/demux/stacks_denovo'
     threads:
         10
     output:
-        'output/stacks_denovo/{f_individual}.alleles.tsv.gz',
-        'output/stacks_denovo/{f_individual}.snps.tsv.gz',
-        'output/stacks_denovo/{f_individual}.models.tsv.gz',
-        'output/stacks_denovo/{f_individual}.tags.tsv.gz'
+        'output/stacks_denovo/{individual}.alleles.tsv.gz',
+        'output/stacks_denovo/{individual}.snps.tsv.gz',
+        'output/stacks_denovo/{individual}.models.tsv.gz',
+        'output/stacks_denovo/{individual}.tags.tsv.gz'
     run:
         sample_i += 1
         shell('echo \''
