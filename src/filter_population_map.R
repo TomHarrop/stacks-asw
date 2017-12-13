@@ -3,11 +3,33 @@
 library(data.table)
 library(ggplot2)
 
+#############
+# FUNCTIONS #
+#############
+
+TouchFlagFile <- function(individual, flag_dir) {
+    flag_path <- paste0(flag_dir, "/", individual, ".tmp")
+    file.create(flag_path)
+}
+
+###########
+# GLOBALS #
+###########
+
 popmap_file <- snakemake@input[["popmap"]]
 sample_dir <- snakemake@params[["sample_dir"]]
 stats_file <- snakemake@input[["stats"]]
 filtered_population_map <- snakemake@output[["map"]]
 plot_file <- snakemake@output[["plot"]]
+pop_counts <- snakemake@output[["pop_counts"]]
+
+# popmap_file <- "output/stacks_config/population_map.txt"
+# sample_dir <- "output/demux"
+# stats_file <- "output/run_stats/read_stats.txt"
+
+########
+# MAIN #
+########
 
 # read the popmap
 popmap <- fread(popmap_file,
@@ -61,10 +83,10 @@ filter_plot <- mean(bin_labels[c(filter_level, filter_level + 1)])
 gt <- paste0(
     "'",
     samples_with_readcount[, length(unique(sample_name))],
-    " samples. '*",
-    "20^'th'~", "'percentile: ", filter, " reads. ",
+    " individuals. '*",
+    "'Filter: ", filter, " reads. ",
     filtered_samples[, length(unique(sample_name))],
-    " samples kept.'"
+    " individuals passed.'"
 )
 gp <- ggplot(lhist_log4, aes(x = lbin, y = count)) +
     scale_x_continuous(labels = function(x) 4^x) +
@@ -79,6 +101,11 @@ fwrite(filtered_samples[, .(sample_name, population)],
        filtered_population_map,
        col.names = FALSE,
        sep = "\t")
+
+fwrite(
+    filtered_samples[, .(indivduals = length(unique(sample_name))),
+                     by = population],
+    pop_counts)
 
 ggsave(filename = plot_file,
        plot = gp,

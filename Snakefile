@@ -54,6 +54,14 @@ def parse_key_and_write_config_files(key_file, outdir):
                          for x in sample_to_population
                          if x in all_samples)
 
+
+def touch(fname, mode=0o666, dir_fd=None, **kwargs):
+    flags = os.O_CREAT | os.O_APPEND
+    with os.fdopen(os.open(fname, flags=flags, mode=mode, dir_fd=dir_fd)) as f:
+        os.utime(f.fileno() if os.utime in os.supports_fd else fname,
+                 dir_fd=None if os.supports_fd else dir_fd, **kwargs)
+
+
 ###########
 # GLOBALS #
 ###########
@@ -62,6 +70,8 @@ def parse_key_and_write_config_files(key_file, outdir):
 key_file = 'data/SQ0003.txt'
 reads_dir = 'data/raw_reads'
 outdir = 'output'
+filtered_popmap = 'output/stacks_config/filtered_populations.txt'
+sample_i = 0
 
 #########
 # SETUP #
@@ -99,9 +109,17 @@ all_samples = sorted(set(x for x in sample_to_fc_lane.keys()
 all_fc_lanes = [x for x in fc_lane_to_sample
                 if any([x in y for y in all_read_files])]
 
+
 #########
 # RULES #
 #########
+
+rule target:
+    input:
+        dynamic('output/stacks_denovo/{f_individual}.alleles.tsv.gz'),
+        dynamic('output/stacks_denovo/{f_individual}.snps.tsv.gz'),
+        dynamic('output/stacks_denovo/{f_individual}.models.tsv.gz'),
+        dynamic('output/stacks_denovo/{f_individual}.tags.tsv.gz')
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -123,8 +141,8 @@ for fc_lane in all_fc_lanes:
             read_file = [x for x in all_read_files if fc_lane in x][0],
             config_file = 'output/stacks_config/{}.config'.format(fc_lane)
         output:
-            expand('output/demux/{sample}.fq.gz',
-                   sample=fc_lane_to_sample[fc_lane]),
+            expand('output/demux/{individual}.fq.gz',
+                   individual=fc_lane_to_sample[fc_lane]),
         log:
             'output/logs/demux_{0}.log'.format(fc_lane)
         threads:
@@ -147,8 +165,8 @@ for fc_lane in all_fc_lanes:
 rule count_reads:
     input:
         tag_files = expand(
-            'output/demux/{sample}.fq.gz',
-            sample=all_samples)
+            'output/demux/{individual}.fq.gz',
+            individual=all_samples)
     output:
         'output/run_stats/read_stats.txt'
     log:
@@ -168,8 +186,51 @@ rule filter_samples:
     params:
         sample_dir = 'output/demux',
     output:
-        map = 'output/stacks_config/filtered_populations.txt',
-        plot = 'output/run_stats/read_count_histogram.pdf'
+        map = filtered_popmap,
+        plot = 'output/run_stats/read_count_histogram.pdf',
+        pop_counts = 'output/run_stats/individuals_per_population.csv'
     script:
         'src/filter_population_map.R'
 
+rule select_filtered_samples:
+    input:
+        map = filtered_popmap
+    output:
+        dynamic('output/run_stats/pass/{individual}.tmp')
+    params:
+        outdir = 'output/run_stats/pass'
+    run:
+        # read the filtered popmap and touch files
+        my_popmap = pandas.read_csv(input.map,
+           delimiter='\t',
+           header=None)
+        for individual in sorted(set(my_popmap[0])):
+            my_path = os.path.join(params.wd, individual)
+            touch(my_path)
+
+rule ustacks:
+    input:
+        popmap = filtered_popmap,
+        flagfile = dynamic('output/run_stats/pass/{individual}.tmp')
+    params:
+        fastq = 'output/demux/{f_individual}.fq.gz',
+        wd = 'output/demux/stacks_denovo'
+    threads:
+        10
+    output:
+        'output/stacks_denovo/{f_individual}.alleles.tsv.gz',
+        'output/stacks_denovo/{f_individual}.snps.tsv.gz',
+        'output/stacks_denovo/{f_individual}.models.tsv.gz',
+        'output/stacks_denovo/{f_individual}.tags.tsv.gz'
+    run:
+        sample_i += 1
+        shell('echo \''
+              'ustacks '
+              '-p {threads} '
+              '-t gzfastq '
+              '-f {params.fastq} '
+              '-o {params.wd} '
+              '-i {sample_i} '
+              '-m 3 '
+              '-M 3 '
+              '\'')
