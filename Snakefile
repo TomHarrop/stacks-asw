@@ -204,32 +204,32 @@ rule select_filtered_samples:
         my_popmap = pandas.read_csv(input.map,
            delimiter='\t',
            header=None)
-        for individual in sorted(set(my_popmap[0])):
-            my_path = os.path.join(params.outdir, individual)
+        for indiv in sorted(set(my_popmap[0])):
+            my_path = os.path.join(params.outdir, indiv)
             touch(my_path)
 
 rule ustacks:
     input:
-        flagfile = dynamic('output/run_stats/pass/{individual}')
+        dynamic('output/run_stats/pass/{individual}')
     params:
         fastq = 'output/demux/{individual}.fq.gz',
-        wd = 'output/demux/stacks_denovo'
-    threads:
-        10
+        wd = 'output/stacks_denovo'
     output:
         'output/stacks_denovo/{individual}.alleles.tsv.gz',
         'output/stacks_denovo/{individual}.snps.tsv.gz',
         'output/stacks_denovo/{individual}.models.tsv.gz',
         'output/stacks_denovo/{individual}.tags.tsv.gz'
     run:
+        # i don't think sample_i will work here, because each process will be
+        # independent, i.e. each sample is going to get sample_i = 1. probably
+        # need a params function to get this, not sure how this would work
+        # dynamically.
         sample_i += 1
-        shell('echo \''
-              'ustacks '
+        shell('ustacks '
               '-p {threads} '
               '-t gzfastq '
               '-f {params.fastq} '
               '-o {params.wd} '
               '-i {sample_i} '
               '-m 3 '
-              '-M 3 '
-              '\'')
+              '-M 3 ')
