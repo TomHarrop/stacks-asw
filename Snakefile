@@ -228,9 +228,9 @@ rule select_filtered_samples:
 rule ustacks:
     input:
         dynamic('output/run_stats/pass/{individual}'),
-        fastq = 'output/demux/{individual}.fq.gz',
         individual_i_pickle = 'output/obj/individual_i.p'
     params:
+        fastq = 'output/demux/{individual}.fq.gz',
         wd = 'output/stacks_denovo'
     output:
         'output/stacks_denovo/{individual}.alleles.tsv.gz',
