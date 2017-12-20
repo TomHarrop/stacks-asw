@@ -239,6 +239,8 @@ rule ustacks:
         'output/stacks_denovo/{individual}.tags.tsv.gz'
     threads:
         15
+    log:
+        'output/log/ustacks_{individual}.log'
     run:
         # open the pickled dictionary and look up the sample_i
         with open(input.individual_i_pickle, 'rb') as f:
@@ -251,4 +253,5 @@ rule ustacks:
               '-o {params.wd} '
               '-i {sample_i} '
               '-m 3 '
-              '-M 3 ')
+              '-M 3 '
+              '&> {log}')
