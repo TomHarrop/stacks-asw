@@ -240,7 +240,7 @@ rule ustacks:
     threads:
         15
     log:
-        'output/log/ustacks_{individual}.log'
+        'output/logs/ustacks_{individual}.log'
     run:
         # open the pickled dictionary and look up the sample_i
         with open(input.individual_i_pickle, 'rb') as f:
