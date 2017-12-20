@@ -227,7 +227,7 @@ rule select_filtered_samples:
 
 rule ustacks:
     input:
-        dynamic('output/run_stats/pass/{individual}'),
+        'output/run_stats/pass/{individual}',
         individual_i_pickle = 'output/obj/individual_i.p'
     params:
         fastq = 'output/demux/{individual}.fq.gz',
