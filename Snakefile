@@ -192,12 +192,27 @@ rule filter_samples:
     script:
         'src/filter_population_map.R'
 
+rule enumerate_filtered_samples:
+    input:
+        map = filtered_popmap
+    output:
+        pickle = temp('output/obj/individual_i.p')
+    run:
+        # read the filtered popmap
+        my_popmap = pandas.read_csv(input.map,
+            delimiter='\t',
+            header=None)
+        my_individuals = enumerate(sorted(set(my_popmap[0])))
+        individual_i = {y: x for x, y in my_individuals}
+        # pickle the individual_i dict for other rules to use
+        with open(output.pickle, 'wb+') as f:
+            pickle.dump(individual_i, f)
+
 rule select_filtered_samples:
     input:
         map = filtered_popmap
     output:
-        dynamic('output/run_stats/pass/{individual}'),
-        pickle = temp('output/obj/individual_i.p')
+        dynamic('output/run_stats/pass/{individual}')
     params:
         outdir = 'output/run_stats/pass'
     run:
@@ -205,11 +220,6 @@ rule select_filtered_samples:
         my_popmap = pandas.read_csv(input.map,
            delimiter='\t',
            header=None)
-        my_individuals = enumerate(sorted(set(my_popmap[0])))
-        individual_i = {y: x for x, y in my_individuals}
-        # pickle the individual_i dict for other rules to use
-        with open(output.pickle, 'wb+') as f:
-            pickle.dump(individual_i, f)
         # touch flag files
         for indiv in sorted(set(my_popmap[0])):
             my_path = os.path.join(params.outdir, indiv)
