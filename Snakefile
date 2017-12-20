@@ -228,9 +228,9 @@ rule select_filtered_samples:
 rule ustacks:
     input:
         dynamic('output/run_stats/pass/{individual}'),
+        fastq = 'output/demux/{individual}.fq.gz',
         individual_i_pickle = 'output/obj/individual_i.p'
     params:
-        fastq = 'output/demux/{individual}.fq.gz',
         wd = 'output/stacks_denovo'
     output:
         'output/stacks_denovo/{individual}.alleles.tsv.gz',
@@ -242,8 +242,8 @@ rule ustacks:
         # independent, i.e. each sample is going to get sample_i = 1. probably
         # need a params function to get this, not sure how this would work
         # dynamically.
-        with open(input.pickle, 'rb') as f:
-            indivdual_i = pickle.load(f)
+        with open(input.individual_i_pickle, 'rb') as f:
+            individual_i = pickle.load(f)
         sample_i = individual_i[wildcards.individual]
         shell('ustacks '
               '-p {threads} '
