@@ -196,8 +196,8 @@ rule select_filtered_samples:
     input:
         map = filtered_popmap
     output:
-        pickle = temp('output/obj/individual_i.p'),
-        dynamic('output/run_stats/pass/{individual}')
+        dynamic('output/run_stats/pass/{individual}'),
+        pickle = temp('output/obj/individual_i.p')
     params:
         outdir = 'output/run_stats/pass'
     run:
@@ -217,8 +217,8 @@ rule select_filtered_samples:
 
 rule ustacks:
     input:
-        individual_i_pickle = 'output/obj/individual_i.p',
-        dynamic('output/run_stats/pass/{individual}')
+        dynamic('output/run_stats/pass/{individual}'),
+        individual_i_pickle = 'output/obj/individual_i.p'
     params:
         fastq = 'output/demux/{individual}.fq.gz',
         wd = 'output/stacks_denovo'
