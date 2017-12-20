@@ -4,6 +4,7 @@ import csv
 import os
 import pandas
 import pathlib
+import pickle
 import re
 import shutil
 
@@ -71,7 +72,6 @@ key_file = 'data/SQ0003.txt'
 reads_dir = 'data/raw_reads'
 outdir = 'output'
 filtered_popmap = 'output/stacks_config/filtered_populations.txt'
-sample_i = 0
 
 #########
 # SETUP #
@@ -196,20 +196,28 @@ rule select_filtered_samples:
     input:
         map = filtered_popmap
     output:
+        pickle = temp('output/obj/individual_i.p'),
         dynamic('output/run_stats/pass/{individual}')
     params:
         outdir = 'output/run_stats/pass'
     run:
-        # read the filtered popmap and touch files
+        # read the filtered popmap 
         my_popmap = pandas.read_csv(input.map,
            delimiter='\t',
            header=None)
+        my_individuals = enumerate(sorted(set(my_popmap[0])))
+        individual_i = {y: x for x, y in my_individuals}
+        # pickle the individual_i dict for other rules to use
+        with open(output.pickle, 'wb+') as f:
+            pickle.dump(individual_i, f)
+        # touch flag files
         for indiv in sorted(set(my_popmap[0])):
             my_path = os.path.join(params.outdir, indiv)
             touch(my_path)
 
 rule ustacks:
     input:
+        individual_i_pickle = 'output/obj/individual_i.p',
         dynamic('output/run_stats/pass/{individual}')
     params:
         fastq = 'output/demux/{individual}.fq.gz',
@@ -224,7 +232,9 @@ rule ustacks:
         # independent, i.e. each sample is going to get sample_i = 1. probably
         # need a params function to get this, not sure how this would work
         # dynamically.
-        sample_i += 1
+        with open(input.pickle, 'rb') as f:
+            indivdual_i = pickle.load(f)
+        sample_i = individual_i[wildcards.individual]
         shell('ustacks '
               '-p {threads} '
               '-t gzfastq '
