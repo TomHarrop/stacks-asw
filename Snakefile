@@ -237,11 +237,10 @@ rule ustacks:
         'output/stacks_denovo/{individual}.snps.tsv.gz',
         'output/stacks_denovo/{individual}.models.tsv.gz',
         'output/stacks_denovo/{individual}.tags.tsv.gz'
+    threads:
+        15
     run:
-        # i don't think sample_i will work here, because each process will be
-        # independent, i.e. each sample is going to get sample_i = 1. probably
-        # need a params function to get this, not sure how this would work
-        # dynamically.
+        # open the pickled dictionary and look up the sample_i
         with open(input.individual_i_pickle, 'rb') as f:
             individual_i = pickle.load(f)
         sample_i = individual_i[wildcards.individual]
