@@ -116,10 +116,13 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        dynamic('output/stacks_denovo/{individual}.alleles.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual}.snps.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual}.models.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual}.tags.tsv.gz')
+        # dynamic('output/stacks_denovo/{individual}.alleles.tsv.gz'),
+        # dynamic('output/stacks_denovo/{individual}.snps.tsv.gz'),
+        # dynamic('output/stacks_denovo/{individual}.models.tsv.gz'),
+        # dynamic('output/stacks_denovo/{individual}.tags.tsv.gz')
+        'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
+        'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
+        'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz'
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -255,3 +258,28 @@ rule ustacks:
               '-m 3 '
               '-M 3 '
               '&> {log}')
+
+rule cstacks:
+    input:
+        dynamic('output/stacks_denovo/{individual}.alleles.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual}.snps.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual}.models.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual}.tags.tsv.gz'),
+        map = filtered_popmap
+    output:
+        'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
+        'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
+        'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz'
+    params:
+        stacks_dir = 'output/stacks_denovo',
+    threads:
+        75
+    log:
+        'output/logs/cstacks.log'
+    shell:
+        'cstacks '
+        '-p {threads} '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-n 3 '
+        '&> {log}'
