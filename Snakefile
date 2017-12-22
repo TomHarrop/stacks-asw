@@ -277,9 +277,11 @@ rule cstacks:
     log:
         'output/logs/cstacks.log'
     shell:
+        'echo \''
         'cstacks '
         '-p {threads} '
         '-P {params.stacks_dir} '
         '-M {input.map} '
         '-n 3 '
         '&> {log}'
+        '\''
