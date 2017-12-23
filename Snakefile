@@ -199,7 +199,7 @@ rule enumerate_filtered_samples:
     input:
         map = filtered_popmap
     output:
-        pickle = temp('output/obj/individual_i.p')
+        pickle = 'output/obj/individual_i.p'
     run:
         # read the filtered popmap
         my_popmap = pandas.read_csv(input.map,
