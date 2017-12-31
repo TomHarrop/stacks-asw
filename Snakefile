@@ -116,9 +116,11 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        expand('output/stacks_denovo/{individual}.matches.tsv.gz',
-               individual=glob_wildcards('output/stacks_denovo/'
-                                         '{individual}.alleles.tsv.gz'))
+        # expand('output/stacks_denovo/{individual}.matches.tsv.gz',
+        #        individual=glob_wildcards('output/stacks_denovo/'
+        #                                  '{individual}.alleles.tsv.gz'))
+        dynamic('output/stacks_denovo/{individual2}.matches.tsv.gz')
+
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
     input:
@@ -279,16 +281,15 @@ rule cstacks:
         '-n 3 '
         '&> {log}'
 
-rule sstacks:
+
+ruls sstacks:
     input:
         'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
         'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
         'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz',
         map = filtered_popmap
     output:
-        expand('output/stacks_denovo/{individual}.matches.tsv.gz',
-               individual=glob_wildcards('output/stacks_denovo/'
-                                         '{individual}.alleles.tsv.gz'))
+        dynamic('output/stacks_denovo/{individual2}.matches.tsv.gz')
     params:
         stacks_dir = 'output/stacks_denovo'
     threads:
@@ -301,4 +302,27 @@ rule sstacks:
         '-M {input.map} '
         '-p {threads} '
         '&> {log}'
+
+# rule sstacks:
+#     input:
+#         'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
+#         'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
+#         'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz',
+#         map = filtered_popmap
+#     output:
+#         expand('output/stacks_denovo/{individual}.matches.tsv.gz',
+#                individual=glob_wildcards('output/stacks_denovo/'
+#                                          '{individual}.alleles.tsv.gz'))
+#     params:
+#         stacks_dir = 'output/stacks_denovo'
+#     threads:
+#         75
+#     log:
+#         'output/logs/sstacks.log'
+#     shell:
+#         'sstacks '
+#         '-P {params.stacks_dir} '
+#         '-M {input.map} '
+#         '-p {threads} '
+#         '&> {log}'
 
