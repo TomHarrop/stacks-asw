@@ -116,10 +116,8 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        # expand('output/stacks_denovo/{individual}.matches.tsv.gz',
-        #        individual=glob_wildcards('output/stacks_denovo/'
-        #                                  '{individual}.alleles.tsv.gz'))
-        dynamic('output/stacks_denovo/{individual3}.matches.bam')
+        'output/stacks_denovo/gstacks.fa.gz',
+        'output/stacks_denovo/gstacks.vcf.gz'
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -320,3 +318,24 @@ rule tsv2bam:
         '-M {input.map} '
         '-t {threads} '
         '&> {log}'
+
+rule gstacks:
+    input:
+        dynamic('output/stacks_denovo/{individual3}.matches.bam'),
+        map = filtered_popmap
+    output:
+        'output/stacks_denovo/gstacks.fa.gz',
+        'output/stacks_denovo/gstacks.vcf.gz'
+    params:
+        stacks_dir = 'output/stacks_denovo'
+    threads:
+        75
+    log:
+        'output/logs/gstacks.log'
+    shell:
+        'gstacks '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-t {threads} '
+        '&> {log}'
+
