@@ -116,8 +116,9 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        dynamic('output/stacks_denovo/{individual}.matches.tsv.gz')
-
+        expand('output/stacks_denovo/{individual}.matches.tsv.gz',
+               individual=glob_wildcards('output/stacks_denovo/'
+                                         '{individual}.alleles.tsv.gz'))
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
     input:
