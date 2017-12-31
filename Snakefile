@@ -119,7 +119,7 @@ rule target:
         # expand('output/stacks_denovo/{individual}.matches.tsv.gz',
         #        individual=glob_wildcards('output/stacks_denovo/'
         #                                  '{individual}.alleles.tsv.gz'))
-        dynamic('output/stacks_denovo/{individual2}.matches.tsv.gz')
+        dynamic('output/stacks_denovo/{individual3}.matches.bam')
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -302,3 +302,21 @@ rule sstacks:
         '-p {threads} '
         '&> {log}'
 
+rule tsv2bam:
+    input:
+        dynamic('output/stacks_denovo/{individual2}.matches.tsv.gz'),
+        map = filtered_popmap
+    output:
+        dynamic('output/stacks_denovo/{individual3}.matches.bam')
+    params:
+        stacks_dir = 'output/stacks_denovo'
+    threads:
+        75
+    log:
+        'output/logs/tsv2bam.log'
+    shell:
+        'tsv2bam '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-t {threads} '
+        '&> {log}'
