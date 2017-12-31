@@ -285,7 +285,9 @@ rule sstacks:
         'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz',
         map = filtered_popmap
     output:
-        dynamic('output/stacks_denovo/{individual}.matches.tsv.gz')
+        expand('output/stacks_denovo/{individual}.matches.tsv.gz',
+               individual=glob_wildcards('output/stacks_denovo/'
+                                         '{individual}.alleles.tsv.gz'))
     params:
         stacks_dir = 'output/stacks_denovo'
     threads:
