@@ -282,7 +282,7 @@ rule cstacks:
         '&> {log}'
 
 
-ruls sstacks:
+rule sstacks:
     input:
         'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
         'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
