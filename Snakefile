@@ -281,7 +281,6 @@ rule cstacks:
         '-n 3 '
         '&> {log}'
 
-
 rule sstacks:
     input:
         'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
@@ -302,27 +301,4 @@ rule sstacks:
         '-M {input.map} '
         '-p {threads} '
         '&> {log}'
-
-# rule sstacks:
-#     input:
-#         'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
-#         'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
-#         'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz',
-#         map = filtered_popmap
-#     output:
-#         expand('output/stacks_denovo/{individual}.matches.tsv.gz',
-#                individual=glob_wildcards('output/stacks_denovo/'
-#                                          '{individual}.alleles.tsv.gz'))
-#     params:
-#         stacks_dir = 'output/stacks_denovo'
-#     threads:
-#         75
-#     log:
-#         'output/logs/sstacks.log'
-#     shell:
-#         'sstacks '
-#         '-P {params.stacks_dir} '
-#         '-M {input.map} '
-#         '-p {threads} '
-#         '&> {log}'
 
