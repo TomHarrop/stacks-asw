@@ -117,8 +117,9 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        'output/stacks_denovo/gstacks.fa.gz',
-        'output/stacks_denovo/gstacks.vcf.gz'
+        expand(('output/stacks_populations/r{r}/'
+                'populations.sumstats_summary.tsv'),
+               r=list(str(x) for x in numpy.arange(0.1, 1.01, 0.1)))
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -345,9 +346,7 @@ rule populations:
         'output/stacks_denovo/gstacks.fa.gz',
         'output/stacks_denovo/gstacks.vcf.gz'
     output:
-        expand(('output/stacks_populations/r{r}/'
-                'populations.sumstats_summary.tsv'),
-               r=list(str(x) for x in numpy.arange(0.1, 1.01, 0.1)))
+        'output/stacks_populations/r{r}/populations.sumstats_summary.tsv'
 #         -rw-r--r-- 1 tomharrop deardenlab  862 Dec  5 00:09 populations.sumstats_summary.tsv
 # -rw-r--r-- 1 tomharrop deardenlab 2.2M Dec  5 00:09 populations.markers.tsv
 # -rw-r--r-- 1 tomharrop deardenlab 1.8M Dec  5 00:09 populations.hapstats.tsv
