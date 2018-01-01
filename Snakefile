@@ -119,7 +119,7 @@ rule target:
     input:
         expand(('output/stacks_populations/r{r}/'
                 'populations.{pop_output}.tsv'),
-               r=list(str(x) for x in numpy.arange(0.1, 1.01, 0.1)),
+               r=list(str(x) for x in numpy.arange(0, 1.01, 0.1)),
                pop_output=['sumstats_summary',
                            'markers',
                            'hapstats',
