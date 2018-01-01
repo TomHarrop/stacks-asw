@@ -344,7 +344,8 @@ rule gstacks:
 rule populations:
     input:
         'output/stacks_denovo/gstacks.fa.gz',
-        'output/stacks_denovo/gstacks.vcf.gz'
+        'output/stacks_denovo/gstacks.vcf.gz',
+        map = filtered_popmap
     output:
         'output/stacks_populations/r{r}/populations.sumstats_summary.tsv'
 #         -rw-r--r-- 1 tomharrop deardenlab  862 Dec  5 00:09 populations.sumstats_summary.tsv
