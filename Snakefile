@@ -355,14 +355,19 @@ rule populations:
 # -rw-r--r-- 1 tomharrop deardenlab 2.9M Dec  5 00:09 populations.haplotypes.tsv
     params:
         stacks_dir = 'output/stacks_denovo',
-        outdir = 'output/stacks_populations/r{wildcards.r}'
+        outdir = 'output/stacks_populations/r{r}'
+    threads:
+        15
+    log:
+        'output/logs/populations_r{r}.log'
     shell:
         'echo \''
         'populations '
-        '-P output/stacks/m3/M3/n3/rep1 '
-        '-M output/filtering/replicate_1_popmap.txt '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
         '-O {params.outdir} '
-        '-t 16 '
-        '-r 0.8'
+        '-t {threads} '
+        '-r {r} '
+        '&> {log}'
         '\''
 
