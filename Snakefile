@@ -1,6 +1,7 @@
 #!/usr/bin/env pyton3
 
 import csv
+import numpy
 import os
 import pandas
 import pathlib
@@ -338,4 +339,31 @@ rule gstacks:
         '-M {input.map} '
         '-t {threads} '
         '&> {log}'
+
+rule populations:
+    input:
+        'output/stacks_denovo/gstacks.fa.gz',
+        'output/stacks_denovo/gstacks.vcf.gz'
+    output:
+        expand(('output/stacks_populations/r{r}/'
+                'populations.sumstats_summary.tsv'),
+               r=list(str(x) for x in numpy.arange(0.1, 1.01, 0.1)))
+#         -rw-r--r-- 1 tomharrop deardenlab  862 Dec  5 00:09 populations.sumstats_summary.tsv
+# -rw-r--r-- 1 tomharrop deardenlab 2.2M Dec  5 00:09 populations.markers.tsv
+# -rw-r--r-- 1 tomharrop deardenlab 1.8M Dec  5 00:09 populations.hapstats.tsv
+# -rw-r--r-- 1 tomharrop deardenlab 5.5M Dec  5 00:09 populations.sumstats.tsv
+# -rw-r--r-- 1 tomharrop deardenlab 3.6K Dec  5 00:09 populations.log
+# -rw-r--r-- 1 tomharrop deardenlab 2.9M Dec  5 00:09 populations.haplotypes.tsv
+    params:
+        stacks_dir = 'output/stacks_denovo',
+        outdir = 'output/stacks_populations/r{wildcards.r}'
+    shell:
+        'echo \''
+        'populations '
+        '-P output/stacks/m3/M3/n3/rep1 '
+        '-M output/filtering/replicate_1_popmap.txt '
+        '-O {params.outdir} '
+        '-t 16 '
+        '-r 0.8'
+        '\''
 
