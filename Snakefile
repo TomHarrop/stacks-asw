@@ -118,8 +118,13 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 rule target:
     input:
         expand(('output/stacks_populations/r{r}/'
-                'populations.sumstats_summary.tsv'),
-               r=list(str(x) for x in numpy.arange(0.1, 1.01, 0.1)))
+                'populations.{pop_output}.tsv'),
+               r=list(str(x) for x in numpy.arange(0.1, 1.01, 0.1)),
+               pop_output=['sumstats_summary',
+                           'markers',
+                           'hapstats',
+                           'sumstats',
+                           'haplotypes'])
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -347,13 +352,11 @@ rule populations:
         'output/stacks_denovo/gstacks.vcf.gz',
         map = filtered_popmap
     output:
-        'output/stacks_populations/r{r}/populations.sumstats_summary.tsv'
-#         -rw-r--r-- 1 tomharrop deardenlab  862 Dec  5 00:09 populations.sumstats_summary.tsv
-# -rw-r--r-- 1 tomharrop deardenlab 2.2M Dec  5 00:09 populations.markers.tsv
-# -rw-r--r-- 1 tomharrop deardenlab 1.8M Dec  5 00:09 populations.hapstats.tsv
-# -rw-r--r-- 1 tomharrop deardenlab 5.5M Dec  5 00:09 populations.sumstats.tsv
-# -rw-r--r-- 1 tomharrop deardenlab 3.6K Dec  5 00:09 populations.log
-# -rw-r--r-- 1 tomharrop deardenlab 2.9M Dec  5 00:09 populations.haplotypes.tsv
+        'output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
+        'output/stacks_populations/r{r}/populations.markers.tsv',
+        'output/stacks_populations/r{r}/populations.hapstats.tsv',
+        'output/stacks_populations/r{r}/populations.sumstats.tsv',
+        'output/stacks_populations/r{r}/populations.haplotypes.tsv'
     params:
         stacks_dir = 'output/stacks_denovo',
         outdir = 'output/stacks_populations/r{r}'
@@ -362,7 +365,6 @@ rule populations:
     log:
         'output/logs/populations_r{r}.log'
     shell:
-        'echo \''
         'populations '
         '-P {params.stacks_dir} '
         '-M {input.map} '
@@ -370,5 +372,4 @@ rule populations:
         '-t {threads} '
         '-r {wildcards.r} '
         '&> {log}'
-        '\''
 
