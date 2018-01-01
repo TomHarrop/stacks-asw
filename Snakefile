@@ -356,7 +356,7 @@ rule populations:
 # -rw-r--r-- 1 tomharrop deardenlab 2.9M Dec  5 00:09 populations.haplotypes.tsv
     params:
         stacks_dir = 'output/stacks_denovo',
-        outdir = 'output/stacks_populations/r{r}'
+        outdir = 'output/stacks_populations/r'
     threads:
         15
     log:
