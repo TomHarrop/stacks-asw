@@ -117,7 +117,7 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        dynamic('output/run_stats/individual_stats/{individual_stats}.csv'),
+        dynamic('output/run_stats/individual_stats/{individual}.csv'),
         expand(('output/stacks_populations/r{r}/'
                 'populations.{pop_output}.tsv'),
                r=list(str(x) for x in numpy.arange(0, 1.01, 0.1)),
@@ -268,9 +268,9 @@ rule individual_stats:
         snps_file = dynamic('output/stacks_denovo/{individual}.snps.tsv.gz'),
         tags_file = dynamic('output/stacks_denovo/{individual}.tags.tsv.gz')
     output:
-        sample_stats = dynamic('output/run_stats/individual_stats/{individual_stats}.csv')
+        sample_stats = dynamic('output/run_stats/individual_stats/{individual}.csv')
     log:
-        log = 'output/logs/individual_stats/{individual_stats}.log'
+        log = 'output/logs/individual_stats/{individual}.log'
     threads:
         1
     script:
