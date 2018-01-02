@@ -117,6 +117,7 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
+        dynamic('output/run_stats/individual_stats/{individual_stats}.csv'),
         expand(('output/stacks_populations/r{r}/'
                 'populations.{pop_output}.tsv'),
                r=list(str(x) for x in numpy.arange(0, 1.01, 0.1)),
