@@ -270,7 +270,7 @@ rule individual_stats:
     output:
         sample_stats = dynamic('output/run_stats/individual_stats/{individual_stats}.csv')
     log:
-        log = 'output/logs/individual_stats/{individual}.log'
+        log = 'output/logs/individual_stats/{individual_stats}.log'
     threads:
         1
     script:
