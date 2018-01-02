@@ -261,6 +261,18 @@ rule ustacks:
               '-M 3 '
               '&> {log}')
 
+rule individual_stats:
+    input:
+        alleles_file = dynamic('output/stacks_denovo/{individual}.alleles.tsv.gz'),
+        snps_file = dynamic('output/stacks_denovo/{individual}.snps.tsv.gz'),
+        tags_file = dynamic('output/stacks_denovo/{individual}.tags.tsv.gz')
+    output:
+        sample_stats = 'output/run_stats/individual_stats/{individual}.csv'
+    log:
+        log = 'output/logs/individual_stats/{individual}.log'
+    script:
+        'src/stacks_individual_stats.R'
+
 rule cstacks:
     input:
         dynamic('output/stacks_denovo/{individual}.alleles.tsv.gz'),
