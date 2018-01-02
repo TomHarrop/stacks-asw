@@ -120,8 +120,10 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        'output/run_stats/population_stats_combined.csv',
-        'output/run_stats/individual_stats_combined.csv'
+        expand('output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
+               r=r_values)
+        # 'output/run_stats/population_stats_combined.csv',
+        # 'output/run_stats/individual_stats_combined.csv'
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -276,9 +278,9 @@ rule combine_individual_stats:
     input:
         dynamic('output/run_stats/individual_stats/{individual}.csv')
     output:
-        'output/run_stats/individual_stats_combined.csv'
-    shell:
-        'echo \'combine_stats\''
+        combined = 'output/run_stats/individual_stats_combined.csv'
+    script:
+        'src/combine_csvs.R'
 
 rule cstacks:
     input:
@@ -410,7 +412,7 @@ rule combine_population_stats:
         expand('output/run_stats/population_stats/{r}.csv',
                r=r_values)
     output:
-        'output/run_stats/population_stats_combined.csv'
-    shell:
-        'echo \'combine_stats\''
+        combined = 'output/run_stats/population_stats_combined.csv'
+    script:
+        'src/combine_csvs.R'
 

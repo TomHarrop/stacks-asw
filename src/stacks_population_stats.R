@@ -10,7 +10,7 @@ GenerateMessage <- function(message.text) {
     message(paste0("[ ", date(), " ]: ", message.text))
 }
 
-ParsePopulationsStats <- function(stacks_dir){
+ParsePopulationsStats <- function(hapstats_file, sumstats_file){
     # Number of loci
     # cat batch_1.haplotypes.tsv | sed '1d' | wc -l 
     # Reads every locus regardless of population (and pop map specified) don't
@@ -24,34 +24,18 @@ ParsePopulationsStats <- function(stacks_dir){
     # Takes the locus ID and the SNP column position and works regardless of
     # which pop the locus was found in
     
-    # check sumstats exists
-    if (length(list.files(stacks_dir,
-                          pattern = "populations.sumstats.tsv")) == 0) {
-        stop(paste("populations.sumstats.tsv not found in", stacks_dir))
-    }
-    
-    # check if haplotypes exists
-    if (length(list.files(stacks_dir,
-                          pattern = "populations.haplotypes.tsv")) == 0) {
-        stop(paste("populations.haplotypes.tsv not found in", stacks_dir))
-    }
-    
     # parse hapstats
     GenerateMessage(paste0("Reading ",
-                           stacks_dir,
-                           "/populations.haplotypes.tsv"))
+                           hapstats_file))
     my_hapstats <- fread(paste0("grep -v '^#' ",
-                                stacks_dir,
-                                "/populations.haplotypes.tsv"))
+                                hapstats_file))
     my_loci <- my_hapstats[, length(unique(V1))]
     
     # parse sumstats
     GenerateMessage(paste0("Reading ",
-                           stacks_dir,
-                           "/populations.sumstats.tsv"))
+                           sumstats_file))
     my_sumstats <- fread(paste0("grep -v '^#' ",
-                                stacks_dir,
-                                "/populations.sumstats.tsv"))
+                                sumstats_file))
     my_polymorphic_loci <- my_sumstats[, length(unique(V1))]
     my_snps <- dim(unique(my_sumstats, by = c("V1", "V4")))[1]
     
@@ -67,9 +51,16 @@ ParsePopulationsStats <- function(stacks_dir){
 # GLOBALS #
 ###########
 
-stacks_dir <- snakemake@params[["pop_dir"]]
+hapstats_file <- snakemake@input[["hapstats"]]
+sumstats_file <- snakemake@input[["sumstats"]]
+r <- snakemake@wildcards[["r"]]
 output_pop_stats <- snakemake@output[["pop_stats"]]
 log_file <- snakemake@log[["log"]]
+
+# dev
+# hapstats_file <- "output/stacks_populations/r0.8/populations.haplotypes.tsv"
+# sumstats_file <- "output/stacks_populations/r0.8/populations.sumstats.tsv"
+# r <- "0.8"
 
 ########
 # MAIN #
@@ -80,11 +71,12 @@ log <- file(log_file, open = "wt")
 sink(log, type = "message")
 sink(log, append = TRUE, type = "output")
 
-
 # get the populations summary
-population_stats <- ParsePopulationsStats(stacks_dir)
+population_stats <- ParsePopulationsStats(hapstats_file, sumstats_file)
+population_stats[, r := r]
 
-
+# write output
+fwrite(population_stats, output_pop_stats)
 
 # write session info
 sessionInfo()
