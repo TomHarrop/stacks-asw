@@ -74,6 +74,9 @@ reads_dir = 'data/raw_reads'
 outdir = 'output'
 filtered_popmap = 'output/stacks_config/filtered_populations.txt'
 
+# filtering paramaters
+r_values = list(str(x) for x in numpy.arange(0, 1.01, 0.1))
+
 #########
 # SETUP #
 #########
@@ -117,14 +120,8 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        expand(('output/stacks_populations/r{r}/'
-                'populations.{pop_output}.tsv'),
-               r=list(str(x) for x in numpy.arange(0, 1.01, 0.1)),
-               pop_output=['sumstats_summary',
-                           'markers',
-                           'hapstats',
-                           'sumstats',
-                           'haplotypes'])
+        'output/run_stats/population_stats_combined.csv',
+        'output/run_stats/individual_stats_combined.csv'
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -268,8 +265,8 @@ rule individual_stats:
         tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
     output:
         sample_stats = 'output/run_stats/individual_stats/{individual}.csv'
-    # log:
-    #     log = 'output/logs/individual_stats/{individual}.log'
+    log:
+        log = 'output/logs/individual_stats/{individual}.log'
     threads:
         1
     script:
@@ -408,4 +405,12 @@ rule population_stats:
     script:
         'src/stacks_population_stacks.R'
 
+rule combine_population_stats:
+    input:
+        expand('output/run_stats/population_stats/{r}.csv',
+               r=r_values)
+    output:
+        'output/run_stats/population_stats_combined.csv'
+    shell:
+        'echo \'combine_stats\''
 
