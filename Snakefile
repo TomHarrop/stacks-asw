@@ -123,7 +123,8 @@ rule target:
         expand('output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
                r=r_values),
         'output/run_stats/population_stats_combined.csv',
-        'output/run_stats/individual_stats_combined.csv'
+        'output/run_stats/individual_stats_combined.csv',
+        'output/run_stats/individual_covstats_combined.csv'
 
 # extract per-flowcell/lane sample:barcode information
 rule extract_barcode_config:
@@ -279,6 +280,26 @@ rule combine_individual_stats:
         dynamic('output/run_stats/individual_stats/{individual}.csv')
     output:
         combined = 'output/run_stats/individual_stats_combined.csv'
+    script:
+        'src/combine_csvs.R'
+
+rule individual_covstats:
+    input:
+        tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
+    output:
+        covstats = 'output/run_stats/individual_covstats/{individual}.csv'
+    log:
+        log = 'output/logs/individual_covstats/{individual}.log'
+    threads:
+        1
+    script:
+        'src/calculate_mean_coverage.R'
+
+rule combine_individual_covstats:
+    input:
+        dynamic('output/run_stats/individual_covstats/{individual}.csv')
+    output:
+        combined = 'output/run_stats/individual_covstats_combined.csv'
     script:
         'src/combine_csvs.R'
 
