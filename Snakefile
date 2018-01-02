@@ -270,6 +270,8 @@ rule individual_stats:
         sample_stats = 'output/run_stats/individual_stats/{individual}.csv'
     log:
         log = 'output/logs/individual_stats/{individual}.log'
+    threads:
+        1
     script:
         'src/stacks_individual_stats.R'
 
@@ -384,4 +386,18 @@ rule populations:
         '-t {threads} '
         '-r {wildcards.r} '
         '&> {log}'
+
+rule population_stats:
+    input:
+        sumstats = 'output/stacks_populations/r{r}/populations.sumstats.tsv',
+        hapstats = 'output/stacks_populations/r{r}/populations.hapstats.tsv'
+    output:
+        pop_stats = 'output/run_stats/population_stats/{r}.csv'
+    log:
+        log = 'output/logs/population_stats/{r}.log'
+    threads:
+        1
+    script:
+        'src/stacks_population_stacks.R'
+
 
