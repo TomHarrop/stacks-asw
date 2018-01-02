@@ -267,7 +267,7 @@ rule individual_stats:
         snps_file = dynamic('output/stacks_denovo/{individual}.snps.tsv.gz'),
         tags_file = dynamic('output/stacks_denovo/{individual}.tags.tsv.gz')
     output:
-        sample_stats = 'output/run_stats/individual_stats/{individual}.csv'
+        sample_stats = dynamic('output/run_stats/individual_stats/{individual}.csv')
     log:
         log = 'output/logs/individual_stats/{individual}.log'
     threads:
