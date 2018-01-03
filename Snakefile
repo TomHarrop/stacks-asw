@@ -426,7 +426,7 @@ rule population_stats:
     threads:
         1
     script:
-        'src/stacks_population_stacks.R'
+        'src/stacks_population_stats.R'
 
 rule combine_population_stats:
     input:
