@@ -122,7 +122,7 @@ rule target:
     input:
         expand('output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
                r=r_values),
-        #'output/run_stats/population_stats_combined.csv',
+        'output/run_stats/population_stats_combined.csv'
         # 'output/run_stats/individual_stats_combined.csv'
         # 'output/run_stats/individual_covstats_combined.csv'
 
