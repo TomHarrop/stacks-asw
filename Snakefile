@@ -277,7 +277,8 @@ rule individual_stats:
 
 rule combine_individual_stats:
     input:
-        dynamic('output/run_stats/individual_stats/{individual}.csv')
+        dynamic('output/run_stats/individual_stats/{individual}.csv'),
+        map = filtered_popmap
     output:
         combined = 'output/run_stats/individual_stats_combined.csv'
     script:
@@ -297,7 +298,8 @@ rule individual_covstats:
 
 rule combine_individual_covstats:
     input:
-        dynamic('output/run_stats/individual_covstats/{individual}.csv')
+        dynamic('output/run_stats/individual_covstats/{individual}.csv'),
+        map = filtered_popmap
     output:
         combined = 'output/run_stats/individual_covstats_combined.csv'
     script:
