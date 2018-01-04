@@ -232,20 +232,20 @@ rule select_filtered_samples:
 
 rule ustacks:
     input:
-        'output/run_stats/pass/{individual}',
+        'output/run_stats/pass/{individual1}',
         individual_i_pickle = 'output/obj/individual_i.p'
     params:
-        fastq = 'output/demux/{individual}.fq.gz',
+        fastq = 'output/demux/{individual1}.fq.gz',
         wd = 'output/stacks_denovo'
     output:
-        'output/stacks_denovo/{individual}.alleles.tsv.gz',
-        'output/stacks_denovo/{individual}.snps.tsv.gz',
-        'output/stacks_denovo/{individual}.models.tsv.gz',
-        'output/stacks_denovo/{individual}.tags.tsv.gz'
+        'output/stacks_denovo/{individual1}.alleles.tsv.gz',
+        'output/stacks_denovo/{individual1}.snps.tsv.gz',
+        'output/stacks_denovo/{individual1}.models.tsv.gz',
+        'output/stacks_denovo/{individual1}.tags.tsv.gz'
     threads:
         15
     log:
-        'output/logs/ustacks_{individual}.log'
+        'output/logs/ustacks_{individual1}.log'
     run:
         # open the pickled dictionary and look up the sample_i
         with open(input.individual_i_pickle, 'rb') as f:
@@ -263,13 +263,13 @@ rule ustacks:
 
 rule individual_stats:
     input:
-        alleles_file = 'output/stacks_denovo/{individual_stats}.alleles.tsv.gz',
-        snps_file = 'output/stacks_denovo/{individual_stats}.snps.tsv.gz',
-        tags_file = 'output/stacks_denovo/{individual_stats}.tags.tsv.gz'
+        alleles_file = 'output/stacks_denovo/{individual1}.alleles.tsv.gz',
+        snps_file = 'output/stacks_denovo/{individual1}.snps.tsv.gz',
+        tags_file = 'output/stacks_denovo/{individual1}.tags.tsv.gz'
     output:
-        sample_stats = 'output/run_stats/individual_stats/{individual_stats}.csv'
+        sample_stats = 'output/run_stats/individual_stats/{individual1}.csv'
     log:
-        log = 'output/logs/individual_stats/{individual_stats}.log'
+        log = 'output/logs/individual_stats/{individual1}.log'
     threads:
         1
     script:
@@ -285,11 +285,11 @@ rule combine_individual_stats:
 
 rule individual_covstats:
     input:
-        tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
+        tags_file = 'output/stacks_denovo/{individual1}.tags.tsv.gz'
     output:
-        covstats = 'output/run_stats/individual_covstats/{individual}.csv'
+        covstats = 'output/run_stats/individual_covstats/{individual1}.csv'
     log:
-        log = 'output/logs/individual_covstats/{individual}.log'
+        log = 'output/logs/individual_covstats/{individual1}.log'
     threads:
         1
     script:
@@ -297,7 +297,7 @@ rule individual_covstats:
 
 rule combine_individual_covstats:
     input:
-        dynamic('output/run_stats/individual_covstats/{individual}.csv'),
+        dynamic('output/run_stats/individual_covstats/{individual1}.csv'),
         map = filtered_popmap
     output:
         combined = 'output/run_stats/individual_covstats_combined.csv'
