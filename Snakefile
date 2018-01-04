@@ -1,4 +1,4 @@
-#!/usr/bin/env pyton3
+#!/usr/bin/env python3
 
 import csv
 import numpy
@@ -217,7 +217,7 @@ rule select_filtered_samples:
     input:
         map = filtered_popmap
     output:
-        dynamic('output/run_stats/pass/{individual1}')
+        dynamic('output/run_stats/pass/{dyn_indiv}')
     params:
         outdir = 'output/run_stats/pass'
     run:
@@ -232,20 +232,20 @@ rule select_filtered_samples:
 
 rule ustacks:
     input:
-        'output/run_stats/pass/{individual1}',
+        'output/run_stats/pass/{dyn_indiv}',
         individual_i_pickle = 'output/obj/individual_i.p'
     params:
-        fastq = 'output/demux/{individual1}.fq.gz',
+        fastq = 'output/demux/{dyn_indiv}.fq.gz',
         wd = 'output/stacks_denovo'
     output:
-        'output/stacks_denovo/{individual1}.alleles.tsv.gz',
-        'output/stacks_denovo/{individual1}.snps.tsv.gz',
-        'output/stacks_denovo/{individual1}.models.tsv.gz',
-        'output/stacks_denovo/{individual1}.tags.tsv.gz'
+        'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
+        'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
+        'output/stacks_denovo/{dyn_indiv}.models.tsv.gz',
+        'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
     threads:
         15
     log:
-        'output/logs/ustacks_{individual1}.log'
+        'output/logs/ustacks_{dyn_indiv}.log'
     run:
         # open the pickled dictionary and look up the sample_i
         with open(input.individual_i_pickle, 'rb') as f:
@@ -263,13 +263,13 @@ rule ustacks:
 
 rule individual_stats:
     input:
-        alleles_file = 'output/stacks_denovo/{individual1}.alleles.tsv.gz',
-        snps_file = 'output/stacks_denovo/{individual1}.snps.tsv.gz',
-        tags_file = 'output/stacks_denovo/{individual1}.tags.tsv.gz'
+        alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
+        snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
+        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
     output:
-        sample_stats = 'output/run_stats/individual_stats/{individual1}.csv'
+        sample_stats = 'output/run_stats/individual_stats/{dyn_indiv}.csv'
     log:
-        log = 'output/logs/individual_stats/{individual1}.log'
+        log = 'output/logs/individual_stats/{dyn_indiv}.log'
     threads:
         1
     script:
@@ -277,7 +277,7 @@ rule individual_stats:
 
 rule combine_individual_stats:
     input:
-        dynamic('output/run_stats/individual_stats/{individual1}.csv')
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
     output:
         combined = 'output/run_stats/individual_stats_combined.csv'
     script:
@@ -285,11 +285,11 @@ rule combine_individual_stats:
 
 rule individual_covstats:
     input:
-        tags_file = 'output/stacks_denovo/{individual1}.tags.tsv.gz'
+        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
     output:
-        covstats = 'output/run_stats/individual_covstats/{individual1}.csv'
+        covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
     log:
-        log = 'output/logs/individual_covstats/{individual1}.log'
+        log = 'output/logs/individual_covstats/{dyn_indiv}.log'
     threads:
         1
     script:
@@ -297,7 +297,7 @@ rule individual_covstats:
 
 rule combine_individual_covstats:
     input:
-        dynamic('output/run_stats/individual_covstats/{individual1}.csv'),
+        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
         map = filtered_popmap
     output:
         combined = 'output/run_stats/individual_covstats_combined.csv'
@@ -306,10 +306,10 @@ rule combine_individual_covstats:
 
 rule cstacks:
     input:
-        dynamic('output/stacks_denovo/{individual1}.alleles.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual1}.snps.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual1}.models.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual1}.tags.tsv.gz'),
+        dynamic('output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz'),
+        dynamic('output/stacks_denovo/{dyn_indiv}.snps.tsv.gz'),
+        dynamic('output/stacks_denovo/{dyn_indiv}.models.tsv.gz'),
+        dynamic('output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'),
         map = filtered_popmap
     output:
         'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
@@ -336,7 +336,7 @@ rule sstacks:
         'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz',
         map = filtered_popmap
     output:
-        dynamic('output/stacks_denovo/{individual2}.matches.tsv.gz')
+        dynamic('output/stacks_denovo/{dyn_indiv2}.matches.tsv.gz')
     params:
         stacks_dir = 'output/stacks_denovo'
     threads:
@@ -352,10 +352,10 @@ rule sstacks:
 
 rule tsv2bam:
     input:
-        dynamic('output/stacks_denovo/{individual2}.matches.tsv.gz'),
+        dynamic('output/stacks_denovo/{dyn_indiv2}.matches.tsv.gz'),
         map = filtered_popmap
     output:
-        dynamic('output/stacks_denovo/{individual3}.matches.bam')
+        dynamic('output/stacks_denovo/{dyn_indiv3}.matches.bam')
     params:
         stacks_dir = 'output/stacks_denovo'
     threads:
@@ -371,7 +371,7 @@ rule tsv2bam:
 
 rule gstacks:
     input:
-        dynamic('output/stacks_denovo/{individual3}.matches.bam'),
+        dynamic('output/stacks_denovo/{dyn_indiv3}.matches.bam'),
         map = filtered_popmap
     output:
         'output/stacks_denovo/gstacks.fa.gz',
