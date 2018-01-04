@@ -217,7 +217,7 @@ rule select_filtered_samples:
     input:
         map = filtered_popmap
     output:
-        dynamic('output/run_stats/pass/{individual}')
+        dynamic('output/run_stats/pass/{individual1}')
     params:
         outdir = 'output/run_stats/pass'
     run:
@@ -277,7 +277,7 @@ rule individual_stats:
 
 rule combine_individual_stats:
     input:
-        dynamic('output/run_stats/individual_stats/{individual_stats}.csv')
+        dynamic('output/run_stats/individual_stats/{individual1}.csv')
     output:
         combined = 'output/run_stats/individual_stats_combined.csv'
     script:
@@ -306,10 +306,10 @@ rule combine_individual_covstats:
 
 rule cstacks:
     input:
-        dynamic('output/stacks_denovo/{individual}.alleles.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual}.snps.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual}.models.tsv.gz'),
-        dynamic('output/stacks_denovo/{individual}.tags.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual1}.alleles.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual1}.snps.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual1}.models.tsv.gz'),
+        dynamic('output/stacks_denovo/{individual1}.tags.tsv.gz'),
         map = filtered_popmap
     output:
         'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
