@@ -263,13 +263,13 @@ rule ustacks:
 
 rule individual_stats:
     input:
-        alleles_file = 'output/stacks_denovo/{individual}.alleles.tsv.gz',
-        snps_file = 'output/stacks_denovo/{individual}.snps.tsv.gz',
-        tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
+        alleles_file = 'output/stacks_denovo/{individual_cs}.alleles.tsv.gz',
+        snps_file = 'output/stacks_denovo/{individual_cs}.snps.tsv.gz',
+        tags_file = 'output/stacks_denovo/{individual_cs}.tags.tsv.gz'
     output:
-        sample_stats = 'output/run_stats/individual_stats/{individual}.csv'
+        sample_stats = 'output/run_stats/individual_stats/{individual_cs}.csv'
     log:
-        log = 'output/logs/individual_stats/{individual}.log'
+        log = 'output/logs/individual_stats/{individual_cs}.log'
     threads:
         1
     script:
@@ -277,8 +277,7 @@ rule individual_stats:
 
 rule combine_individual_stats:
     input:
-        dynamic('output/run_stats/individual_stats/{individual}.csv'),
-        map = filtered_popmap
+        dynamic('output/run_stats/individual_stats/{individual_cs}.csv')
     output:
         combined = 'output/run_stats/individual_stats_combined.csv'
     script:
