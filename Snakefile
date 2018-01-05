@@ -122,7 +122,7 @@ rule target:
     input:
         expand('output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
                r=r_values),
-        'output/run_stats/individual_stats_combined.csv'
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
         # 'output/run_stats/population_stats_combined.csv'
         # 'output/run_stats/individual_stats_combined.csv'
         # 'output/run_stats/individual_covstats_combined.csv'
@@ -276,13 +276,13 @@ rule individual_stats:
     script:
         'src/stacks_individual_stats.R'
 
-rule combine_individual_stats:
-    input:
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
-    output:
-        combined = 'output/run_stats/individual_stats_combined.csv'
-    script:
-        'src/combine_csvs.R'
+# rule combine_individual_stats:
+#     input:
+#         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+#     output:
+#         combined = 'output/run_stats/individual_stats_combined.csv'
+#     script:
+#         'src/combine_csvs.R'
 
 # rule individual_covstats:
 #     input:
