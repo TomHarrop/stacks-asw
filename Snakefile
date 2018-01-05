@@ -264,13 +264,13 @@ rule ustacks:
 
 rule individual_stats:
     input:
-        alleles_file = dynamic('output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz'),
-        snps_file = dynamic('output/stacks_denovo/{dyn_indiv}.snps.tsv.gz'),
-        tags_file = dynamic('output/stacks_denovo/{dyn_indiv}.tags.tsv.gz')
+        alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
+        snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
+        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
     output:
-        sample_stats = dynamic('output/run_stats/individual_stats/{dyn_indiv3}.csv')
+        sample_stats = 'output/run_stats/individual_stats/{dyn_indiv}.csv'
     log:
-        log = 'output/logs/individual_stats/{dyn_indiv3}.log'
+        log = 'output/logs/individual_stats/{dyn_indiv}.log'
     threads:
         1
     script:
