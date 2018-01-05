@@ -277,16 +277,7 @@ rule cstacks:
 #     script:
 #         'src/combine_csvs.R'
 
-# 7c. combine individual assembly stats
-rule individual_stats_combined:
-    input:
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
-    output:
-        combined = 'output/run_stats/individual_stats_combined.csv'
-    script:
-        'src/combine_csvs.R'
-
-# 7b. calculate coverage stats per individual
+# 7c. calculate coverage stats per individual
 rule individual_covstats:
     input:
         tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
@@ -298,6 +289,15 @@ rule individual_covstats:
         1
     script:
         'src/calculate_mean_coverage.R'
+
+# 7b. combine individual assembly stats
+rule individual_stats_combined:
+    input:
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+    output:
+        combined = 'output/run_stats/individual_stats_combined.csv'
+    script:
+        'src/combine_csvs.R'
 
 # 7a. calculate assembly stats per individual
 rule individual_stats:
