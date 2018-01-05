@@ -269,13 +269,13 @@ rule cstacks:
         '&> {log}'
 
 # 7d. combine individual coverage stats
-rule combine_individual_covstats:
-    input:
-        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
-    output:
-        combined = 'output/blah/individual_covstats_combined.csv'
-    script:
-        'src/combine_csvs.R'
+# rule combine_individual_covstats:
+#     input:
+#         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
+#     output:
+#         combined = 'output/blah/individual_covstats_combined.csv'
+#     script:
+#         'src/combine_csvs.R'
 
 # 7c. combine individual assembly stats
 rule combine_individual_stats:
