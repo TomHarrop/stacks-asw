@@ -124,7 +124,8 @@ rule target:
                 'populations.sumstats_summary.tsv'),
                r=r_values),
         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
-        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
+        # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
+        'output/run_stats/individual_covstats_combined.csv'
 
         # 'output/run_stats/population_stats_combined.csv',
         # 'output/run_stats/individual_stats_combined.csv'
@@ -273,13 +274,13 @@ rule cstacks:
         '&> {log}'
 
 # 7d. combine individual coverage stats
-# rule individual_stats_combined:
-#     input:
-#         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
-#     output:
-#         combined = 'output/run_stats/individual_stats_combined.csv'
-#     script:
-#         'src/combine_csvs.R'
+rule individual_covstats_combined:
+    input:
+        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
+    output:
+        combined = 'output/run_stats/individual_covstats_combined.csv'
+    script:
+        'src/combine_csvs.R'
 
 # 7c. calculate coverage stats per individual
 rule individual_covstats:
