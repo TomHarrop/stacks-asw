@@ -281,6 +281,8 @@ rule individual_covstats_combined:
 # 7c. calculate coverage stats per individual
 rule individual_covstats:
     input:
+        alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
+        snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
         tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
     output:
         covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
