@@ -270,7 +270,7 @@ rule cstacks:
         '&> {log}'
 
 # 7d. combine individual coverage stats
-rule individual_covstats_combined:
+rule individual_stats_combined:
     input:
         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
     output:
@@ -279,7 +279,7 @@ rule individual_covstats_combined:
         'src/combine_csvs.R'
 
 # 7c. calculate coverage stats per individual
-rule individual_covstats:
+rule individual_stats:
     input:
         alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
         snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
