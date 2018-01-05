@@ -123,7 +123,9 @@ rule target:
         expand(('output/stacks_populations/r{r}/'
                 'populations.sumstats_summary.tsv'),
                r=r_values),
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
+        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
+
         # 'output/run_stats/population_stats_combined.csv',
         # 'output/run_stats/individual_stats_combined.csv'
         #'output/run_stats/individual_covstats_combined.csv'
@@ -280,19 +282,17 @@ rule cstacks:
 #         'src/combine_csvs.R'
 
 # 7c. calculate coverage stats per individual
-# rule individual_stats:
-#     input:
-#         alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
-#         snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
-#         tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
-#     output:
-#         sample_stats = 'output/run_stats/individual_stats/{dyn_indiv}.csv'
-#     log:
-#         log = 'output/logs/individual_stats/{dyn_indiv}.log'
-#     threads:
-#         1
-#     script:
-#         'src/stacks_individual_stats.R'
+rule individual_covstats:
+    input:
+        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+    output:
+        covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
+    log:
+        log = 'output/logs/individual_covstats/{dyn_indiv}.log'
+    threads:
+        1
+    script:
+        'src/calculate_mean_coverage.R'
 
 # 7b. combine individual assembly stats
 # rule individual_stats_combined:
