@@ -123,8 +123,8 @@ rule target:
         expand(('output/stacks_populations/r{r}/'
                 'populations.sumstats_summary.tsv'),
                r=r_values),
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
-        # 'output/run_stats/individual_stats_combined.csv',
+        # dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
+        'output/run_stats/individual_stats_combined.csv',
         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
         # 'output/run_stats/individual_covstats_combined.csv'
 
