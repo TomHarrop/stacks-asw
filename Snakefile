@@ -123,15 +123,10 @@ rule target:
         expand(('output/stacks_populations/r{r}/'
                 'populations.sumstats_summary.tsv'),
                r=r_values),
-        # dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
-        'output/run_stats/individual_stats_combined.csv',
-        # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
-        'output/run_stats/individual_covstats_combined.csv'
-
-        # 'output/run_stats/population_stats_combined.csv',
-        # 'output/run_stats/individual_stats_combined.csv'
-        #'output/run_stats/individual_covstats_combined.csv'
-        # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
+        # 'output/run_stats/individual_stats_combined.csv',
+        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
+        # 'output/run_stats/individual_covstats_combined.csv'
 
 # 12b. combine loci/SNP stats
 rule combine_population_stats:
