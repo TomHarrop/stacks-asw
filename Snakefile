@@ -128,110 +128,193 @@ rule target:
         # 'output/run_stats/individual_stats_combined.csv'
         # 'output/run_stats/individual_covstats_combined.csv'
 
-# extract per-flowcell/lane sample:barcode information
-rule extract_barcode_config:
-    input:
-        key_file
-    output:
-        expand('output/stacks_config/{fc_lane}.config',
-               fc_lane=fc_lane_to_sample.keys()),
-        population_map = 'output/stacks_config/population_map.txt'
-    run:
-        parse_key_and_write_config_files(
-            key_file,
-            'output/stacks_config')
+# rule combine_individual_stats:
+#     input:
+#         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+#     output:
+#         combined = 'output/run_stats/individual_stats_combined.csv'
+#     script:
+#         'src/combine_csvs.R'
 
-# for loop per fc_lane
-for fc_lane in all_fc_lanes:
-    rule:
-        input:
-            read_file = [x for x in all_read_files if fc_lane in x][0],
-            config_file = 'output/stacks_config/{}.config'.format(fc_lane)
-        output:
-            expand('output/demux/{individual}.fq.gz',
-                   individual=fc_lane_to_sample[fc_lane]),
-        log:
-            'output/logs/demux_{0}.log'.format(fc_lane)
-        threads:
-            1
-        shell:
-            'process_radtags '
-            '-f {input.read_file} '
-            '-i gzfastq -y gzfastq '
-            '-b {input.config_file} '
-            '-o output/demux '
-            '-c -q '
-            # '-r --barcode_dist_1 1 '    # rescue barcodes
-            '-t 91 '                    # truncate output to 91 b
-            '-w 0.1 '                   # window: approx. 9 bases
-            '-s 15 '                    # minimum avg PHRED in window
-            '--inline_null '
-            '--renz_1 apeKI --renz_2 mspI '
-            '&> {log}'
 
-rule count_reads:
-    input:
-        tag_files = expand(
-            'output/demux/{individual}.fq.gz',
-            individual=all_samples)
-    output:
-        'output/run_stats/read_stats.txt'
-    log:
-        'output/logs/statswrapper.log'
-    run:
-        in_line = ','.join(input.tag_files)
-        my_statswrapper = get_full_path('statswrapper.sh')
-        shell('{my_statswrapper} '
-              'in={in_line} '
-              'out={output} '
-              '2> {log}')
+# rule combine_individual_covstats:
+#     input:
+#         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
+#     output:
+#         combined = 'output/run_stats/individual_covstats_combined.csv'
+#     script:
+#         'src/combine_csvs.R'
 
-rule filter_samples:
+# 12b. combined loci/SNP stats
+rule combine_population_stats:
     input:
-        stats = 'output/run_stats/read_stats.txt',
-        popmap = 'output/stacks_config/population_map.txt'
-    params:
-        sample_dir = 'output/demux',
+        expand('output/run_stats/population_stats/{r}.csv',
+               r=r_values)
     output:
-        map = filtered_popmap,
-        plot = 'output/run_stats/read_count_histogram.pdf',
-        pop_counts = 'output/run_stats/individuals_per_population.csv'
+        combined = 'output/run_stats/population_stats_combined.csv'
     script:
-        'src/filter_population_map.R'
+        'src/combine_csvs.R'
 
-rule enumerate_filtered_samples:
+# 12a. per-filter-run loci/SNP stats
+rule population_stats:
     input:
+        sumstats = 'output/stacks_populations/r{r}/populations.sumstats.tsv',
+        hapstats = 'output/stacks_populations/r{r}/populations.hapstats.tsv'
+    output:
+        pop_stats = 'output/run_stats/population_stats/{r}.csv'
+    log:
+        log = 'output/logs/population_stats/{r}.log'
+    threads:
+        1
+    script:
+        'src/stacks_population_stats.R'
+\
+# 12. filter the final catalog by r 
+rule populations:
+    input:
+        'output/stacks_denovo/gstacks.fa.gz',
+        'output/stacks_denovo/gstacks.vcf.gz',
         map = filtered_popmap
     output:
-        pickle = 'output/obj/individual_i.p'
-    run:
-        # read the filtered popmap
-        my_popmap = pandas.read_csv(input.map,
-            delimiter='\t',
-            header=None)
-        my_individuals = enumerate(sorted(set(my_popmap[0])))
-        individual_i = {y: x for x, y in my_individuals}
-        # pickle the individual_i dict for other rules to use
-        with open(output.pickle, 'wb+') as f:
-            pickle.dump(individual_i, f)
-
-rule select_filtered_samples:
-    input:
-        map = filtered_popmap
-    output:
-        dynamic('output/run_stats/pass/{dyn_indiv}')
+        'output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
+        'output/stacks_populations/r{r}/populations.markers.tsv',
+        'output/stacks_populations/r{r}/populations.hapstats.tsv',
+        'output/stacks_populations/r{r}/populations.sumstats.tsv',
+        'output/stacks_populations/r{r}/populations.haplotypes.tsv'
     params:
-        outdir = 'output/run_stats/pass'
-    run:
-        # read the filtered popmap 
-        my_popmap = pandas.read_csv(input.map,
-           delimiter='\t',
-           header=None)
-        # touch flag files
-        for indiv in sorted(set(my_popmap[0])):
-            my_path = os.path.join(params.outdir, indiv)
-            touch(my_path)
+        stacks_dir = 'output/stacks_denovo',
+        outdir = 'output/stacks_populations/r{r}'
+    threads:
+        15
+    log:
+        'output/logs/populations_r{r}.log'
+    shell:
+        'populations '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-O {params.outdir} '
+        '-t {threads} '
+        '-r {wildcards.r} '
+        '&> {log}'
 
+# 11. generate final catalog
+rule gstacks:
+    input:
+        dynamic('output/stacks_denovo/{dyn_indiv3}.matches.bam'),
+        map = filtered_popmap
+    output:
+        'output/stacks_denovo/gstacks.fa.gz',
+        'output/stacks_denovo/gstacks.vcf.gz'
+    params:
+        stacks_dir = 'output/stacks_denovo'
+    threads:
+        75
+    log:
+        'output/logs/gstacks.log'
+    shell:
+        'gstacks '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-t {threads} '
+        '&> {log}'
+
+# 10. convert matches to BAM
+rule tsv2bam:
+    input:
+        dynamic('output/stacks_denovo/{dyn_indiv2}.matches.tsv.gz'),
+        map = filtered_popmap
+    output:
+        dynamic('output/stacks_denovo/{dyn_indiv3}.matches.bam')
+    params:
+        stacks_dir = 'output/stacks_denovo'
+    threads:
+        75
+    log:
+        'output/logs/tsv2bam.log'
+    shell:
+        'tsv2bam '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-t {threads} '
+        '&> {log}'
+
+# 9. match individuals to the catalog
+rule sstacks:
+    input:
+        'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
+        'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
+        'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz',
+        map = filtered_popmap
+    output:
+        dynamic('output/stacks_denovo/{dyn_indiv2}.matches.tsv.gz')
+    params:
+        stacks_dir = 'output/stacks_denovo'
+    threads:
+        75
+    log:
+        'output/logs/sstacks.log'
+    shell:
+        'sstacks '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-p {threads} '
+        '&> {log}'
+
+# 8. generate the catalog (takes ~ 1 week)
+rule cstacks:
+    input:
+        dynamic('output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz'),
+        dynamic('output/stacks_denovo/{dyn_indiv}.snps.tsv.gz'),
+        dynamic('output/stacks_denovo/{dyn_indiv}.models.tsv.gz'),
+        dynamic('output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'),
+        map = filtered_popmap
+    output:
+        'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
+        'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
+        'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz'
+    params:
+        stacks_dir = 'output/stacks_denovo',
+    threads:
+        75
+    log:
+        'output/logs/cstacks.log'
+    shell:
+        'cstacks '
+        '-p {threads} '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-n 3 '
+        '&> {log}'
+
+# 7b. calculate coverage stats per individual
+rule individual_covstats:
+    input:
+        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+    output:
+        covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
+    log:
+        log = 'output/logs/individual_covstats/{dyn_indiv}.log'
+    threads:
+        1
+    script:
+        'src/calculate_mean_coverage.R'
+
+# 7a. calculate assembly stats per individual
+rule individual_stats:
+    input:
+        alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
+        snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
+        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+    output:
+        sample_stats = 'output/run_stats/individual_stats/{dyn_indiv}.csv'
+    log:
+        log = 'output/logs/individual_stats/{dyn_indiv}.log'
+    threads:
+        1
+    script:
+        'src/stacks_individual_stats.R'
+
+# 7. assemble loci for individuals that passed the filter
 rule ustacks:
     input:
         'output/run_stats/pass/{dyn_indiv}',
@@ -263,179 +346,111 @@ rule ustacks:
               '-M 3 '
               '&> {log}')
 
-rule individual_stats:
+# 6. generate a flag file for samples that passed the filter
+rule select_filtered_samples:
     input:
-        alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
-        snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
-        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+        map = filtered_popmap
     output:
-        sample_stats = 'output/run_stats/individual_stats/{dyn_indiv}.csv'
-    log:
-        log = 'output/logs/individual_stats/{dyn_indiv}.log'
-    threads:
-        1
+        dynamic('output/run_stats/pass/{dyn_indiv}')
+    params:
+        outdir = 'output/run_stats/pass'
+    run:
+        # read the filtered popmap 
+        my_popmap = pandas.read_csv(input.map,
+           delimiter='\t',
+           header=None)
+        # touch flag files
+        for indiv in sorted(set(my_popmap[0])):
+            my_path = os.path.join(params.outdir, indiv)
+            touch(my_path)
+
+# 5. make a dictionary of sample:i for cstacks
+rule enumerate_filtered_samples:
+    input:
+        map = filtered_popmap
+    output:
+        pickle = 'output/obj/individual_i.p'
+    run:
+        # read the filtered popmap
+        my_popmap = pandas.read_csv(input.map,
+            delimiter='\t',
+            header=None)
+        my_individuals = enumerate(sorted(set(my_popmap[0])))
+        individual_i = {y: x for x, y in my_individuals}
+        # pickle the individual_i dict for other rules to use
+        with open(output.pickle, 'wb+') as f:
+            pickle.dump(individual_i, f)
+
+# 4. filter the population map
+rule filter_samples:
+    input:
+        stats = 'output/run_stats/read_stats.txt',
+        popmap = 'output/stacks_config/population_map.txt'
+    params:
+        sample_dir = 'output/demux',
+    output:
+        map = filtered_popmap,
+        plot = 'output/run_stats/read_count_histogram.pdf',
+        pop_counts = 'output/run_stats/individuals_per_population.csv'
     script:
-        'src/stacks_individual_stats.R'
+        'src/filter_population_map.R'
 
-# rule combine_individual_stats:
-#     input:
-#         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
-#     output:
-#         combined = 'output/run_stats/individual_stats_combined.csv'
-#     script:
-#         'src/combine_csvs.R'
-
-rule individual_covstats:
+# 3. check number of reads per sample to filter out low coverage indivs
+rule count_reads:
     input:
-        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+        tag_files = expand(
+            'output/demux/{individual}.fq.gz',
+            individual=all_samples)
     output:
-        covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
+        'output/run_stats/read_stats.txt'
     log:
-        log = 'output/logs/individual_covstats/{dyn_indiv}.log'
-    threads:
-        1
-    script:
-        'src/calculate_mean_coverage.R'
+        'output/logs/statswrapper.log'
+    run:
+        in_line = ','.join(input.tag_files)
+        my_statswrapper = get_full_path('statswrapper.sh')
+        shell('{my_statswrapper} '
+              'in={in_line} '
+              'out={output} '
+              '2> {log}')
 
-# rule combine_individual_covstats:
-#     input:
-#         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
-#     output:
-#         combined = 'output/run_stats/individual_covstats_combined.csv'
-#     script:
-#         'src/combine_csvs.R'
+# 2. for loop per fc_lane
+for fc_lane in all_fc_lanes:
+    rule:
+        input:
+            read_file = [x for x in all_read_files if fc_lane in x][0],
+            config_file = 'output/stacks_config/{}.config'.format(fc_lane)
+        output:
+            expand('output/demux/{individual}.fq.gz',
+                   individual=fc_lane_to_sample[fc_lane]),
+        log:
+            'output/logs/demux_{0}.log'.format(fc_lane)
+        threads:
+            1
+        shell:
+            'process_radtags '
+            '-f {input.read_file} '
+            '-i gzfastq -y gzfastq '
+            '-b {input.config_file} '
+            '-o output/demux '
+            '-c -q '
+            # '-r --barcode_dist_1 1 '    # rescue barcodes
+            '-t 91 '                    # truncate output to 91 b
+            '-w 0.1 '                   # window: approx. 9 bases
+            '-s 15 '                    # minimum avg PHRED in window
+            '--inline_null '
+            '--renz_1 apeKI --renz_2 mspI '
+            '&> {log}'
 
-rule cstacks:
+# 1. extract per-flowcell/lane sample:barcode information
+rule extract_barcode_config:
     input:
-        dynamic('output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz'),
-        dynamic('output/stacks_denovo/{dyn_indiv}.snps.tsv.gz'),
-        dynamic('output/stacks_denovo/{dyn_indiv}.models.tsv.gz'),
-        dynamic('output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'),
-        map = filtered_popmap
+        key_file
     output:
-        'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
-        'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
-        'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz'
-    params:
-        stacks_dir = 'output/stacks_denovo',
-    threads:
-        75
-    log:
-        'output/logs/cstacks.log'
-    shell:
-        'cstacks '
-        '-p {threads} '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-n 3 '
-        '&> {log}'
-
-rule sstacks:
-    input:
-        'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
-        'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
-        'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz',
-        map = filtered_popmap
-    output:
-        dynamic('output/stacks_denovo/{dyn_indiv2}.matches.tsv.gz')
-    params:
-        stacks_dir = 'output/stacks_denovo'
-    threads:
-        75
-    log:
-        'output/logs/sstacks.log'
-    shell:
-        'sstacks '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-p {threads} '
-        '&> {log}'
-
-rule tsv2bam:
-    input:
-        dynamic('output/stacks_denovo/{dyn_indiv2}.matches.tsv.gz'),
-        map = filtered_popmap
-    output:
-        dynamic('output/stacks_denovo/{dyn_indiv3}.matches.bam')
-    params:
-        stacks_dir = 'output/stacks_denovo'
-    threads:
-        75
-    log:
-        'output/logs/tsv2bam.log'
-    shell:
-        'tsv2bam '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-t {threads} '
-        '&> {log}'
-
-rule gstacks:
-    input:
-        dynamic('output/stacks_denovo/{dyn_indiv3}.matches.bam'),
-        map = filtered_popmap
-    output:
-        'output/stacks_denovo/gstacks.fa.gz',
-        'output/stacks_denovo/gstacks.vcf.gz'
-    params:
-        stacks_dir = 'output/stacks_denovo'
-    threads:
-        75
-    log:
-        'output/logs/gstacks.log'
-    shell:
-        'gstacks '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-t {threads} '
-        '&> {log}'
-
-rule populations:
-    input:
-        'output/stacks_denovo/gstacks.fa.gz',
-        'output/stacks_denovo/gstacks.vcf.gz',
-        map = filtered_popmap
-    output:
-        'output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
-        'output/stacks_populations/r{r}/populations.markers.tsv',
-        'output/stacks_populations/r{r}/populations.hapstats.tsv',
-        'output/stacks_populations/r{r}/populations.sumstats.tsv',
-        'output/stacks_populations/r{r}/populations.haplotypes.tsv'
-    params:
-        stacks_dir = 'output/stacks_denovo',
-        outdir = 'output/stacks_populations/r{r}'
-    threads:
-        15
-    log:
-        'output/logs/populations_r{r}.log'
-    shell:
-        'populations '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-O {params.outdir} '
-        '-t {threads} '
-        '-r {wildcards.r} '
-        '&> {log}'
-
-rule population_stats:
-    input:
-        sumstats = 'output/stacks_populations/r{r}/populations.sumstats.tsv',
-        hapstats = 'output/stacks_populations/r{r}/populations.hapstats.tsv'
-    output:
-        pop_stats = 'output/run_stats/population_stats/{r}.csv'
-    log:
-        log = 'output/logs/population_stats/{r}.log'
-    threads:
-        1
-    script:
-        'src/stacks_population_stats.R'
-
-rule combine_population_stats:
-    input:
-        expand('output/run_stats/population_stats/{r}.csv',
-               r=r_values)
-    output:
-        combined = 'output/run_stats/population_stats_combined.csv'
-    script:
-        'src/combine_csvs.R'
+        expand('output/stacks_config/{fc_lane}.config',
+               fc_lane=fc_lane_to_sample.keys()),
+        population_map = 'output/stacks_config/population_map.txt'
+    run:
+        parse_key_and_write_config_files(
+            key_file,
+            'output/stacks_config')
 
