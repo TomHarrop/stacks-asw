@@ -122,20 +122,11 @@ rule target:
     input:
         expand('output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
                r=r_values),
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
+        #dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
-        'output/run_stats/population_stats_combined.csv'
-        # 'output/run_stats/individual_stats_combined.csv'
+        'output/run_stats/population_stats_combined.csv',
+        'output/run_stats/individual_stats_combined.csv'
         # 'output/run_stats/individual_covstats_combined.csv'
-
-# rule combine_individual_stats:
-#     input:
-#         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
-#     output:
-#         combined = 'output/run_stats/individual_stats_combined.csv'
-#     script:
-#         'src/combine_csvs.R'
-
 
 # rule combine_individual_covstats:
 #     input:
@@ -168,8 +159,8 @@ rule population_stats:
         1
     script:
         'src/stacks_population_stats.R'
-\
-# 12. filter the final catalog by r 
+
+# 12. filter the final catalog by r
 rule populations:
     input:
         'output/stacks_denovo/gstacks.fa.gz',
@@ -285,6 +276,15 @@ rule cstacks:
         '-M {input.map} '
         '-n 3 '
         '&> {log}'
+
+# 7c. combine individual assembly stats
+rule combine_individual_stats:
+    input:
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+    output:
+        combined = 'output/run_stats/individual_stats_combined.csv'
+    script:
+        'src/combine_csvs.R'
 
 # 7b. calculate coverage stats per individual
 rule individual_covstats:
