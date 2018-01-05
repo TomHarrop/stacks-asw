@@ -122,8 +122,9 @@ rule target:
     input:
         expand('output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
                r=r_values),
+        dynamic('output/run_stats/individual_stats/{dyn_indiv3}.csv')
         # 'output/run_stats/population_stats_combined.csv'
-        'output/run_stats/individual_stats_combined.csv'
+        # 'output/run_stats/individual_stats_combined.csv'
         # 'output/run_stats/individual_covstats_combined.csv'
 
 # extract per-flowcell/lane sample:barcode information
@@ -263,11 +264,11 @@ rule ustacks:
 
 rule individual_stats:
     input:
-        alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
-        snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
-        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+        alleles_file = dynamic('output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz'),
+        snps_file = dynamic('output/stacks_denovo/{dyn_indiv}.snps.tsv.gz'),
+        tags_file = dynamic('output/stacks_denovo/{dyn_indiv}.tags.tsv.gz')
     output:
-        sample_stats = 'output/run_stats/individual_stats/{dyn_indiv}.csv'
+        sample_stats = dynamic('output/run_stats/individual_stats/{dyn_indiv3}.csv')
     log:
         log = 'output/logs/individual_stats/{dyn_indiv}.log'
     threads:
@@ -275,34 +276,34 @@ rule individual_stats:
     script:
         'src/stacks_individual_stats.R'
 
-rule combine_individual_stats:
-    input:
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
-    output:
-        combined = 'output/run_stats/individual_stats_combined.csv'
-    script:
-        'src/combine_csvs.R'
+# rule combine_individual_stats:
+#     input:
+#         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+#     output:
+#         combined = 'output/run_stats/individual_stats_combined.csv'
+#     script:
+#         'src/combine_csvs.R'
 
-rule individual_covstats:
-    input:
-        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
-    output:
-        covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
-    log:
-        log = 'output/logs/individual_covstats/{dyn_indiv}.log'
-    threads:
-        1
-    script:
-        'src/calculate_mean_coverage.R'
+# rule individual_covstats:
+#     input:
+#         tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+#     output:
+#         covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
+#     log:
+#         log = 'output/logs/individual_covstats/{dyn_indiv}.log'
+#     threads:
+#         1
+#     script:
+#         'src/calculate_mean_coverage.R'
 
-rule combine_individual_covstats:
-    input:
-        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
-        map = filtered_popmap
-    output:
-        combined = 'output/run_stats/individual_covstats_combined.csv'
-    script:
-        'src/combine_csvs.R'
+# rule combine_individual_covstats:
+#     input:
+#         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
+#         map = filtered_popmap
+#     output:
+#         combined = 'output/run_stats/individual_covstats_combined.csv'
+#     script:
+#         'src/combine_csvs.R'
 
 rule cstacks:
     input:
