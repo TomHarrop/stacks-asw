@@ -126,7 +126,6 @@ rule target:
         'output/run_stats/population_stats_combined.csv',
         'output/run_stats/individual_stats_combined.csv',
         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
-        #'output/blah/individual_covstats_combined.csv'
 
 # 12b. combine loci/SNP stats
 rule combine_population_stats:
@@ -279,7 +278,7 @@ rule cstacks:
 #         'src/combine_csvs.R'
 
 # 7c. combine individual assembly stats
-rule combine_individual_stats:
+rule individual_stats_combined:
     input:
         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
     output:
