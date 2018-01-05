@@ -270,30 +270,6 @@ rule cstacks:
         '&> {log}'
 
 # 7d. combine individual coverage stats
-rule individual_stats_combined:
-    input:
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
-    output:
-        combined = 'output/run_stats/individual_stats_combined.csv'
-    script:
-        'src/combine_csvs.R'
-
-# 7c. calculate coverage stats per individual
-rule individual_stats:
-    input:
-        alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
-        snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
-        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
-    output:
-        sample_stats = 'output/run_stats/individual_stats/{dyn_indiv}.csv'
-    log:
-        log = 'output/logs/individual_stats/{dyn_indiv}.log'
-    threads:
-        1
-    script:
-        'src/stacks_individual_stats.R'
-
-# 7b. combine individual assembly stats
 # rule individual_stats_combined:
 #     input:
 #         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
@@ -302,7 +278,7 @@ rule individual_stats:
 #     script:
 #         'src/combine_csvs.R'
 
-# 7a. calculate assembly stats per individual
+# 7c. calculate coverage stats per individual
 # rule individual_stats:
 #     input:
 #         alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
@@ -316,6 +292,30 @@ rule individual_stats:
 #         1
 #     script:
 #         'src/stacks_individual_stats.R'
+
+# 7b. combine individual assembly stats
+rule individual_stats_combined:
+    input:
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+    output:
+        combined = 'output/run_stats/individual_stats_combined.csv'
+    script:
+        'src/combine_csvs.R'
+
+# 7a. calculate assembly stats per individual
+rule individual_stats:
+    input:
+        alleles_file = 'output/stacks_denovo/{dyn_indiv}.alleles.tsv.gz',
+        snps_file = 'output/stacks_denovo/{dyn_indiv}.snps.tsv.gz',
+        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+    output:
+        sample_stats = 'output/run_stats/individual_stats/{dyn_indiv}.csv'
+    log:
+        log = 'output/logs/individual_stats/{dyn_indiv}.log'
+    threads:
+        1
+    script:
+        'src/stacks_individual_stats.R'
 
 # 7. assemble loci for individuals that passed the filter
 rule ustacks:
