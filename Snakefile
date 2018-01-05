@@ -120,23 +120,14 @@ all_fc_lanes = [x for x in fc_lane_to_sample
 
 rule target:
     input:
-        expand('output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
+        expand(('output/stacks_populations/r{r}/'
+                'populations.sumstats_summary.tsv'),
                r=r_values),
-        #dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
-        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
         'output/run_stats/population_stats_combined.csv',
         'output/run_stats/individual_stats_combined.csv'
-        # 'output/run_stats/individual_covstats_combined.csv'
+        'output/run_stats/individual_covstats_combined.csv'
 
-# rule combine_individual_covstats:
-#     input:
-#         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
-#     output:
-#         combined = 'output/run_stats/individual_covstats_combined.csv'
-#     script:
-#         'src/combine_csvs.R'
-
-# 12b. combined loci/SNP stats
+# 12b. combine loci/SNP stats
 rule combine_population_stats:
     input:
         expand('output/run_stats/population_stats/{r}.csv',
@@ -276,6 +267,15 @@ rule cstacks:
         '-M {input.map} '
         '-n 3 '
         '&> {log}'
+
+# 7d. combine individual coverage stats
+rule combine_individual_covstats:
+    input:
+        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
+    output:
+        combined = 'output/run_stats/individual_covstats_combined.csv'
+    script:
+        'src/combine_csvs.R'
 
 # 7c. combine individual assembly stats
 rule combine_individual_stats:
