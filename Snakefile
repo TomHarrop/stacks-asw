@@ -125,8 +125,8 @@ rule target:
                r=r_values),
         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
         # 'output/run_stats/individual_stats_combined.csv',
-        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
-        # 'output/run_stats/individual_covstats_combined.csv'
+        # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
+        'output/run_stats/individual_covstats_combined.csv'
 
 # 12b. combine loci/SNP stats
 rule combine_population_stats:
