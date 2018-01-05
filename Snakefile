@@ -123,8 +123,9 @@ rule target:
         expand(('output/stacks_populations/r{r}/'
                 'populations.sumstats_summary.tsv'),
                r=r_values),
-        'output/run_stats/population_stats_combined.csv',
-        'output/run_stats/individual_stats_combined.csv'
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+        # 'output/run_stats/population_stats_combined.csv',
+        # 'output/run_stats/individual_stats_combined.csv'
         #'output/run_stats/individual_covstats_combined.csv'
         # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
 
@@ -294,13 +295,13 @@ rule cstacks:
 #         'src/stacks_individual_stats.R'
 
 # 7b. combine individual assembly stats
-rule individual_stats_combined:
-    input:
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
-    output:
-        combined = 'output/run_stats/individual_stats_combined.csv'
-    script:
-        'src/combine_csvs.R'
+# rule individual_stats_combined:
+#     input:
+#         dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+#     output:
+#         combined = 'output/run_stats/individual_stats_combined.csv'
+#     script:
+#         'src/combine_csvs.R'
 
 # 7a. calculate assembly stats per individual
 rule individual_stats:
