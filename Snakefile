@@ -122,7 +122,8 @@ rule target:
     input:
         expand('output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
                r=r_values),
-        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv')
+        dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
+        dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
         # 'output/run_stats/population_stats_combined.csv'
         # 'output/run_stats/individual_stats_combined.csv'
         # 'output/run_stats/individual_covstats_combined.csv'
@@ -284,22 +285,21 @@ rule individual_stats:
 #     script:
 #         'src/combine_csvs.R'
 
-# rule individual_covstats:
-#     input:
-#         tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
-#     output:
-#         covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
-#     log:
-#         log = 'output/logs/individual_covstats/{dyn_indiv}.log'
-#     threads:
-#         1
-#     script:
-#         'src/calculate_mean_coverage.R'
+rule individual_covstats:
+    input:
+        tags_file = 'output/stacks_denovo/{dyn_indiv}.tags.tsv.gz'
+    output:
+        covstats = 'output/run_stats/individual_covstats/{dyn_indiv}.csv'
+    log:
+        log = 'output/logs/individual_covstats/{dyn_indiv}.log'
+    threads:
+        1
+    script:
+        'src/calculate_mean_coverage.R'
 
 # rule combine_individual_covstats:
 #     input:
 #         dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv'),
-#         map = filtered_popmap
 #     output:
 #         combined = 'output/run_stats/individual_covstats_combined.csv'
 #     script:
