@@ -58,7 +58,7 @@ output_pop_stats <- snakemake@output[["pop_stats"]]
 log_file <- snakemake@log[["log"]]
 
 # dev
-# hapstats_file <- "output/stacks_populations/r0.8/populations.haplotypes.tsv"
+# hapstats_file <- "output/stacks_populations/r0.8/populations.hapstats.tsv"
 # sumstats_file <- "output/stacks_populations/r0.8/populations.sumstats.tsv"
 # r <- "0.8"
 

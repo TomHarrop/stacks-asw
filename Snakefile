@@ -128,6 +128,35 @@ rule target:
         # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
         'output/run_stats/individual_covstats_combined.csv'
 
+# 13. re-run populations for downstream analysis
+rule populations_pca:
+    input:
+        'output/stacks_denovo/gstacks.fa.gz',
+        'output/stacks_denovo/gstacks.vcf.gz',
+        map = filtered_popmap
+    output:
+        'output/stacks_populations/for_pca/populations.sumstats_summary.tsv',
+        'output/stacks_populations/for_pca/populations.markers.tsv',
+        'output/stacks_populations/for_pca/populations.hapstats.tsv',
+        'output/stacks_populations/for_pca/populations.sumstats.tsv',
+        'output/stacks_populations/for_pca/populations.haplotypes.tsv'
+    params:
+        stacks_dir = 'output/stacks_denovo',
+        outdir = 'output/stacks_populations/for_pca'
+    threads:
+        50
+    log:
+        'output/logs/populations_for_pca.log'
+    shell:
+        'populations '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-O {params.outdir} '
+        '-t {threads} '
+        '-r 0.8 -p 12 --min_maf 0.05 --max_obs_het 0.70 '
+        '--genepop --vcf '
+        '&> {log}'
+
 # 12b. combine loci/SNP stats
 rule combine_population_stats:
     input:
