@@ -123,12 +123,22 @@ rule target:
         expand(('output/stacks_populations/r{r}/'
                 'populations.sumstats_summary.tsv'),
                r=r_values),
+        'output/run_stats/population_stats_combined.csv',
         # dynamic('output/run_stats/individual_stats/{dyn_indiv}.csv'),
         'output/run_stats/individual_stats_combined.csv',
         # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
         'output/run_stats/individual_covstats_combined.csv'
 
-# 13. re-run populations for downstream analysis
+# 13a rename genepop for adegenet
+rule rename_genepop:
+    input:
+        'output/stacks_populations/for_pca/populations.snps.genepop'
+    output:
+        'output/stacks_populations/for_pca/populations.snps.gen'
+    shell:
+        'cp {input} {output}'
+
+# 13. re-run populations for PCA
 rule populations_pca:
     input:
         'output/stacks_denovo/gstacks.fa.gz',
@@ -139,7 +149,10 @@ rule populations_pca:
         'output/stacks_populations/for_pca/populations.markers.tsv',
         'output/stacks_populations/for_pca/populations.hapstats.tsv',
         'output/stacks_populations/for_pca/populations.sumstats.tsv',
-        'output/stacks_populations/for_pca/populations.haplotypes.tsv'
+        'output/stacks_populations/for_pca/populations.haplotypes.tsv',
+        'output/stacks_populations/for_pca/populations.snps.genepop',
+        'output/stacks_populations/for_pca/populations.snps.vcf'
+
     params:
         stacks_dir = 'output/stacks_denovo',
         outdir = 'output/stacks_populations/for_pca'
@@ -192,12 +205,14 @@ rule populations:
         'output/stacks_populations/r{r}/populations.markers.tsv',
         'output/stacks_populations/r{r}/populations.hapstats.tsv',
         'output/stacks_populations/r{r}/populations.sumstats.tsv',
-        'output/stacks_populations/r{r}/populations.haplotypes.tsv'
+        'output/stacks_populations/r{r}/populations.haplotypes.tsv',
+        'output/stacks_populations/r{r}/populations.snps.genepop',
+        'output/stacks_populations/r{r}/populations.snps.vcf'
     params:
         stacks_dir = 'output/stacks_denovo',
         outdir = 'output/stacks_populations/r{r}'
     threads:
-        15
+        10
     log:
         'output/logs/populations_r{r}.log'
     shell:
@@ -207,6 +222,7 @@ rule populations:
         '-O {params.outdir} '
         '-t {threads} '
         '-r {wildcards.r} '
+        '--genepop --vcf '
         '&> {log}'
 
 # 11. generate final catalog
