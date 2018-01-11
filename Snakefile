@@ -74,7 +74,7 @@ reads_dir = 'data/raw_reads'
 outdir = 'output'
 filtered_popmap = 'output/stacks_config/filtered_populations.txt'
 
-# filtering paramaters
+# filtering parameters
 r_values = list(str(x) for x in numpy.arange(0, 1.01, 0.1))
 
 #########
@@ -129,15 +129,6 @@ rule target:
         # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
         'output/run_stats/individual_covstats_combined.csv'
 
-# 13a rename genepop for adegenet
-rule rename_genepop:
-    input:
-        'output/stacks_populations/for_pca/populations.snps.genepop'
-    output:
-        'output/stacks_populations/for_pca/populations.snps.gen'
-    shell:
-        'cp {input} {output}'
-
 # 13. re-run populations for PCA
 rule populations_pca:
     input:
@@ -170,7 +161,7 @@ rule populations_pca:
         '--genepop --vcf '
         '&> {log}'
 
-# 12b. combine loci/SNP stats
+# 12c. combine loci/SNP stats
 rule combine_population_stats:
     input:
         expand('output/run_stats/population_stats/{r}.csv',
@@ -180,7 +171,7 @@ rule combine_population_stats:
     script:
         'src/combine_csvs.R'
 
-# 12a. per-filter-run loci/SNP stats
+# 12b. per-filter-run loci/SNP stats
 rule population_stats:
     input:
         sumstats = 'output/stacks_populations/r{r}/populations.sumstats.tsv',
@@ -193,6 +184,20 @@ rule population_stats:
         1
     script:
         'src/stacks_population_stats.R'
+
+# 12a. rename the genepop file so adegenet will read it, French software FTW
+rule genepop:
+    input:
+        expand('output/stacks_populations/r{r}/populations.snps.gen',
+               r=r_values)
+
+rule rename_genepop:
+    input:
+        'output/stacks_populations/r{r}/populations.snps.genepop'
+    output:
+        'output/stacks_populations/r{r}/populations.snps.gen'
+    shell:
+        'cp {input} {output}'
 
 # 12. filter the final catalog by r
 rule populations:

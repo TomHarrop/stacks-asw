@@ -42,6 +42,9 @@ pd <- melt(merged_stats,
                        "secondary",
                        "total_reads"))
 
+# save output
+saveRDS(pd, "report/cov_vs_reads.Rds")
+
 # plot assembly stats
 ggplot(pd, aes(x = primary, y = value/1e3, colour = population)) +
     theme(strip.placement = "outside",
@@ -52,5 +55,7 @@ ggplot(pd, aes(x = primary, y = value/1e3, colour = population)) +
     geom_point(position = position_jitter(width = 0.3))
 
 # plot coverage
-ggplot(merged_stats, aes(x = total_reads/1e6, y = primary, colour = population)) +
+ggplot(merged_stats, aes(x = total_reads/1e6,
+                         y = primary,
+                         colour = population)) +
     geom_point()

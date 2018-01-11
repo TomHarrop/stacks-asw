@@ -1,0 +1,185 @@
+---
+output:
+    pdf_document:
+        includes:
+            in_header: preamble.tex
+        latex_engine: xelatex
+fontsize: 12pt
+mainfont: Lato
+classoption: a4paper
+---
+    
+```{r setup, include=FALSE, results="hide", warning=FALSE}
+library(ggplot2)
+library(data.table)
+
+a4width<- 8.3
+a4height<- 11.7
+knitr::opts_chunk$set(
+    dev.args=list(bg = "transparent", family = "Lato"),
+    dev="cairo_pdf",
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    cache = TRUE,
+    fig.align = 'center',
+    fig.width = 0.9 * a4width,
+    fig.height = 0.5 * a4height)
+
+pd <- readRDS("dapc_pd.Rds")[variable %in% paste0("LD", c(1:6))]
+cov_vs_reads <- readRDS("cov_vs_reads.Rds")
+
+# read the key file
+key_data <- fread("../data/SQ0003.txt")
+indiv_data <- key_data[, .(
+    individual = Sample,
+    Flowcell, Lane, Platename)]
+indiv_data[, fc_lane := paste(Flowcell, Lane, sep = "_")]
+indiv_data[, population := gsub("[[:digit:]]+", "", individual)]
+```
+
+
+```{r d2_1, cache = FALSE, fig.height = 0.28 * a4height}
+# 2d plot
+pd_2d <- dcast(pd,
+      individual + population + fc_lane ~ pct_var,
+      value.var = "value")
+
+ggplot(pd_2d, aes(x = get(pd[, levels(pct_var)][1]),
+                  y = get(pd[, levels(pct_var)][2]),
+                  colour = population)) +
+    xlab(pd[, levels(pct_var)][1]) + ylab(pd[, levels(pct_var)][2]) +
+    theme_minimal(base_size = 12) +
+    scale_colour_brewer(palette = "Paired",
+                        guide = guide_legend(title = "Population")) +
+    geom_point(alpha = 0.8,
+               shape = 16,
+               size = 2)
+
+ggplot(pd_2d, aes(x = get(pd[, levels(pct_var)][1]),
+                  y = get(pd[, levels(pct_var)][2]),
+                  colour = fc_lane)) +
+    xlab(pd[, levels(pct_var)][1]) + ylab(pd[, levels(pct_var)][2]) +
+    theme_minimal(base_size = 12) +
+    scale_colour_brewer(palette = "Paired",
+                        guide = guide_legend(title = "Flowcell")) +
+    geom_point(alpha = 0.8,
+               shape = 16,
+               size = 2)
+```
+
+These two plots show the results of a Discriminant Analysis of Principal Components (DAPC). The two plots are exactly the same, except that in the top plot the points are coloured by population, and in the bottom they are coloured by the flowcell they were sequenced on.
+
+It looks like the DAPC correctly discriminates populations. However, the groups of individuals also cluster by the flowcell they were sequenced on. This suggests that the differences between populations may be driven by or confounded by batch effects.
+
+By the way, this is not exactly the same as Ganesh's figure, because I've re-run the whole pipeline with different software and I used a different method for decomposition. Maybe his method dealt with this somehow. If Ganesh can send me his table, I will re-plot the results to see if the flowcell effect shows up.
+
+\pagebreak
+
+```{r test, cache = FALSE}
+
+# components vs. population
+ggplot(pd, aes(x = population, y = value, colour = population)) +
+    theme_minimal(base_size = 12) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+          strip.background = element_blank(),
+          strip.placement = "outside") +
+    facet_wrap(~ pct_var, ncol = 2, strip.position = "left") +
+    ggtitle("Discriminants vs. populations") +
+    xlab(NULL) + ylab(NULL) +
+    scale_colour_brewer(palette = "Paired",
+                        guide = guide_legend(title = NULL)) +
+    geom_point(position = position_jitter(width = 0.25),
+               alpha = 0.6,
+               shape = 16,
+               size = 1)
+```
+
+Looking at each discriminant (LD) individually vs the populations, DAPC seems to be discriminating between the groups.
+
+\pagebreak
+
+
+```{r p2, cache = FALSE}
+# components vs fc_lane
+ggplot(pd, aes(x = fc_lane, y = value, colour = population)) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+          strip.background = element_blank(),
+          strip.placement = "outside") +
+    facet_wrap(~ pct_var, ncol = 2, strip.position = "left") +
+    ggtitle("Discriminants vs. flowcell") +
+    xlab(NULL) + ylab(NULL) +
+    scale_colour_brewer(palette = "Paired",
+                        guide = guide_legend(title = NULL)) +
+    geom_point(position = position_jitter(width = 0.25),
+               alpha = 0.6,
+               shape = 16,
+               size = 1)
+```
+
+These are the exact same data, but this time they're plotted against the flowcell. Now it looks like the DAPC is grouping individuals that were run on the same flowcell, regardless of whether they are from the same populations. For example, look at how Fortrose clumps with Mossborn, Taranaki clumps with Wellington, Reefton clumps with Greymouth etc. etc. on LD1.
+
+\pagebreak
+
+```{r indiv}
+ggplot(indiv_data, aes(x = population, y = fc_lane, colour = fc_lane)) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) +
+    scale_color_brewer(palette = "Set1", guide = FALSE) +
+    xlab(NULL) + ylab(NULL) +
+    geom_point(position = position_jitter(height = 0.4, width = 0.4),
+               alpha = 0.6,
+               shape = 16,
+               size = 2)
+
+```
+
+This is how the samples were distributed between flowcells. Libraries for each flowcell appear to have been prepped on individual plates. For certain populations (e.g. Lincoln and Ruakura), population-level differences are confounded by batch effects in this configuration.
+
+\pagebreak
+
+```{r cov, cache = FALSE, fig.height = 0.28 * a4height}
+cov_pd <- merge(cov_vs_reads,
+      indiv_data[, .(individual, fc_lane, Platename)],
+      by = "individual",
+      all.x = TRUE,
+      all.y = FALSE)
+
+ggplot(cov_pd,
+       aes(x = total_reads/1e6,
+           y = primary,
+           colour = population,
+           group = population)) +
+    theme_minimal() +
+    scale_colour_discrete(guide = guide_legend(title = NULL)) +
+    xlab("Reads (M)") + ylab("Mean coverage") +
+    geom_point(alpha = 0.6,
+               shape = 16,
+               size = 2) +
+        geom_smooth(se = FALSE,
+                size = 0.5,
+                linetype = 1,
+                method = "lm")
+
+ggplot(cov_pd,
+       aes(x = total_reads/1e6,
+           y = primary,
+           colour = Platename,
+           group = Platename)) +
+    theme_minimal() +
+    xlab("Reads (M)") + ylab("Mean coverage") +
+    scale_colour_discrete(guide = guide_legend(title = "Plate")) +
+    geom_point(alpha = 0.6,
+               shape = 16,
+               size = 2) +
+        geom_smooth(se = FALSE,
+                size = 0.5,
+                linetype = 1,
+                method = "lm") 
+
+```
+
+These are assembly statistics from the genotyping pipeline. 'Coverage' is the number of reads that were available for genotyping an individual at a locus, i.e. the number of reads that came from a single restriction enzyme cut site.
+
+The two samples that were interesting in Ganesh's analysis, Ruakura and Lincoln, were prepped on separate plates. They have higher coverage per million reads than the other samples. This could be caused by a technical difference in library prep (e.g. PCR cycles, efficiency of enzyme digestion, variation between kits, contamination etc.).
