@@ -18,20 +18,22 @@ CalculateCovstats <- function(tags_file) {
     # get the individual name
     individual <- gsub("^([^\\.]+).+", "\\1", basename(tags_file))
     
+    # get a list of non-blacklisted loci
+    my_loci <- my_tags[V12 != 1 & V13 != 1, unique(V3)]
+    
     # count the unique reads
-    total_reads <- my_tags[V9 != "",
+    total_reads <- my_tags[V3 %in% my_loci & V9 != "",
                            length(unique(V9))]
-    long_stats <- my_tags[V9 != "",
-                          length(unique(V9)),
-                          by = .(V3, V7)][, mean(V1), by = V7]
+    final_coverage <- my_tags[V3 %in% my_loci & V9 != "",
+                              length(unique(V9)),
+                              by = V3][, mean(V1)]
     
-    # convert output
-    covstats <- dcast(long_stats, . ~ V7, value.var = "V1")
-    covstats[, `.` := NULL]
-    covstats[, individual := individual]
-    covstats[, total_reads := total_reads]
-    
-    return(covstats)
+    # make the table
+    return(
+        data.table(
+            individual = individual,
+            final_coverage_mean = final_coverage,
+            n_reads = total_reads))
 }
 
 ###########
@@ -43,7 +45,7 @@ output_covstats <- snakemake@output[["covstats"]]
 log_file <- snakemake@log[["log"]]
 
 #dev
-# tags_file <- "output/stacks_denovo/Wellington30.tags.tsv.gz"
+# tags_file <- "output/03_ustacks/Ruakura_9.tags.tsv.gz"
 
 ########
 # MAIN #

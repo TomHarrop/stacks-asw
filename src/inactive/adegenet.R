@@ -32,6 +32,8 @@ ggplot(indiv_data, aes(x = Flowcell, y = population)) +
     geom_point(position = position_jitter(width = 0.2, height = 0.2))
 ggplot(indiv_data, aes(x = Platename, y = population)) +
     geom_point(position = position_jitter(width = 0.2, height = 0.2))
+ggplot(indiv_data, aes(x = Platename, y = fc_lane)) +
+    geom_point(position = position_jitter(width = 0.2, height = 0.2))
 
 # read SNPs
 if(!file.exists(adegenet_output)){
@@ -74,11 +76,10 @@ add.scatter.eig(snps_pca$eig[1:10], xax=1, yax=2)
 
 # try a ggplot of the results
 var_exp <- snps_pca$eig / sum(snps_pca$eig)
-pv_labs <- paste0(
-    c("PC1", "PC2"),
-    " (",
-    signif(var_exp[c(1, 2)] * 100, 3),
-    "%)")
+pv_labs <- paste0("PC", 1:length(var_exp), " (", round(var_exp*100, 1), "%)")
+facet_labeller <- function(x) {
+    list(pv_labs[x[, 1]])
+}
 
 pd <- data.table(snps_pca$li, keep.rownames = TRUE)
 pd_long <- melt(pd, id.vars = "rn")
@@ -92,16 +93,18 @@ pd_data <- merge(pd_long,
                  all.y = FALSE)
 
 ggplot(pd_data, aes(x = population, y = value, colour = population)) +
-    facet_wrap(~ PC, ncol = 3) +
+    scale_colour_brewer(palette = "Paired") +
+    facet_wrap(~ PC, ncol = 3, labeller = facet_labeller) +
     geom_point(position = position_jitter(width = 0.2),
-               alpha = 0.5,
+               alpha = 0.6,
                shape = 16,
                size = 2)
 
 ggplot(pd_data[PC < 11], aes(x = Platename, y = value, colour = population)) +
-    facet_wrap(~ PC) +
+    facet_wrap(~ PC, ncol = 3, labeller = facet_labeller) +
+    scale_colour_brewer(palette = "Paired") +
     geom_point(position = position_jitter(width = 0.2),
-               alpha = 0.5,
+               alpha = 0.6,
                shape = 16,
                size = 2)
 
@@ -134,9 +137,13 @@ pd <- as.data.table(snps_pca$li, keep.rownames = TRUE)
 pd[, population := gsub("[[:digit:]]+", "", rn)]
 
 ggplot(pd,
-       aes(x = Axis1, y = Axis2, colour = population)) +
-    xlab(pv_labs[1]) + ylab(pv_labs[2]) +        
+       aes(x = Axis1, y = Axis2, colour = population, fill = population)) +
+    theme_minimal() +
+    xlab(pv_labs[2]) + ylab(pv_labs[3]) +        
+    scale_fill_brewer(palette = "Set1") +
+    scale_colour_brewer(palette = "Set1") +
+    stat_ellipse(geom = "polygon",
+                 alpha = 0.3,
+                 colour = NA,
+                 level = 0.95) +
     geom_point()
-
-
-pd

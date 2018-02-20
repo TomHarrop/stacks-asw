@@ -57,5 +57,13 @@ ggplot(pd, aes(x = primary, y = value/1e3, colour = population)) +
 # plot coverage
 ggplot(merged_stats, aes(x = total_reads/1e6,
                          y = primary,
-                         colour = population)) +
+                         colour = population,
+                         fill = population)) +
+    stat_ellipse(geom = "polygon",
+                 alpha = 0.3,
+                 level = 0.95,
+                 colour = NA) +
+    xlim(c(0, 7.5)) + ylim(c(0, 30)) +
     geom_point()
+
+

@@ -30,7 +30,7 @@ pd <- readRDS("dapc_pd.Rds")[variable %in% paste0("LD", c(1:6))]
 cov_vs_reads <- readRDS("cov_vs_reads.Rds")
 
 # read the key file
-key_data <- fread("../data/SQ0003.txt")
+key_data <- fread("SQ0003.txt")
 indiv_data <- key_data[, .(
     individual = Sample,
     Flowcell, Lane, Platename)]
