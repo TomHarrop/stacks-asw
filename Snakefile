@@ -140,109 +140,6 @@ rule filtered_indiv_fqs:
         expand('output/filtering/kept/{individual}.fq.gz',
                individual=all_samples),
 
-rule filter_fq_both:
-    input:
-        'output/demux/{individual}.fq.gz'
-    output:
-        kept = 'output/filtering_both/kept/{individual}.fq.gz',
-        discarded = 'output/filtering_both/discarded/{individual}.fq.gz',
-        stats = 'output/filtering_both/stats/{individual}.txt',
-        gc_hist = 'output/filtering_both/gc_hist/{individual}.txt'
-    params:
-        adaptors = 'data/adaptors/both.fa'
-    singularity:
-        'shub://TomHarrop/singularity-containers:bbmap_38.00'
-    log:
-        'output/filtering_both/logs/{individual}.txt'
-    threads:
-        10
-    shell:
-        'bbduk.sh '
-        'threads={threads} '
-        'in={input} '
-        'outnonmatch={output.kept} '
-        'outmatch={output.discarded} '
-        'stats={output.stats} '
-        'gchist={output.gc_hist} '
-        'gcbins=auto '
-        'ref={params.adaptors} '
-        'interleaved=f '
-        'overwrite=t '
-        'ziplevel=9 '
-        'ktrim=r k=23 mink=11 hdist=1 '
-        'findbestmatch=t '
-        'minlength=91 '
-        '&> {log}'
-
-
-rule filter_fq_common:
-    input:
-        'output/demux/{individual}.fq.gz'
-    output:
-        kept = 'output/filtering_common/kept/{individual}.fq.gz',
-        discarded = 'output/filtering_common/discarded/{individual}.fq.gz',
-        stats = 'output/filtering_common/stats/{individual}.txt',
-        gc_hist = 'output/filtering_common/gc_hist/{individual}.txt'
-    params:
-        adaptors = 'data/adaptors/agr_common.fa'
-    singularity:
-        'shub://TomHarrop/singularity-containers:bbmap_38.00'
-    log:
-        'output/filtering_common/logs/{individual}.txt'
-    threads:
-        10
-    shell:
-        'bbduk.sh '
-        'threads={threads} '
-        'in={input} '
-        'outnonmatch={output.kept} '
-        'outmatch={output.discarded} '
-        'stats={output.stats} '
-        'gchist={output.gc_hist} '
-        'gcbins=auto '
-        'ref={params.adaptors} '
-        'interleaved=f '
-        'overwrite=t '
-        'ziplevel=9 '
-        'ktrim=r k=23 mink=11 hdist=1 '
-        'findbestmatch=t '
-        'minlength=91 '
-        '&> {log}'
-
-
-rule filter_fq_phix:
-    input:
-        'output/demux/{individual}.fq.gz'
-    output:
-        kept = 'output/filtering_phix/kept/{individual}.fq.gz',
-        discarded = 'output/filtering_phix/discarded/{individual}.fq.gz',
-        stats = 'output/filtering_phix/stats/{individual}.txt',
-        gc_hist = 'output/filtering_phix/gc_hist/{individual}.txt'
-    params:
-        adaptors = 'data/adaptors/phix_r1.fa'
-    singularity:
-        'shub://TomHarrop/singularity-containers:bbmap_38.00'
-    log:
-        'output/filtering_phix/logs/{individual}.txt'
-    threads:
-        10
-    shell:
-        'bbduk.sh '
-        'threads={threads} '
-        'in={input} '
-        'outnonmatch={output.kept} '
-        'outmatch={output.discarded} '
-        'stats={output.stats} '
-        'gchist={output.gc_hist} '
-        'gcbins=auto '
-        'ref={params.adaptors} '
-        'interleaved=f '
-        'overwrite=t '
-        'ziplevel=9 '
-        'ktrim=r k=23 mink=11 hdist=1 '
-        'findbestmatch=t '
-        'minlength=91 '
-        '&> {log}'
 
 # 13. re-run populations for PCA
 rule populations_pca:
@@ -598,34 +495,44 @@ rule trim_adaptors:
     output:
         kept = 'output/filtering/kept/{individual}.fq.gz',
         discarded = 'output/filtering/discarded/{individual}.fq.gz',
-        stats = 'output/filtering/stats/{individual}.txt',
+        adaptor_stats = 'output/filtering/adaptor_stats/{individual}.txt',
+        truncate_stats = 'output/filtering/truncate_stats/{individual}.txt',
         gc_hist = 'output/filtering/gc_hist/{individual}.txt'
     params:
         adaptors = 'data/adaptors/bbduk_adaptors_plus_AgR_common.fa'
     singularity:
         'shub://TomHarrop/singularity-containers:bbmap_38.00'
     log:
-        'output/filtering/logs/{individual}.txt'
+        adaptors = 'output/logs/filtering/{individual}_adaptors.txt',
+        truncate = 'output/logs/filtering/{individual}_truncate.txt'
     threads:
         10
     shell:
         'bbduk.sh '
         'threads={threads} '
         'in={input} '
+        'interleaved=f '
+        'out=stdout.fq '
+        'stats={output.adaptor_stats} '
+        'ref={params.adaptors} '
+        'ktrim=r k=23 mink=11 hdist=1 '
+        'findbestmatch=t '
+        '2> {log.adaptors}'
+        ' | '
+        'bbduk.sh '
+        'threads={threads} '
+        'in=stdin.fq '
+        'interleaved=f '
         'outnonmatch={output.kept} '
         'outmatch={output.discarded} '
-        'stats={output.stats} '
+        'stats={output.truncate_stats} '
         'gchist={output.gc_hist} '
         'gcbins=auto '
-        'ref={params.adaptors} '
-        'interleaved=f '
         'overwrite=t '
-        'ziplevel=9 '
-        'ktrim=r k=23 mink=11 hdist=1 '
         'forcetrimright=79 '
-        'findbestmatch=t '
         'minlength=80 '
-        '&> {log}'
+        'ziplevel=9 '
+        '2> {log.truncate}'
 
 # 2. for loop per fc_lane
 for fc_lane in all_fc_lanes:
