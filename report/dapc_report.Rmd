@@ -147,8 +147,8 @@ cov_pd <- merge(cov_vs_reads,
       all.y = FALSE)
 
 ggplot(cov_pd,
-       aes(x = total_reads/1e6,
-           y = primary,
+       aes(x = n_reads/1e6,
+           y = final_coverage_mean,
            colour = population,
            group = population)) +
     theme_minimal() +
@@ -163,8 +163,8 @@ ggplot(cov_pd,
                 method = "lm")
 
 ggplot(cov_pd,
-       aes(x = total_reads/1e6,
-           y = primary,
+       aes(x = n_reads/1e6,
+           y = final_coverage_mean,
            colour = Platename,
            group = Platename)) +
     theme_minimal() +

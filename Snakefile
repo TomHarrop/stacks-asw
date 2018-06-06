@@ -77,6 +77,10 @@ filtered_popmap = 'output/stacks_config/filtered_populations.txt'
 # filtering parameters
 r_values = list(str(x) for x in numpy.arange(0, 1.01, 0.1))
 
+# containers
+stacks_container = 'shub://TomHarrop/singularity-containers:stacks_2.0b'
+
+
 #########
 # SETUP #
 #########
@@ -129,6 +133,84 @@ rule target:
         # dynamic('output/run_stats/individual_covstats/{dyn_indiv}.csv')
         'output/run_stats/individual_covstats_combined.csv'
 
+
+# not in pipeline: look for adaptor dimers
+rule filtered_indiv_fqs:
+    input:
+        expand('output/filtering_common/kept/{individual}.fq.gz',
+               individual=all_samples),
+	expand('output/filtering_phix/kept/{individual}.fq.gz',
+               individual=all_samples)
+
+rule filter_fq_common:
+    input:
+        'output/demux/{individual}.fq.gz'
+    output:
+        kept = 'output/filtering_common/kept/{individual}.fq.gz',
+        discarded = 'output/filtering_common/discarded/{individual}.fq.gz',
+        stats = 'output/filtering_common/stats/{individual}.txt',
+        gc_hist = 'output/filtering_common/gc_hist/{individual}.txt'
+    params:
+        adaptors = 'data/adaptors/agr_common.fa'
+    singularity:
+        'shub://TomHarrop/singularity-containers:bbmap_38.00'
+    log:
+        'output/filtering_common/logs/{individual}.txt'
+    threads:
+        10
+    shell:
+        'bbduk.sh '
+        'threads={threads} '
+        'in={input} '
+        'outnonmatch={output.kept} '
+        'outmatch={output.discarded} '
+        'stats={output.stats} '
+        'gchist={output.gc_hist} '
+        'gcbins=auto '
+        'ref={params.adaptors} '
+        'interleaved=f '
+        'overwrite=t '
+        'ziplevel=9 '
+        'ktrim=r k=23 mink=11 hdist=1 '
+        'findbestmatch=t '
+        'minlength=91 '
+        '&> {log}'
+
+
+rule filter_fq_phix:
+    input:
+        'output/demux/{individual}.fq.gz'
+    output:
+        kept = 'output/filtering_phix/kept/{individual}.fq.gz',
+        discarded = 'output/filtering_phix/discarded/{individual}.fq.gz',
+        stats = 'output/filtering_phix/stats/{individual}.txt',
+        gc_hist = 'output/filtering_phix/gc_hist/{individual}.txt'
+    params:
+        adaptors = 'data/adaptors/phix_r1.fa'
+    singularity:
+        'shub://TomHarrop/singularity-containers:bbmap_38.00'
+    log:
+        'output/filtering_phix/logs/{individual}.txt'
+    threads:
+        10
+    shell:
+        'bbduk.sh '
+        'threads={threads} '
+        'in={input} '
+        'outnonmatch={output.kept} '
+        'outmatch={output.discarded} '
+        'stats={output.stats} '
+        'gchist={output.gc_hist} '
+        'gcbins=auto '
+        'ref={params.adaptors} '
+        'interleaved=f '
+        'overwrite=t '
+        'ziplevel=9 '
+        'ktrim=r k=23 mink=11 hdist=1 '
+        'findbestmatch=t '
+        'minlength=91 '
+        '&> {log}'
+
 # 13. re-run populations for PCA
 rule populations_pca:
     input:
@@ -151,6 +233,8 @@ rule populations_pca:
         50
     log:
         'output/logs/populations_for_pca.log'
+    singularity:
+        stacks_container
     shell:
         'populations '
         '-P {params.stacks_dir} '
@@ -220,6 +304,8 @@ rule populations:
         10
     log:
         'output/logs/populations_r{r}.log'
+    singularity:
+        stacks_container
     shell:
         'populations '
         '-P {params.stacks_dir} '
@@ -244,6 +330,8 @@ rule gstacks:
         75
     log:
         'output/logs/gstacks.log'
+    singularity:
+            stacks_container
     shell:
         'gstacks '
         '-P {params.stacks_dir} '
@@ -263,7 +351,9 @@ rule tsv2bam:
     threads:
         75
     log:
-        'output/logs/tsv2bam.log'
+        'output/logs/tsv2bam{dyn_indiv3}.log'
+    singularity:
+            stacks_container
     shell:
         'tsv2bam '
         '-P {params.stacks_dir} '
@@ -285,7 +375,9 @@ rule sstacks:
     threads:
         75
     log:
-        'output/logs/sstacks.log'
+        'output/logs/sstacks{dyn_indiv2}.log'
+    singularity:
+            stacks_container
     shell:
         'sstacks '
         '-P {params.stacks_dir} '
@@ -382,6 +474,8 @@ rule ustacks:
         15
     log:
         'output/logs/ustacks_{dyn_indiv}.log'
+#    singularity:
+#            stacks_container
     run:
         # open the pickled dictionary and look up the sample_i
         with open(input.individual_i_pickle, 'rb') as f:
@@ -477,6 +571,8 @@ for fc_lane in all_fc_lanes:
             'output/logs/demux_{0}.log'.format(fc_lane)
         threads:
             1
+        singularity:
+            stacks_container
         shell:
             'process_radtags '
             '-f {input.read_file} '
@@ -484,7 +580,8 @@ for fc_lane in all_fc_lanes:
             '-b {input.config_file} '
             '-o output/demux '
             '-c -q '
-            # '-r --barcode_dist_1 1 '    # rescue barcodes
+            # '-r --barcode_dist_1 1 '  # rescue barcodes
+            '--barcode_dist_1 0 '       # don't allow bc mismatches
             '-t 91 '                    # truncate output to 91 b
             '-w 0.1 '                   # window: approx. 9 bases
             '-s 15 '                    # minimum avg PHRED in window

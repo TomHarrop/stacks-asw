@@ -38,15 +38,14 @@ merged_stats[, population := gsub("[[:digit:]]+", "", individual)]
 pd <- melt(merged_stats,
            id.vars = c("population",
                        "individual",
-                       "primary",
-                       "secondary",
-                       "total_reads"))
+                       "final_coverage_mean",
+                       "n_reads"))
 
 # save output
 saveRDS(pd, "report/cov_vs_reads.Rds")
 
 # plot assembly stats
-ggplot(pd, aes(x = primary, y = value/1e3, colour = population)) +
+ggplot(pd, aes(x = final_coverage_mean, y = value/1e3, colour = population)) +
     theme(strip.placement = "outside",
           strip.background = element_blank()) +
     guides(colour = FALSE) +
@@ -55,8 +54,8 @@ ggplot(pd, aes(x = primary, y = value/1e3, colour = population)) +
     geom_point(position = position_jitter(width = 0.3))
 
 # plot coverage
-ggplot(merged_stats, aes(x = total_reads/1e6,
-                         y = primary,
+ggplot(merged_stats, aes(x = n_reads/1e6,
+                         y = final_coverage_mean,
                          colour = population,
                          fill = population)) +
     stat_ellipse(geom = "polygon",
