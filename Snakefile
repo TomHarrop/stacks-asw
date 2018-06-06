@@ -137,10 +137,43 @@ rule target:
 # not in pipeline: look for adaptor dimers
 rule filtered_indiv_fqs:
     input:
-        expand('output/filtering_common/kept/{individual}.fq.gz',
+        expand('output/filtering/kept/{individual}.fq.gz',
                individual=all_samples),
-	expand('output/filtering_phix/kept/{individual}.fq.gz',
-               individual=all_samples)
+
+rule filter_fq_both:
+    input:
+        'output/demux/{individual}.fq.gz'
+    output:
+        kept = 'output/filtering_both/kept/{individual}.fq.gz',
+        discarded = 'output/filtering_both/discarded/{individual}.fq.gz',
+        stats = 'output/filtering_both/stats/{individual}.txt',
+        gc_hist = 'output/filtering_both/gc_hist/{individual}.txt'
+    params:
+        adaptors = 'data/adaptors/both.fa'
+    singularity:
+        'shub://TomHarrop/singularity-containers:bbmap_38.00'
+    log:
+        'output/filtering_both/logs/{individual}.txt'
+    threads:
+        10
+    shell:
+        'bbduk.sh '
+        'threads={threads} '
+        'in={input} '
+        'outnonmatch={output.kept} '
+        'outmatch={output.discarded} '
+        'stats={output.stats} '
+        'gchist={output.gc_hist} '
+        'gcbins=auto '
+        'ref={params.adaptors} '
+        'interleaved=f '
+        'overwrite=t '
+        'ziplevel=9 '
+        'ktrim=r k=23 mink=11 hdist=1 '
+        'findbestmatch=t '
+        'minlength=91 '
+        '&> {log}'
+
 
 rule filter_fq_common:
     input:
@@ -500,10 +533,10 @@ rule select_filtered_samples:
     params:
         outdir = 'output/run_stats/pass'
     run:
-        # read the filtered popmap 
+        # read the filtered popmap
         my_popmap = pandas.read_csv(input.map,
-           delimiter='\t',
-           header=None)
+                                    delimiter='\t',
+                                    header=None)
         # touch flag files
         for indiv in sorted(set(my_popmap[0])):
             my_path = os.path.join(params.outdir, indiv)
@@ -518,8 +551,8 @@ rule enumerate_filtered_samples:
     run:
         # read the filtered popmap
         my_popmap = pandas.read_csv(input.map,
-            delimiter='\t',
-            header=None)
+                                    delimiter='\t',
+                                    header=None)
         my_individuals = enumerate(sorted(set(my_popmap[0])))
         individual_i = {y: x for x, y in my_individuals}
         # pickle the individual_i dict for other rules to use
@@ -558,6 +591,42 @@ rule count_reads:
               'out={output} '
               '2> {log}')
 
+# 2b. filter and truncate demuxed reads
+rule trim_adaptors:
+    input:
+        'output/demux/{individual}.fq.gz'
+    output:
+        kept = 'output/filtering/kept/{individual}.fq.gz',
+        discarded = 'output/filtering/discarded/{individual}.fq.gz',
+        stats = 'output/filtering/stats/{individual}.txt',
+        gc_hist = 'output/filtering/gc_hist/{individual}.txt'
+    params:
+        adaptors = 'data/adaptors/bbduk_adaptors_plus_AgR_common.fa'
+    singularity:
+        'shub://TomHarrop/singularity-containers:bbmap_38.00'
+    log:
+        'output/filtering/logs/{individual}.txt'
+    threads:
+        10
+    shell:
+        'bbduk.sh '
+        'threads={threads} '
+        'in={input} '
+        'outnonmatch={output.kept} '
+        'outmatch={output.discarded} '
+        'stats={output.stats} '
+        'gchist={output.gc_hist} '
+        'gcbins=auto '
+        'ref={params.adaptors} '
+        'interleaved=f '
+        'overwrite=t '
+        'ziplevel=9 '
+        'ktrim=r k=23 mink=11 hdist=1 '
+        'forcetrimright=79 '
+        'findbestmatch=t '
+        'minlength=80 '
+        '&> {log}'
+
 # 2. for loop per fc_lane
 for fc_lane in all_fc_lanes:
     rule:
@@ -582,7 +651,7 @@ for fc_lane in all_fc_lanes:
             '-c -q '
             # '-r --barcode_dist_1 1 '  # rescue barcodes
             '--barcode_dist_1 0 '       # don't allow bc mismatches
-            '-t 91 '                    # truncate output to 91 b
+            # '-t 91 '                    # truncate output to 91 b
             '-w 0.1 '                   # window: approx. 9 bases
             '-s 15 '                    # minimum avg PHRED in window
             '--inline_null '
