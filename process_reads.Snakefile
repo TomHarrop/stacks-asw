@@ -180,7 +180,7 @@ rule trim_adaptors:
         adaptors = 'output/logs/filtering/{individual}_adaptors.txt',
         truncate = 'output/logs/filtering/{individual}_truncate.txt'
     threads:
-        10
+        1
     shell:
         'bbduk.sh '
         'threads={threads} '
