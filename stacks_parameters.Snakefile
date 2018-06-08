@@ -51,7 +51,7 @@ all_samples = sorted(set(x for x in sample_to_fc_lane.keys()
 #########
 
 subworkflow process_reads:
-    snakefile: 'process_reads.snakefile'
+    snakefile: 'process_reads.Snakefile'
 
 rule optim_mM:
     input:
