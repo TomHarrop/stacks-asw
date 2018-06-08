@@ -9,11 +9,11 @@ import pandas
 reads_dir = 'data/raw_reads'
 key_file = 'data/SQ0003.txt'
 
-
 #########
 # SETUP #
 #########
 
+singularity_options = "-B /{}".format(pathlib.Path().resolve().parts[1])
 
 # read key file
 key_data = pandas.read_csv(key_file, delimiter='\t')
@@ -75,6 +75,7 @@ rule optim_mM:
         '--individuals 8 '
         '--replicates 3 '
         '--threads {threads} '
+        '--singularity_args {singularity_options} '
         '{input.popmap} '
         '{params.indir} '
         '&> {log} '
@@ -100,6 +101,7 @@ rule optim_setup:
         '--individuals 8 '
         '--replicates 3 '
         '--threads {threads} '
+        '--singularity_args {singularity_options} '
         '{input.popmap} '
         '{params.indir} '
         '&> {log} '
