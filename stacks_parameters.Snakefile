@@ -76,7 +76,7 @@ rule optim_mM:
         '--individuals 8 '
         '--replicates 3 '
         '--threads {threads} '
-        '--singularity_args {singularity_options} '
+        '--singularity_args \"{singularity_options}\" '
         '{input.popmap} '
         '{params.indir} '
         '&> {log} '
