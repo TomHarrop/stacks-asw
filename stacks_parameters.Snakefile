@@ -54,6 +54,36 @@ all_samples = sorted(set(x for x in sample_to_fc_lane.keys()
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
 
+rule optim_n:
+    input:
+        'output/parameters/filtering/replicate_1_popmap.txt',
+        'output/parameters/stats_Mm/samplestats_combined.csv',
+        process_reads(expand('output/filtering/kept/{individual}.fq.gz',
+                             individual=all_samples)),
+        popmap = process_reads('output/stacks_config/filtered_populations.txt')
+    output:
+        'output/parameters/stats_n/samplestats_combined.csv'
+    threads:
+        50
+    params:
+        outdir = 'output/parameters',
+        indir = 'output/filtering/kept'
+    log:
+        'output/logs/parameters/optim_mM.log'
+    shell:
+        'stacks_parameters '
+        '--mode optim_n '
+        '-M 3 -m 3 '
+        '-o {params.outdir} '
+        '--individuals 8 '
+        '--replicates 3 '
+        '--threads {threads} '
+        '--singularity_args \"{singularity_options}\" '
+        '{input.popmap} '
+        '{params.indir} '
+        '&> {log} '
+
+
 rule optim_mM:
     input:
         'output/parameters/filtering/replicate_1_popmap.txt',
