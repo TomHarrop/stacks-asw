@@ -1,3 +1,27 @@
+import pandas
+import pickle
+
+
+#############
+# FUNCTIONS #
+#############
+
+def read_sample_number(wildcards, input):
+    with open(input.individual_i_pickle, 'rb') as f:
+        individual_i = pickle.load(f)
+        return(individual_i[wildcards.individual])
+
+
+#########
+# RULES #
+#########
+
+rule target:
+    
+
+subworkflow process_reads:
+    snakefile: 'process_reads.Snakefile'
+
 
 # 12. filter the final catalog by r
 rule populations:
@@ -179,6 +203,7 @@ rule ustacks:
         'output/run_stats/pass/{dyn_indiv}',
         individual_i_pickle = 'output/obj/individual_i.p'
     params:
+        individual_i = read_sample_number,
         fastq = 'output/demux/{dyn_indiv}.fq.gz',
         wd = 'output/stacks_denovo'
     output:
@@ -192,7 +217,7 @@ rule ustacks:
         'output/logs/ustacks_{dyn_indiv}.log'
 #    singularity:
 #            stacks_container
-    run:
+    shell:
         # open the pickled dictionary and look up the sample_i
         with open(input.individual_i_pickle, 'rb') as f:
             individual_i = pickle.load(f)
@@ -207,10 +232,11 @@ rule ustacks:
               '-M 3 '
               '&> {log}')
 
+
 # 5. make a dictionary of sample:i for cstacks
 rule enumerate_filtered_samples:
     input:
-        map = filtered_popmap
+        map = process_reads('output/stacks_config/filtered_populations.txt')
     output:
         pickle = 'output/obj/individual_i.p'
     run:
