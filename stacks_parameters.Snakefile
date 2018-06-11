@@ -77,7 +77,7 @@ rule compare_defaults:
         'output/logs/parameters/compare_defaults.log'
     shell:
         'stacks_parameters '
-        '--mode optim_n '
+        '--mode compare_defaults '
         '-M 3 -m 3 -n 4 '
         '-o {params.outdir} '
         '--individuals 8 '
