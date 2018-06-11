@@ -51,8 +51,43 @@ all_samples = sorted(set(x for x in sample_to_fc_lane.keys()
 # RULES #
 #########
 
+rule target:
+    input:
+        'output/parameters/compare_defaults/optimised_samplestats_combined.csv'
+
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
+
+rule compare_defaults:
+    input:
+        'output/parameters/filtering/replicate_1_popmap.txt',
+        'output/parameters/stats_Mm/samplestats_combined.csv',
+        'output/parameters/stats_n/samplestats_combined.csv',
+        process_reads(expand('output/filtering/kept/{individual}.fq.gz',
+                             individual=all_samples)),
+        popmap = process_reads('output/stacks_config/filtered_populations.txt')
+    output:
+        'output/parameters/compare_defaults/optimised_samplestats_combined.csv'
+    threads:
+        50
+    params:
+        outdir = 'output/parameters',
+        indir = 'output/filtering/kept'
+    log:
+        'output/logs/parameters/compare_defaults.log'
+    shell:
+        'stacks_parameters '
+        '--mode optim_n '
+        '-M 3 -m 3 -n 4 '
+        '-o {params.outdir} '
+        '--individuals 8 '
+        '--replicates 3 '
+        '--threads {threads} '
+        '--singularity_args \"{singularity_options}\" '
+        '{input.popmap} '
+        '{params.indir} '
+        '&> {log} '
+
 
 rule optim_n:
     input:
@@ -69,7 +104,7 @@ rule optim_n:
         outdir = 'output/parameters',
         indir = 'output/filtering/kept'
     log:
-        'output/logs/parameters/optim_mM.log'
+        'output/logs/parameters/optim_n.log'
     shell:
         'stacks_parameters '
         '--mode optim_n '
