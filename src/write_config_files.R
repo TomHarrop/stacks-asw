@@ -22,6 +22,8 @@ full_key <- fread(full_key_file)
 
 # fix spaces
 full_key[, sample := gsub("[[:space:]]", "-", sample)]
+full_key[grepl("\\.", sample), sample := gsub("\\.", "-", sample)]
+
 
 # add sample details
 full_key[, fc_lane := paste(flowcell, lane, sep = "_"),
@@ -50,7 +52,7 @@ sapply(names(split_key), function(x)
 fwrite(unique(full_key[control == "" & !grepl("\\.", sample)],
               by = "sample")[, .(
                   sample,
-                  tolower(gsub("[[:digit:]]+", "", sample)))],
+                  tolower(gsub("[^[:alpha:]]+", "", sample)))],
        paste0(outdir, "/population_map.txt"),
        sep = "\t",
        col.names = FALSE)
