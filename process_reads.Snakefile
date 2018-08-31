@@ -57,6 +57,7 @@ key_data = pandas.read_csv(key_file, delimiter='\t')
 
 # remove spaces from mararoa-downs
 key_data['sample'] = key_data['sample'].str.replace('\s', '-', regex=True)
+key_data['sample'] = key_data['sample'].str.replace('.', '-', regex=False)
 
 # add details for expected output
 key_data['fc_lane'] = key_data[[
