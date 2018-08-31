@@ -14,18 +14,6 @@ library(data.table)
 full_key_file <- snakemake@input[["key_file"]]
 outdir <- snakemake@params[["outdir"]]
 
-#############
-# FUNCTIONS #
-#############
-
-WriteConfig <- function(flowcell_lane, full_key, outdir) {
-    my_path <- paste0(outdir, "/", flowcell_lane, ".config")
-    fwrite(full_key[fc_lane == flowcell_lane, .(sample_fullname, barcode)],
-           my_path,
-           sep = "\t",
-           col.names = FALSE)
-}
-
 ########
 # MAIN #
 ########
@@ -53,7 +41,7 @@ full_key[, sample_fullname := paste(sample,
 # write config files
 split_key <- split(full_key, by = "fc_lane")
 sapply(names(split_key), function(x)
-    fwrite(split_key[[x]][, .(sample_fullname, barcode)],
+    fwrite(split_key[[x]][, .(barcode, sample_fullname)],
            paste0(outdir, "/", x, ".config"),
            sep = "\t",
            col.names = FALSE))

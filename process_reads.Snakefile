@@ -220,7 +220,7 @@ for fc_lane in all_fc_lanes:
                 'output/demux/{individual}.fq.gz',
                 individual=fc_name_to_sample_fullname[fc_lane])
         log:
-            'output/logs/demux_{0}.log'.format(fc_lane)
+            'output/logs/demux/{0}.log'.format(fc_lane)
         threads:
             1
         singularity:
@@ -251,6 +251,8 @@ rule write_config_files:
         population_map = 'output/stacks_config/population_map.txt'
     params:
         outdir = 'output/stacks_config'
+    log:
+        'output/logs/write_config_files.log'
     singularity:
         r_container
     script:
