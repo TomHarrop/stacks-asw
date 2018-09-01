@@ -191,6 +191,7 @@ rule trim_adaptors:
         ' | '
         'reformat.sh '
         'in=stdin.fq '
+        'int=f '
         'out=stdout.fq '
         'lhist={output.lhist} '
         '2> {log.lhist}'
