@@ -71,6 +71,7 @@ key_data['sample_fullname'] = key_data[[
 
 all_fc_lanes = sorted(set(key_data['fc_lane']))
 all_fullnames = sorted(set(key_data['sample_fullname']))
+all_individuals = sorted(set(key_data['sample']))
 
 # get a dict of fc to sample name
 col_to_fcl = key_data.to_dict()['fc_lane']
@@ -81,34 +82,12 @@ fc_name_to_sample_fullname = dict((k, []) for k in all_fc_lanes)
 for key in col_to_sn:
     fc_name_to_sample_fullname[col_to_fcl[key]].append(col_to_sn[key])
 
-# # get a list of fastq files
-# all_read_files = []
-# read_dir_files = list((dirpath, filenames)
-#                       for (dirpath, dirnames, filenames)
-#                       in os.walk(reads_dir))
-
-# for dirpath, filenames in read_dir_files:
-#     for filename in filenames:
-#         if 'fastq.gz' in filename:
-#             all_read_files.append(os.path.join(dirpath, filename))
-
-# # get dicts of flowcell_lane:sample and sample:flowcell_lane
-# fc_lane_to_sample = {}
-# sample_to_fc_lane = {}
-# for name, group in grouped_key_data:
-#     fc_lane = '_'.join([str(x) for x in name])
-#     sample_list = list(group['sample'])
-#     fc_lane_to_sample[fc_lane] = sample_list
-#     for sample in sample_list:
-#         sample_to_fc_lane[sample] = fc_lane
-
-# # get a list of samples
-# all_samples = sorted(set(x for x in sample_to_fc_lane.keys()
-#                          if any(list(sample_to_fc_lane[x] in y
-#                                      for y in all_read_files))))
-# all_fc_lanes = [x for x in fc_lane_to_sample
-#                 if any([x in y for y in all_read_files])]
-
+# get a dict of individual to sample_fullname
+individual_to_sample_fullname = dict((k, []) for k in all_individuals)
+for key in individual_to_sample_fullname:
+    individual_to_sample_fullname[key] = sorted(
+        set([x for x in all_fullnames
+             if re.sub('_.*', '', x) == key]))
 
 #########
 # RULES #
@@ -116,9 +95,9 @@ for key in col_to_sn:
 
 rule target:
     input:
-        expand(
-            'output/filtering/kept/{individual}.fq.gz',
-            individual=all_fullnames)
+        expand('output/combined/{individual}.fq.gz',
+               individual=all_individuals),
+        'output/run_stats/read_stats.txt'
   
 # 4. filter the population map
 # rule filter_samples:
@@ -136,45 +115,59 @@ rule target:
 #     script:
 #         'src/filter_population_map.R'
 
-# # 3. check number of reads per sample to filter out low coverage indivs
-# rule count_reads:
-#     input:
-#         tag_files = expand(
-#             'output/filtering/kept/{individual}.fq.gz',
-#             individual=all_samples)
-#     params:
-#         inline = lambda wildcards, input: ','.join(input.tag_files)
-#     output:
-#         'output/run_stats/read_stats.txt'
-#     log:
-#         'output/logs/statswrapper.log'
-#     singularity:
-#         'shub://TomHarrop/singularity-containers:bbmap_38.00'
-#     shell:
-#         'statswrapper.sh '
-#         'in={params.inline} '
-#         'out={output} '
-#         '2> {log}'
+# 3. check number of reads per sample to filter out low coverage indivs
+rule count_reads:
+    input:
+        tag_files = expand('output/combined/{individual}.fq.gz',
+                           individual=all_individuals)
+    params:
+        inline = lambda wildcards, input: ','.join(input.tag_files)
+    output:
+        read_counts = 'output/run_stats/read_stats.txt',
+        gc_hist = 'output/run_stats/gc_hist.txt'
+    log:
+        'output/logs/statswrapper.log'
+    singularity:
+        bbduk_container
+    shell:
+        'statswrapper.sh '
+        'in={params.inline} '
+        'out={output.read_counts} '
+        'gchist={output.gc_hist} '
+        'gcbins=80 '
+        '2> {log}'
+
+# 3 combine reads per-individual
+rule combine_reads:
+    input:
+        lambda wildcards: expand(
+            'output/demux/{sample_fullname}.fq.gz',
+            sample_fullname=individual_to_sample_fullname[wildcards.individual])
+    output:
+        'output/combined/{individual}.fq.gz'
+    shell:
+        'cat {input} > {output}'
 
 # # 2b. filter and truncate demuxed reads
 rule trim_adaptors:
     input:
-        'output/demux/{individual}.fq.gz'
+        'output/demux/{sample_fullname}.fq.gz'
     output:
-        kept = 'output/filtering/kept/{individual}.fq.gz',
-        discarded = 'output/filtering/discarded/{individual}.fq.gz',
-        adaptor_stats = 'output/filtering/adaptor_stats/{individual}.txt',
-        truncate_stats = 'output/filtering/truncate_stats/{individual}.txt',
-        gc_hist = 'output/filtering/gc_hist/{individual}.txt',
-        lhist = 'output/filtering/lhist/{individual}.txt'
+        kept = 'output/filtering/kept/{sample_fullname}.fq.gz',
+        discarded = 'output/filtering/discarded/{sample_fullname}.fq.gz',
+        adaptor_stats = 'output/filtering/adaptor_stats/{sample_fullname}.txt',
+        truncate_stats = ('output/filtering/truncate_stats/'
+                          '{sample_fullname}.txt'),
+        gc_hist = 'output/filtering/gc_hist/{sample_fullname}.txt',
+        lhist = 'output/filtering/lhist/{sample_fullname}.txt'
     params:
         adaptors = 'data/adaptors/bbduk_adaptors_plus_AgR_common.fa'
     singularity:
         bbduk_container
     log:
-        adaptors = 'output/logs/filtering/{individual}_adaptors.txt',
-        truncate = 'output/logs/filtering/{individual}_truncate.txt',
-        lhist = 'output/logs/filtering/{individual}_lhist.txt'
+        adaptors = 'output/logs/filtering/{sample_fullname}_adaptors.txt',
+        truncate = 'output/logs/filtering/{sample_fullname}_truncate.txt',
+        lhist = 'output/logs/filtering/{sample_fullname}_lhist.txt'
     threads:
         1
     shell:
@@ -219,8 +212,8 @@ for fc_lane in all_fc_lanes:
             config_file = 'output/stacks_config/{0}.config'.format(fc_lane)
         output:
             expand(
-                'output/demux/{individual}.fq.gz',
-                individual=fc_name_to_sample_fullname[fc_lane])
+                'output/demux/{sample_fullname}.fq.gz',
+                sample_fullname=fc_name_to_sample_fullname[fc_lane])
         log:
             'output/logs/demux/{0}.log'.format(fc_lane)
         threads:
