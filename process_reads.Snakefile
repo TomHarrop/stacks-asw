@@ -97,7 +97,8 @@ rule target:
     input:
         expand('output/combined/{individual}.fq.gz',
                individual=all_individuals),
-        'output/run_stats/read_stats.txt'
+        expand('output/individual_stats/reads/{individual}.txt',
+               individual=all_individuals)
   
 # 4. filter the population map
 # rule filter_samples:
@@ -115,33 +116,31 @@ rule target:
 #     script:
 #         'src/filter_population_map.R'
 
-# 3. check number of reads per sample to filter out low coverage indivs
+# 4. run reformat.sh to count reads and get a gc histogram
 rule count_reads:
     input:
-        tag_files = expand('output/combined/{individual}.fq.gz',
-                           individual=all_individuals)
-    params:
-        inline = lambda wildcards, input: ','.join(input.tag_files)
+        'output/combined/{individual}.fq.gz'
     output:
-        read_counts = 'output/run_stats/read_stats.txt',
-        gc_hist = 'output/run_stats/gc_hist.txt'
-    log:
-        'output/logs/statswrapper.log'
+        reads = 'output/individual_stats/reads/{individual}.txt',
+        gc = 'output/individual_stats/gc_hist/{individual}.txt'
+    threads:
+        1
     singularity:
         bbduk_container
     shell:
-        'statswrapper.sh '
-        'in={params.inline} '
-        'out={output.read_counts} '
-        'gchist={output.gc_hist} '
-        'gcbins=80 '
-        '2> {log}'
+        'reformat.sh '
+        'in={input} '
+        'int=f '
+        'out=/dev/null '
+        'gchist={output.gc} '
+        'gcbins=auto '
+        '2> {output.reads}'
 
 # 3 combine reads per-individual
 rule combine_reads:
     input:
         lambda wildcards: expand(
-            'output/demux/{sample_fullname}.fq.gz',
+            'output/filtering/kept/{sample_fullname}.fq.gz',
             sample_fullname=individual_to_sample_fullname[wildcards.individual])
     output:
         'output/combined/{individual}.fq.gz'
