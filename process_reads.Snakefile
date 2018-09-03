@@ -1,35 +1,11 @@
 #!/usr/bin/env python3
 
-import csv
-import numpy
-import os
 import pandas
-import pathlib2
-import pickle
 import re
-import shutil
-
 
 #############
 # FUNCTIONS #
 #############
-
-def get_full_path(binary):
-    which = shutil.which(binary)
-    # check if the binary exists
-    if not which:
-        raise EnvironmentError(
-            'Dependency {0} not found in $PATH'.format(binary))
-    # get the full path to binary
-    binary_path = pathlib2.Path(which).resolve()
-    return str(binary_path)
-
-
-def touch(fname, mode=0o666, dir_fd=None, **kwargs):
-    flags = os.O_CREAT | os.O_APPEND
-    with os.fdopen(os.open(fname, flags=flags, mode=mode, dir_fd=dir_fd)) as f:
-        os.utime(f.fileno() if os.utime in os.supports_fd else fname,
-                 dir_fd=None if os.supports_fd else dir_fd, **kwargs)
 
 
 ###########
@@ -38,10 +14,6 @@ def touch(fname, mode=0o666, dir_fd=None, **kwargs):
 
 # files and folders
 key_file = 'data/reads/SQ0727.txt'
-filtered_popmap = 'output/stacks_config/filtered_populations.txt'
-
-# filtering parameters
-r_values = list(str(x) for x in numpy.arange(0, 1.01, 0.1))
 
 # containers
 stacks_container = 'shub://TomHarrop/singularity-containers:stacks_2.0b'
@@ -95,23 +67,23 @@ for key in individual_to_sample_fullname:
 
 rule target:
     input:
-        'output/combined_stats/reads.csv'
+        'output/stacks_config/filtered_population_map.txt'
   
 # 4. filter the population map
-# rule filter_samples:
-#     input:
-#         stats = 'output/run_stats/read_stats.txt',
-#         popmap = 'output/stacks_config/population_map.txt'
-#     params:
-#         sample_dir = 'output/demux',
-#     output:
-#         map = filtered_popmap,
-#         plot = 'output/run_stats/read_count_histogram.pdf',
-#         pop_counts = 'output/run_stats/individuals_per_population.csv'
-#     singularity:
-#         'shub://TomHarrop/singularity-containers:r_3.5.0'
-#     script:
-#         'src/filter_population_map.R'
+rule filter_samples:
+    input:
+        popmap = 'output/stacks_config/population_map.txt',
+        read_stats = 'output/combined_stats/reads.csv',
+        gc_stats = 'output/combined_stats/gc_stats.csv'
+    output:
+        map = 'output/stacks_config/filtered_population_map.txt',
+        plot = 'output/combined_stats/read_count_histogram.pdf'
+    log:
+        'output/logs/filter_samples.log'
+    singularity:
+        r_container
+    script:
+        'src/filter_population_map.R'
 
 # 4. run reformat.sh to count reads and get a gc histogram
 rule combine_individual_stats:
