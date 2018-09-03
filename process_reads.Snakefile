@@ -95,10 +95,7 @@ for key in individual_to_sample_fullname:
 
 rule target:
     input:
-        expand('output/combined/{individual}.fq.gz',
-               individual=all_individuals),
-        expand('output/individual_stats/reads/{individual}.txt',
-               individual=all_individuals)
+        'output/combined_stats/reads.csv'
   
 # 4. filter the population map
 # rule filter_samples:
@@ -117,6 +114,25 @@ rule target:
 #         'src/filter_population_map.R'
 
 # 4. run reformat.sh to count reads and get a gc histogram
+rule combine_individual_stats:
+    input:
+        read_stats = expand('output/individual_stats/reads/{individual}.txt',
+                            individual=all_individuals),
+        gc_stats = expand('output/individual_stats/gc_hist/{individual}.txt',
+                          individual=all_individuals)
+    output:
+        read_stats = 'output/combined_stats/reads.csv',
+        gc_stats = 'output/combined_stats/gc_stats.csv',
+        gc_hist = 'output/combined_stats/gc_hist.csv'
+    log:
+        'output/logs/combine_individual_stats.log'
+    threads:
+        1
+    singularity:
+        r_container
+    script:
+        'src/combine_individual_stats.R'
+
 rule count_reads:
     input:
         'output/combined/{individual}.fq.gz'
@@ -124,6 +140,8 @@ rule count_reads:
         reads = 'output/individual_stats/reads/{individual}.txt',
         gc = 'output/individual_stats/gc_hist/{individual}.txt'
     threads:
+        1
+    priority:
         1
     singularity:
         bbduk_container
