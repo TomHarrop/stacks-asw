@@ -23,15 +23,15 @@ TouchFlagFile <- function(individual, flag_dir) {
 ###########
 
 popmap_file <- snakemake@input[["popmap"]]
-sample_dir <- snakemake@params[["sample_dir"]]
-stats_file <- snakemake@input[["stats"]]
+read_stats_file <- snakemake@input[["read_stats"]]
+gc_stats_file <- snakemake@input[["gc_stats"]]
 filtered_population_map <- snakemake@output[["map"]]
 plot_file <- snakemake@output[["plot"]]
-pop_counts <- snakemake@output[["pop_counts"]]
 
-popmap_file <- "output/stacks_config/population_map.txt"
-read_stats_file <- "output/combined_stats/reads.csv"
-gc_stats_file <- "output/combined_stats/gc_stats.csv"
+# dev
+# popmap_file <- "output/stacks_config/population_map.txt"
+# read_stats_file <- "output/combined_stats/reads.csv"
+# gc_stats_file <- "output/combined_stats/gc_stats.csv"
 
 ########
 # MAIN #
