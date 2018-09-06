@@ -32,7 +32,7 @@ all_indivs = sorted(set(popmap['individual']))
 
 rule target:
     input:
-        'output/parameters/stats_n/samplestats_combined.csv'
+        'output/parameters/compare_defaults/optimised_samplestats_combined.csv'
 
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
