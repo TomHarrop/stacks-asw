@@ -10,8 +10,6 @@ import pathlib2
 reads_dir = 'data/raw_reads'
 filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
 
-
-
 #########
 # SETUP #
 #########

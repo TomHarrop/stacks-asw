@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import pandas
+import pickle
 import re
 
 #############
@@ -67,8 +68,24 @@ for key in individual_to_sample_fullname:
 
 rule target:
     input:
-        'output/stacks_config/filtered_population_map.txt'
-  
+        'output/stacks_config/filtered_population_map.txt',
+        'output/stacks_config/individual_i.p'
+
+
+# 5. make a dictionary of sample:i for cstacks
+rule enumerate_filtered_samples:
+    input:
+        key_file
+    output:
+        pickle = 'output/stacks_config/individual_i.p'
+    run:
+        # count the individuals
+        my_individuals = enumerate(all_individuals)
+        individual_i = {y: x for x, y in my_individuals}
+        # pickle the individual_i dict for other rules to use
+        with open(output.pickle, 'wb+') as f:
+            pickle.dump(individual_i, f)
+
 # 4. filter the population map
 rule filter_samples:
     input:
