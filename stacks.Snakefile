@@ -235,7 +235,6 @@ rule ustacks:
     output:
         'output/stacks_denovo/{individual}.alleles.tsv.gz',
         'output/stacks_denovo/{individual}.snps.tsv.gz',
-        'output/stacks_denovo/{individual}.models.tsv.gz',
         'output/stacks_denovo/{individual}.tags.tsv.gz'
     threads:
         1
