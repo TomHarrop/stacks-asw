@@ -37,35 +37,35 @@ rule target:
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
 
-# rule compare_defaults:
-#     input:
-#         'output/parameters/filtering/replicate_1_popmap.txt',
-#         'output/parameters/stats_Mm/samplestats_combined.csv',
-#         'output/parameters/stats_n/samplestats_combined.csv',
-#         process_reads(expand('output/filtering/kept/{individual}.fq.gz',
-#                              individual=all_samples)),
-#         popmap = process_reads('output/stacks_config/filtered_populations.txt')
-#     output:
-#         'output/parameters/compare_defaults/optimised_samplestats_combined.csv'
-#     threads:
-#         50
-#     params:
-#         outdir = 'output/parameters',
-#         indir = 'output/filtering/kept'
-#     log:
-#         'output/logs/parameters/compare_defaults.log'
-#     shell:
-#         'stacks_parameters '
-#         '--mode compare_defaults '
-#         '-M 3 -m 3 -n 4 '
-#         '-o {params.outdir} '
-#         '--individuals 8 '
-#         '--replicates 3 '
-#         '--threads {threads} '
-#         '--singularity_args \"{singularity_options}\" '
-#         '{input.popmap} '
-#         '{params.indir} '
-#         '&> {log} '
+rule compare_defaults:
+    input:
+        'output/parameters/filtering/replicate_1_popmap.txt',
+        'output/parameters/stats_Mm/samplestats_combined.csv',
+        'output/parameters/stats_n/samplestats_combined.csv',
+        process_reads(expand('output/combined/{individual}.fq.gz',
+                             individual=all_indivs)),
+        popmap = process_reads('output/stacks_config/filtered_population_map.txt')
+    output:
+        'output/parameters/compare_defaults/optimised_samplestats_combined.csv'
+    threads:
+        50
+    params:
+        outdir = 'output/parameters',
+        indir = 'output/combined'
+    log:
+        'output/logs/parameters/compare_defaults.log'
+    shell:
+        'stacks_parameters '
+        '--mode compare_defaults '
+        '-M 3 -m 3 -n 4 '
+        '-o {params.outdir} '
+        '--individuals 20 '
+        '--replicates 3 '
+        '--threads {threads} '
+        '--singularity_args \"{singularity_args}\" '
+        '{input.popmap} '
+        '{params.indir} '
+        '&> {log} '
 
 
 rule optim_n:
