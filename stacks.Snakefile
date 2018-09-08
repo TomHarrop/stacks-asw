@@ -84,7 +84,7 @@ subworkflow process_reads:
 rule gstacks:
     input:
         expand('output/stacks_denovo/{individual}.matches.bam',
-               individual=all_indivs)
+               individual=all_indivs),
         map = filtered_popmap
     output:
         'output/stacks_denovo/catalog.fa.gz',
