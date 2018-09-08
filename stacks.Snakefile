@@ -41,9 +41,7 @@ all_indivs = sorted(set(popmap['individual']))
 
 rule target:
     input:
-        'output/stacks_denovo/catalog.tags.tsv.gz',
-        'output/run_stats/individual_covstats_combined.csv',
-        'output/individual_stats/individual_stats_combined.csv'
+        'output/stacks_denovo/catalog.fa.gz'
 
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
@@ -83,73 +81,75 @@ subworkflow process_reads:
 #         '&> {log}'
 
 # # 11. generate final catalog
-# rule gstacks:
-#     input:
-#         dynamic('output/stacks_denovo/{dyn_indiv3}.matches.bam'),
-#         map = filtered_popmap
-#     output:
-#         'output/stacks_denovo/gstacks.fa.gz',
-#         'output/stacks_denovo/gstacks.vcf.gz'
-#     params:
-#         stacks_dir = 'output/stacks_denovo'
-#     threads:
-#         75
-#     log:
-#         'output/logs/gstacks.log'
-#     singularity:
-#             stacks_container
-#     shell:
-#         'gstacks '
-#         '-P {params.stacks_dir} '
-#         '-M {input.map} '
-#         '-t {threads} '
-#         '&> {log}'
+rule gstacks:
+    input:
+        expand('output/stacks_denovo/{individual}.matches.bam',
+               individual=all_indivs)
+        map = filtered_popmap
+    output:
+        'output/stacks_denovo/catalog.fa.gz',
+        'output/stacks_denovo/catalog.calls'
+    params:
+        stacks_dir = 'output/stacks_denovo'
+    threads:
+        75
+    log:
+        'output/logs/gstacks.log'
+    singularity:
+            stacks_container
+    shell:
+        'gstacks '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-t {threads} '
+        '&> {log}'
 
 # # 10. convert matches to BAM
-# rule tsv2bam:
-#     input:
-#         dynamic('output/stacks_denovo/{dyn_indiv2}.matches.tsv.gz'),
-#         map = filtered_popmap
-#     output:
-#         dynamic('output/stacks_denovo/{dyn_indiv3}.matches.bam')
-#     params:
-#         stacks_dir = 'output/stacks_denovo'
-#     threads:
-#         75
-#     log:
-#         'output/logs/tsv2bam{dyn_indiv3}.log'
-#     singularity:
-#             stacks_container
-#     shell:
-#         'tsv2bam '
-#         '-P {params.stacks_dir} '
-#         '-M {input.map} '
-#         '-t {threads} '
-#         '&> {log}'
+rule tsv2bam:
+    input:
+        expand('output/stacks_denovo/{individual}.matches.tsv.gz',
+               individual=all_indivs),
+        map = filtered_popmap
+    output:
+        expand('output/stacks_denovo/{individual}.matches.bam',
+               individual=all_indivs)
+    params:
+        stacks_dir = 'output/stacks_denovo'
+    threads:
+        75
+    log:
+        'output/logs/tsv2bam{dyn_indiv3}.log'
+    singularity:
+            stacks_container
+    shell:
+        'tsv2bam '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-t {threads} '
+        '&> {log}'
 
 # # 9. match individuals to the catalog
-# rule sstacks:
-#     input:
-#         'output/stacks_denovo/batch_1.catalog.tags.tsv.gz',
-#         'output/stacks_denovo/batch_1.catalog.snps.tsv.gz',
-#         'output/stacks_denovo/batch_1.catalog.alleles.tsv.gz',
-#         map = filtered_popmap
-#     output:
-#         dynamic('output/stacks_denovo/{dyn_indiv2}.matches.tsv.gz')
-#     params:
-#         stacks_dir = 'output/stacks_denovo'
-#     threads:
-#         75
-#     log:
-#         'output/logs/sstacks{dyn_indiv2}.log'
-#     singularity:
-#             stacks_container
-#     shell:
-#         'sstacks '
-#         '-P {params.stacks_dir} '
-#         '-M {input.map} '
-#         '-p {threads} '
-#         '&> {log}'
+rule sstacks:
+    input:
+        'output/stacks_denovo/catalog.tags.tsv.gz',
+        map = filtered_popmap
+    output:
+        expand('output/stacks_denovo/{individual}.matches.tsv.gz',
+               individual=all_indivs)
+    params:
+        stacks_dir = 'output/stacks_denovo'
+    threads:
+        75
+    log:
+        'output/logs/sstacks.log'
+    singularity:
+            stacks_container
+    shell:
+        'sstacks '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-p {threads} '
+        '&> {log}'
 
 # # 8. generate the catalog (takes ~ 1 week)
 rule cstacks:
@@ -183,33 +183,33 @@ rule cstacks:
         '&> {log}'
 
 # # 7d. combine individual coverage stats
-rule individual_covstats_combined:
-    input:
-        expand('output/individual_covstats/{individual}.csv',
-               individual=all_indivs)
-    output:
-        combined = 'output/run_stats/individual_covstats_combined.csv'
-    priority:
-        1
-    singularity:
-        r_container
-    script:
-        'src/combine_csvs.R'
+# rule individual_covstats_combined:
+#     input:
+#         expand('output/individual_covstats/{individual}.csv',
+#                individual=all_indivs)
+#     output:
+#         combined = 'output/run_stats/individual_covstats_combined.csv'
+#     priority:
+#         1
+#     singularity:
+#         r_container
+#     script:
+#         'src/combine_csvs.R'
 
-# # 7c. calculate coverage stats per individual
-rule individual_covstats:
-    input:
-        tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
-    output:
-        covstats = 'output/individual_covstats/{individual}.csv'
-    log:
-        log = 'output/logs/individual_covstats/{individual}.log'
-    threads:
-        1
-    singularity:
-        r_container
-    script:
-        'src/calculate_mean_coverage.R'
+# # # 7c. calculate coverage stats per individual
+# rule individual_covstats:
+#     input:
+#         tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
+#     output:
+#         covstats = 'output/individual_covstats/{individual}.csv'
+#     log:
+#         log = 'output/logs/individual_covstats/{individual}.log'
+#     threads:
+#         1
+#     singularity:
+#         r_container
+#     script:
+#         'src/calculate_mean_coverage.R'
 
 # # 7b. combine individual assembly stats
 rule individual_stats_combined:
