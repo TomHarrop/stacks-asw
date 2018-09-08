@@ -118,7 +118,7 @@ rule tsv2bam:
     threads:
         75
     log:
-        'output/logs/tsv2bam{dyn_indiv3}.log'
+        'output/logs/tsv2bam.log'
     singularity:
             stacks_container
     shell:
