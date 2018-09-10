@@ -19,14 +19,14 @@ CalculateCovstats <- function(tags_file) {
     individual <- gsub("^([^\\.]+).+", "\\1", basename(tags_file))
     
     # get a list of non-blacklisted loci
-    my_loci <- my_tags[V12 != 1 & V13 != 1, unique(V3)]
+    my_loci <- my_tags[V8 != 1 & V9 != 1, unique(V2)]
     
     # count the unique reads
-    total_reads <- my_tags[V3 %in% my_loci & V9 != "",
-                           length(unique(V9))]
-    final_coverage <- my_tags[V3 %in% my_loci & V9 != "",
-                              length(unique(V9)),
-                              by = V3][, mean(V1)]
+    total_reads <- my_tags[V2 %in% my_loci & V5 != "",
+                           length(unique(V5))]
+    final_coverage <- my_tags[V2 %in% my_loci & V5 != "",
+                              length(unique(V5)),
+                              by = V2][, mean(V1)]
     
     # make the table
     return(

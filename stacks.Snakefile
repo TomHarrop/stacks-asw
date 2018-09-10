@@ -20,7 +20,10 @@ reads_dir = 'data/raw_reads'
 filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
 
 # containers
-stacks_container = 'shub://TomHarrop/singularity-containers:stacks_2.0b'
+stacks_container = ('shub://TomHarrop/singularity-containers:stacks_2.0b'
+                    '@099f0c7d8c8ff2baf7ad763ad7bcd17b')
+stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
+                         '@bb2f9183318871f6228b51104056a2d0')
 r_container = 'shub://TomHarrop/singularity-containers:r_3.5.0'
 
 
@@ -48,37 +51,31 @@ subworkflow process_reads:
 
 
 # # 12. filter the final catalog by r
-# rule populations:
-#     input:
-#         'output/stacks_denovo/gstacks.fa.gz',
-#         'output/stacks_denovo/gstacks.vcf.gz',
-#         map = filtered_popmap
-#     output:
-#         'output/stacks_populations/r{r}/populations.sumstats_summary.tsv',
-#         'output/stacks_populations/r{r}/populations.markers.tsv',
-#         'output/stacks_populations/r{r}/populations.hapstats.tsv',
-#         'output/stacks_populations/r{r}/populations.sumstats.tsv',
-#         'output/stacks_populations/r{r}/populations.haplotypes.tsv',
-#         'output/stacks_populations/r{r}/populations.snps.genepop',
-#         'output/stacks_populations/r{r}/populations.snps.vcf'
-#     params:
-#         stacks_dir = 'output/stacks_denovo',
-#         outdir = 'output/stacks_populations/r{r}'
-#     threads:
-#         10
-#     log:
-#         'output/logs/populations_r{r}.log'
-#     singularity:
-#         stacks_container
-#     shell:
-#         'populations '
-#         '-P {params.stacks_dir} '
-#         '-M {input.map} '
-#         '-O {params.outdir} '
-#         '-t {threads} '
-#         '-r {wildcards.r} '
-#         '--genepop --vcf '
-#         '&> {log}'
+rule populations:
+    input:
+        'output/stacks_denovo/catalog.fa.gz',
+        'output/stacks_denovo/catalog.calls'
+        map = filtered_popmap
+    output:
+        'output/stacks_populations/r0/populations.snps.vcf'
+    params:
+        stacks_dir = 'output/stacks_denovo',
+        outdir = 'output/stacks_populations/r0'
+    threads:
+        75
+    log:
+        'output/logs/populations_r0.log'
+    singularity:
+        stacks2beta_container
+    shell:
+        'populations '
+        '-P {params.stacks_dir} '
+        '-M {input.map} '
+        '-O {params.outdir} '
+        '-t {threads} '
+        '-r 0 '
+        '--genepop --vcf '
+        '&> {log}'
 
 # # 11. generate final catalog
 rule gstacks:
@@ -96,7 +93,7 @@ rule gstacks:
     log:
         'output/logs/gstacks.log'
     singularity:
-            stacks_container
+        stacks_container
     shell:
         'gstacks '
         '-P {params.stacks_dir} '
