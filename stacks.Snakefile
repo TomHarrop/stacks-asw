@@ -44,7 +44,8 @@ all_indivs = sorted(set(popmap['individual']))
 
 rule target:
     input:
-        'output/stacks_denovo/catalog.fa.gz'
+        'output/stacks_populations/r0/populations.snps.vcf',
+        'output/combined_stats/individual_covstats_combined.csv'
 
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
@@ -54,7 +55,7 @@ subworkflow process_reads:
 rule populations:
     input:
         'output/stacks_denovo/catalog.fa.gz',
-        'output/stacks_denovo/catalog.calls'
+        'output/stacks_denovo/catalog.calls',
         map = filtered_popmap
     output:
         'output/stacks_populations/r0/populations.snps.vcf'
@@ -179,63 +180,63 @@ rule cstacks:
         '-n {params.n} '
         '&> {log}'
 
-# # 7d. combine individual coverage stats
-# rule individual_covstats_combined:
-#     input:
-#         expand('output/individual_covstats/{individual}.csv',
-#                individual=all_indivs)
-#     output:
-#         combined = 'output/run_stats/individual_covstats_combined.csv'
-#     priority:
-#         1
-#     singularity:
-#         r_container
-#     script:
-#         'src/combine_csvs.R'
-
-# # # 7c. calculate coverage stats per individual
-# rule individual_covstats:
-#     input:
-#         tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
-#     output:
-#         covstats = 'output/individual_covstats/{individual}.csv'
-#     log:
-#         log = 'output/logs/individual_covstats/{individual}.log'
-#     threads:
-#         1
-#     singularity:
-#         r_container
-#     script:
-#         'src/calculate_mean_coverage.R'
-
-# # 7b. combine individual assembly stats
-rule individual_stats_combined:
+# 7d. combine individual coverage stats
+rule individual_covstats_combined:
     input:
-        expand('output/individual_stats/{individual}.csv',
+        expand('output/individual_covstats/{individual}.csv',
                individual=all_indivs)
+    output:
+        combined = 'output/combined_stats/individual_covstats_combined.csv'
     priority:
         1
-    output:
-        combined = 'output/individual_stats/individual_stats_combined.csv'
     singularity:
         r_container
     script:
         'src/combine_csvs.R'
 
-# 7a. calculate assembly stats per individual
-rule individual_stats:
+# # 7c. calculate coverage stats per individual
+rule individual_covstats:
     input:
-        alleles_file = 'output/stacks_denovo/{individual}.alleles.tsv.gz',
-        snps_file = 'output/stacks_denovo/{individual}.snps.tsv.gz',
         tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
     output:
-        sample_stats = 'output/individual_stats/{individual}.csv'
+        covstats = 'output/individual_covstats/{individual}.csv'
     log:
-        log = 'output/logs/individual_stats/{individual}.log'
+        log = 'output/logs/individual_covstats/{individual}.log'
     threads:
         1
+    singularity:
+        r_container
     script:
-        'src/stacks_individual_stats.R'
+        'src/calculate_mean_coverage.R'
+
+# # 7b. combine individual assembly stats
+# rule individual_stats_combined:
+#     input:
+#         expand('output/individual_stats/{individual}.csv',
+#                individual=all_indivs)
+#     priority:
+#         1
+#     output:
+#         combined = 'output/individual_stats/individual_stats_combined.csv'
+#     singularity:
+#         r_container
+#     script:
+#         'src/combine_csvs.R'
+
+# # 7a. calculate assembly stats per individual
+# rule individual_stats:
+#     input:
+#         alleles_file = 'output/stacks_denovo/{individual}.alleles.tsv.gz',
+#         snps_file = 'output/stacks_denovo/{individual}.snps.tsv.gz',
+#         tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
+#     output:
+#         sample_stats = 'output/individual_stats/{individual}.csv'
+#     log:
+#         log = 'output/logs/individual_stats/{individual}.log'
+#     threads:
+#         1
+#     script:
+#         'src/stacks_individual_stats.R'
 
 # 7. assemble loci for individuals that passed the filter
 rule ustacks:
