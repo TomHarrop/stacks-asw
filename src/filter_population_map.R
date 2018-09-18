@@ -1,5 +1,11 @@
 #!/usr/bin/env Rscript
 
+# set log
+log <- file(snakemake@log[[1]], open = "wt")
+sink(log, type = "message")
+sink(log, append = TRUE, type = "output")
+
+
 library(data.table)
 library(ggplot2)
 
@@ -17,15 +23,15 @@ TouchFlagFile <- function(individual, flag_dir) {
 ###########
 
 popmap_file <- snakemake@input[["popmap"]]
-sample_dir <- snakemake@params[["sample_dir"]]
-stats_file <- snakemake@input[["stats"]]
+read_stats_file <- snakemake@input[["read_stats"]]
+gc_stats_file <- snakemake@input[["gc_stats"]]
 filtered_population_map <- snakemake@output[["map"]]
 plot_file <- snakemake@output[["plot"]]
-pop_counts <- snakemake@output[["pop_counts"]]
 
+# dev
 # popmap_file <- "output/stacks_config/population_map.txt"
-# sample_dir <- "output/demux"
-# stats_file <- "output/run_stats/read_stats.txt"
+# read_stats_file <- "output/combined_stats/reads.csv"
+# gc_stats_file <- "output/combined_stats/gc_stats.csv"
 
 ########
 # MAIN #
@@ -35,34 +41,26 @@ pop_counts <- snakemake@output[["pop_counts"]]
 popmap <- fread(popmap_file,
                 header = FALSE,
                 col.names = c("sample_name", "population"))
+read_stats <- fread(read_stats_file)
+gc_stats <- fread(gc_stats_file)
 
-# find paths for sample files
-sample_files <- list.files(path = sample_dir, full.names = TRUE)
-file_names <- data.table(filepath = sample_files,
-                         sample_name = sapply(sample_files, function(x)
-                             strsplit(basename(x), ".", fixed = TRUE)[[1]][1]))
-all_samples <- merge(popmap, file_names, all.x = TRUE, all.y = FALSE)
-all_samples[, bn := basename(filepath)]
+# filter by 0.5e6 < read count < 2e6
+keep_reads <- read_stats[!is.na(reads) & 
+                             0.5e6 < reads &
+                             reads < 2e6,
+                         unique(individual)]
 
-# read the stats results
-stats <- fread(stats_file)
-stats[, bn := basename(filename)]
+# filter by median gc < 45
+keep_gc <- gc_stats[Median <= 45, unique(individual)]
 
-# merge the read counts
-samples_with_readcount <- merge(all_samples,
-                                stats[, .(bn, reads = n_scaffolds)],
-                                by = "bn",
-                                all.x = TRUE,
-                                all.y = FALSE)
-
-# filter samples by read count
-filter <- 1857817 # 95% of samples with > 1857817 reads have mean coverage > 10
-filtered_samples <- samples_with_readcount[!is.na(reads)][reads > filter]
+# produce a filtered popmap
+filtered_popmap <- data.table(individual = intersect(keep_reads, keep_gc))
+filtered_popmap[, population := gsub("[^[:alpha:]]+", "", individual)]
 
 # do a log4 transform for plotting
-hist_data <- samples_with_readcount[!is.na(reads),
-                                    .(l4reads = log(reads, 4)),
-                                    by = sample_name]
+hist_data <- read_stats[!is.na(reads),
+                        .(l4reads = log(reads, 4)),
+                        by = individual]
 bins <- 100
 qa <- hist_data[, seq(min(l4reads),
                       max(l4reads),
@@ -74,18 +72,18 @@ hist_data[, lbin := as.numeric(
         cut(l4reads, breaks = qa,
             labels = bin_labels,
             include.lowest = TRUE)))]
-lhist_log4 <- hist_data[, .(count = length(sample_name)), by = lbin]
+lhist_log4 <- hist_data[, .(count = length(individual)), by = lbin]
 
 # plot the histogram
-filter_level <- as.numeric(cut(log(filter, 4), breaks = qa, labels = bin_labels))
+filter_level <- as.numeric(cut(log(0.5e6, 4), breaks = qa, labels = bin_labels))
 filter_plot <- mean(bin_labels[c(filter_level, filter_level + 1)])
 
 gt <- paste0(
     "'",
-    samples_with_readcount[, length(unique(sample_name))],
+    read_stats[, length(unique(individual))],
     " individuals. '*",
-    "'Filter: ", filter, " reads. ",
-    filtered_samples[, length(unique(sample_name))],
+    "'Filter: ", 0.5e6, " reads. ",
+    filtered_popmap[, length(unique(individual))],
     " individuals passed.'"
 )
 gp <- ggplot(lhist_log4, aes(x = lbin, y = count)) +
@@ -97,15 +95,10 @@ gp <- ggplot(lhist_log4, aes(x = lbin, y = count)) +
     geom_col()
 
 # write output
-fwrite(filtered_samples[, .(sample_name, population)],
+fwrite(filtered_popmap,
        filtered_population_map,
        col.names = FALSE,
        sep = "\t")
-
-fwrite(
-    filtered_samples[, .(indivduals = length(unique(sample_name))),
-                     by = population],
-    pop_counts)
 
 ggsave(filename = plot_file,
        plot = gp,
@@ -114,3 +107,5 @@ ggsave(filename = plot_file,
        height = 7.5,
        units = "in")
 
+# log
+sessionInfo()
