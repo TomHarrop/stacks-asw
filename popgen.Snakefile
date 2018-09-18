@@ -51,7 +51,6 @@ rule convert_to_plink:
     shell:
         'cd {params.workdir} || exit 1 ; '
         'plink '
-        '--noweb '
         '--ped snps.ped '
         '--map snps.map '
         '--recode A '
