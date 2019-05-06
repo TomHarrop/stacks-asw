@@ -1,6 +1,6 @@
 import pandas
 import pickle
-
+import multiprocessing
 
 #############
 # FUNCTIONS #
@@ -20,12 +20,11 @@ reads_dir = 'data/raw_reads'
 filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
 
 # containers
-stacks_container = ('shub://TomHarrop/singularity-containers:stacks_2.0b'
-                    '@099f0c7d8c8ff2baf7ad763ad7bcd17b')
+stacks_container = ('shub://TomHarrop/singularity-containers:stacks_2.3e')
 stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
                          '@bb2f9183318871f6228b51104056a2d0')
 r_container = 'shub://TomHarrop/singularity-containers:r_3.5.0'
-
+bwa_container = 'shub://TomHarrop/singularity-containers:bwa_0.7.17'
 
 #########
 # SETUP #
@@ -54,20 +53,20 @@ subworkflow process_reads:
 # # 12. filter the final catalog by r
 rule populations:
     input:
-        'output/stacks_denovo/catalog.fa.gz',
-        'output/stacks_denovo/catalog.calls',
+        'output/map_to_genome/catalog.fa.gz',
+        'output/map_to_genome/catalog.calls',
         map = filtered_popmap
     output:
         'output/stacks_populations/r0/populations.snps.vcf'
     params:
-        stacks_dir = 'output/stacks_denovo',
+        stacks_dir = 'output/map_to_genome',
         outdir = 'output/stacks_populations/r0'
     threads:
         75
     log:
         'output/logs/populations_r0.log'
     singularity:
-        stacks2beta_container
+        stacks_container
     shell:
         'populations '
         '-P {params.stacks_dir} '
@@ -77,6 +76,98 @@ rule populations:
         '-r 0 '
         '--genepop --vcf '
         '&> {log}'
+
+# 11b map the catalog to the draft genome
+rule integrate_alignments:
+    input:
+        fa = 'output/stacks_denovo/catalog.fa.gz',
+        bam = 'output/map_to_genome/aln.bam',
+    output:
+        catalog = 'output/map_to_genome/catalog.fa.gz',
+        tsv = 'output/map_to_genome/locus_coordinates.tsv',
+        calls = 'output/map_to_genome/catalog.calls'
+    params:
+        stacks_dir = 'output/stacks_denovo',
+        out_dir = 'output/map_to_genome'
+    threads:
+        1
+    log:
+        'output/logs/integrate_alignments.log'
+    singularity:
+        stacks_container
+    shell:
+        'stacks-integrate-alignments '
+        '-P {params.stacks_dir} '
+        '-B {input.bam} '
+        '-O {params.out_dir} '
+        '&> {log}' 
+
+rule sam_to_bam:
+    input:
+        aln = 'output/map_to_genome/aln.sam'
+    output:
+        bam = 'output/map_to_genome/aln.bam',
+    threads:
+        1
+    log:
+        'output/logs/sam_to_bam.log'
+    singularity:
+        stacks_container
+    shell:
+        'samtools view '
+        '--threads {threads} '
+        '-O BAM '
+        '-bh '
+        '{input.aln} '
+        '> {output.bam} '
+        '2> {log}'
+
+
+rule map_stacks_catalog:
+    input:
+        fa = 'output/stacks_denovo/catalog.fa.gz',
+        index = expand('output/map_to_genome/draft_genome.fasta.{suffix}',
+                       suffix=['amb', 'ann', 'bwt', 'pac', 'sa'])
+
+    output:
+        temp('output/map_to_genome/aln.sam')
+    params:
+        prefix = 'output/map_to_genome/draft_genome.fasta',
+    threads:
+        multiprocessing.cpu_count()
+    log:
+        'output/logs/map_stacks_catalog.log'
+    singularity:
+        bwa_container
+    shell:
+        'bwa mem '
+        '-t {threads} '
+        '{params.prefix} '
+        '{input.fa} '
+        '> {output} '
+        '2> {log}'
+
+
+rule bwa_index:
+    input:
+        'data/draft_genome.fasta'
+    output:
+        expand('output/map_to_genome/draft_genome.fasta.{suffix}',
+               suffix=['amb', 'ann', 'bwt', 'pac', 'sa'])
+    params:
+        prefix = 'output/map_to_genome/draft_genome.fasta'
+    threads:
+        1
+    log:
+        'output/logs/bwa_index.log'
+    singularity:
+        bwa_container
+    shell:
+        'bwa index '
+        '-p {params.prefix} '
+        '{input} '
+        '2> {log}'
+
 
 # # 11. generate final catalog
 rule gstacks:

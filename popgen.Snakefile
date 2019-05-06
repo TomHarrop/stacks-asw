@@ -4,8 +4,7 @@
 # GLOBALS #
 ###########
 
-bioc_container = ('shub://TomHarrop/singularity-containers:bioconductor_3.7'
-                  '@4754a2ac0d50224a34efea38d47271e6')
+bioc_container = ('shub://TomHarrop/singularity-containers:bioconductor_3.7')
 plink_container = 'shub://TomHarrop/singularity-containers:plink_1.09beta5'
 
 #########
