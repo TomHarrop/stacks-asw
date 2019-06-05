@@ -4,8 +4,11 @@
 # GLOBALS #
 ###########
 
-bioc_container = ('shub://TomHarrop/singularity-containers:bioconductor_3.7')
+bioc_container = ('shub://TomHarrop/singularity-containers:'
+                  'bioconductor_3.9')
 plink_container = 'shub://TomHarrop/singularity-containers:plink_1.09beta5'
+stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
+                         '@bb2f9183318871f6228b51104056a2d0')
 
 #########
 # RULES #
@@ -17,7 +20,8 @@ subworkflow stacks:
 
 rule target:
     input:
-        'output/popgen/dapc.pdf'
+        #'output/popgen/dapc.pdf'
+        'output/popgen/stacks_populations/populations.snps.vcf'
 
 rule dapc:
     input:
@@ -34,6 +38,52 @@ rule dapc:
         bioc_container
     script:
         'src/dapc.R'
+
+rule populations:
+    input:
+        'output/stacks_denovo/catalog.fa.gz',
+        'output/stacks_denovo/catalog.calls',
+        popmap = 'output/popgen/popmap.txt',
+        whitelist = 'output/popgen/whitelist.txt'
+    output:
+        'output/popgen/stacks_populations/populations.snps.vcf'
+    params:
+        stacks_dir = 'output/stacks_denovo',
+        outdir = 'output/popgen/stacks_populations'
+    threads:
+        75
+    log:
+        'output/logs/popgen/stacks_populations.log'
+    singularity:
+        stacks2beta_container
+    shell:
+        'populations '
+        '-P {params.stacks_dir} '
+        '-M {input.popmap} '
+        '-O {params.outdir} '
+        '-W {input.whitelist} '
+        '-t {threads} '
+        '-r 0 '
+        '--genepop '
+        '--plink '
+        '--vcf '
+        '--hwe '
+        '--fstats '
+        '--fasta_loci '
+        '&> {log}'
+
+rule generate_whitelist:
+    input:
+        plink = 'output/popgen/plink.raw'
+    output:
+        whitelist = 'output/popgen/whitelist.txt',
+        popmap = 'output/popgen/popmap.txt'
+    log:
+        'output/logs/generate_whitelist.log'
+    singularity:
+        bioc_container
+    script:
+        'src/generate_whitelist.R'
 
 rule convert_to_plink:
     input:
@@ -53,7 +103,7 @@ rule convert_to_plink:
         '--ped snps.ped '
         '--map snps.map '
         '--recode A '
-        '--aec '
+        '--allow-no-sex --allow-extra-chr --1 '
         '&> plink_log.txt'
 
 rule filter_snps:

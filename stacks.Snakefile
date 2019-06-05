@@ -67,7 +67,7 @@ rule populations:
     log:
         'output/logs/populations_r0.log'
     singularity:
-        stacks_container
+        stacks2beta_container
     shell:
         'populations '
         '-P {params.stacks_dir} '
