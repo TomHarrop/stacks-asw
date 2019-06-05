@@ -28,10 +28,14 @@ snp_data <- read.PLINK(plink_file)
 ind_names <- indNames(snp_data)
 popmap <- data.table(individual = ind_names,
            population = gsub("[^[:alpha:]]+", "", ind_names))
-fwrite(popmap,
+
+# filter popmap for small populations
+cutoff <- popmap[, .N, by = population][, quantile(N, 0.1)]
+keep_pops <- popmap[, .N, by = population][N > cutoff, unique(population)]
+
+fwrite(popmap[population %in% keep_pops],
        popmap_file, sep = "\t",
        col.names = FALSE)
-
 
 # make whitelist
 loc_names <- data.table(locNames(snp_data))

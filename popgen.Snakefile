@@ -22,7 +22,7 @@ subworkflow stacks:
 
 rule target:
     input:
-        #'output/popgen/dapc.pdf'
+        'output/popgen/dapc.pdf',
         'output/popgen/stacks_populations/populations.snps.vcf'
 
 rule dapc:
@@ -83,7 +83,7 @@ rule generate_whitelist:
     log:
         'output/logs/generate_whitelist.log'
     singularity:
-        adegenet_container
+        bioc_container
     script:
         'src/generate_whitelist.R'
 

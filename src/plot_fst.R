@@ -32,7 +32,6 @@ pop_order <- hc$labels[hc$order]
 fst_pd[, pop1 := factor(pop1, levels = pop_order)]
 fst_pd[, pop2 := factor(pop2, levels = pop_order)]
 
-heatscale <- RColorBrewer::brewer.pal(6, "YlOrRd")
 gp <- ggplot(fst_pd, aes(x = pop1, y = pop2, fill = Fst)) +
     theme_minimal(base_size = 8,
                   base_family = "Lato") +
@@ -40,8 +39,7 @@ gp <- ggplot(fst_pd, aes(x = pop1, y = pop2, fill = Fst)) +
     xlab(NULL) + ylab(NULL) +
     scale_x_discrete(expand = c(0, 0)) +
     scale_y_discrete(expand = c(0, 0)) +
-    scale_fill_gradientn(
-        colours = heatscale,
+    scale_fill_viridis_c(
         guide = guide_colorbar(
             title = expression(italic(F)["ST"]))) +
     coord_fixed () +
