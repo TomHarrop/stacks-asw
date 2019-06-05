@@ -9,8 +9,8 @@ bioc_container = ('shub://TomHarrop/singularity-containers:'
 plink_container = 'shub://TomHarrop/singularity-containers:plink_1.09beta5'
 stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
                          '@bb2f9183318871f6228b51104056a2d0')
-adegenet_container = ('shub://MarissaLL/'
-                      'singularity-containers:r_3.5.0')
+r_container = ('shub://TomHarrop/'
+               'singularity-containers:r_3.6.0')
 
 #########
 # RULES #
@@ -23,7 +23,8 @@ subworkflow stacks:
 rule target:
     input:
         'output/popgen/dapc.pdf',
-        'output/popgen/stacks_populations/populations.snps.vcf'
+        'output/popgen/stacks_populations/populations.snps.vcf',
+        'output/popgen/stacks_populations/fst_plot.pdf'
 
 rule dapc:
     input:
@@ -41,6 +42,19 @@ rule dapc:
     script:
         'src/dapc.R'
 
+rule plot_fst:
+    input:
+        fst = 'output/popgen/stacks_populations/populations.fst_summary.tsv'
+    output:
+        plot = 'output/popgen/stacks_populations/fst_plot.pdf'
+    log:
+        'output/logs/plot_fst.log'
+    singularity:
+        r_container
+    script:
+        'src/plot_fst.R'
+
+
 rule populations:
     input:
         'output/stacks_denovo/catalog.fa.gz',
@@ -48,7 +62,8 @@ rule populations:
         popmap = 'output/popgen/popmap.txt',
         whitelist = 'output/popgen/whitelist.txt'
     output:
-        'output/popgen/stacks_populations/populations.snps.vcf'
+        'output/popgen/stacks_populations/populations.snps.vcf',
+        'output/popgen/stacks_populations/populations.fst_summary.tsv'
     params:
         stacks_dir = 'output/stacks_denovo',
         outdir = 'output/popgen/stacks_populations'
