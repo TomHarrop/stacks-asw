@@ -51,15 +51,16 @@ subworkflow process_reads:
 
 
 # # 12. filter the final catalog by r
+# this is using the un-mapped catalog, because mapping is not great yet
 rule populations:
     input:
-        'output/map_to_genome/catalog.fa.gz',
-        'output/map_to_genome/catalog.calls',
+        'output/stacks_denovo/catalog.fa.gz',
+        'output/stacks_denovo/catalog.calls',
         map = filtered_popmap
     output:
         'output/stacks_populations/r0/populations.snps.vcf'
     params:
-        stacks_dir = 'output/map_to_genome',
+        stacks_dir = 'output/stacks_denovo',
         outdir = 'output/stacks_populations/r0'
     threads:
         75
