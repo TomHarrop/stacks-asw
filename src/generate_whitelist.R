@@ -27,7 +27,7 @@ snp_data <- read.PLINK(plink_file)
 # make popmap
 ind_names <- indNames(snp_data)
 popmap <- data.table(individual = ind_names,
-           population = gsub("[[:digit:]]+", "", ind_names))
+           population = gsub("[^[:alpha:]]+", "", ind_names))
 fwrite(popmap,
        popmap_file, sep = "\t",
        col.names = FALSE)

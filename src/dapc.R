@@ -147,8 +147,18 @@ dapc_plot <- ggplot(dapc_pd[dapc_var > 1],
     geom_point(shape = 16, position = position_jitter(width = 0.2))
 
 # write output
-ggsave(dapc_plot_file, dapc_plot, width = 10, height = 7.5, units = "in")
-ggsave(pca_plot_file, pca_plot, width = 10, height = 7.5, units = "in")
+ggsave(dapc_plot_file,
+       dapc_plot,
+       width = 10,
+       height = 7.5,
+       units = "in",
+       device = cairo_pdf)
+ggsave(pca_plot_file,
+       pca_plot,
+       width = 10,
+       height = 7.5,
+       units = "in",
+       device = cairo_pdf)
 saveRDS(xv, dapc_xv_file)
 
 # write log

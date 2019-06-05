@@ -9,6 +9,8 @@ bioc_container = ('shub://TomHarrop/singularity-containers:'
 plink_container = 'shub://TomHarrop/singularity-containers:plink_1.09beta5'
 stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
                          '@bb2f9183318871f6228b51104056a2d0')
+adegenet_container = ('shub://MarissaLL/'
+                      'singularity-containers:r_3.5.0')
 
 #########
 # RULES #
@@ -81,7 +83,7 @@ rule generate_whitelist:
     log:
         'output/logs/generate_whitelist.log'
     singularity:
-        bioc_container
+        adegenet_container
     script:
         'src/generate_whitelist.R'
 
