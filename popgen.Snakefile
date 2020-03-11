@@ -26,8 +26,6 @@ def stacks_mapping_resovler(wildcards):
 # GLOBALS #
 ###########
 
-filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
-
 bioc_container = ('shub://TomHarrop/singularity-containers:'
                   'bioconductor_3.9')
 plink_container = 'shub://TomHarrop/singularity-containers:plink_1.09beta5'
@@ -43,6 +41,9 @@ r_container = ('shub://TomHarrop/'
 subworkflow stacks:
     snakefile:
         'stacks.Snakefile'
+
+subworkflow process_reads:
+    snakefile: 'process_reads.Snakefile'
 
 rule target:
     input:
@@ -85,7 +86,8 @@ rule plot_fst:
 rule populations:
     input:
         unpack(stacks_mapping_resovler),
-        map = filtered_popmap,
+        map = process_reads(
+            'output/stacks_config/filtered_population_map.txt'),
         popmap = 'output/popgen/{mapped}/popmap.txt',
         whitelist = 'output/popgen/{mapped}/whitelist.txt'
     output:
@@ -95,8 +97,6 @@ rule populations:
         stacks_dir = lambda wildcards, input:
             Path(input.catalog).parent,
         outdir = 'output/popgen/{mapped}/stacks_populations'
-    threads:
-        75
     log:
         'output/logs/popgen/stacks_populations.{mapped}.log'
     singularity:
@@ -107,7 +107,6 @@ rule populations:
         '-M {input.popmap} '
         '-O {params.outdir} '
         '-W {input.whitelist} '
-        '-t {threads} '
         '-r 0 '
         '--genepop '
         '--plink '

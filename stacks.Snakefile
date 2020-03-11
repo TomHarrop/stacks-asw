@@ -37,6 +37,7 @@ def stacks_mapping_resovler(wildcards):
 ###########
 
 reads_dir = 'data/raw_reads'
+
 filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
 
 # containers
@@ -51,11 +52,16 @@ bwa_container = 'shub://TomHarrop/singularity-containers:bwa_0.7.17'
 #########
 
 # read popmap
-popmap = pandas.read_csv(filtered_popmap,
-                         delimiter='\t',
-                         header=None,
-                         names=['individual', 'population'])
-all_indivs = sorted(set(popmap['individual']))
+try:
+    popmap = pandas.read_csv(filtered_popmap,
+                             delimiter='\t',
+                             header=None,
+                             names=['individual', 'population'])
+    all_indivs = sorted(set(popmap['individual']))
+except FileNotFoundError:
+    print("ERROR. {filtered_popmap} not found.")
+    print("       Run process_reads.Snakefile")
+    raise FileNotFoundError
 
 #########
 # RULES #
@@ -70,7 +76,6 @@ rule target:
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
 
-
 # # 12. filter the final catalog by r
 # make a denovo and mapped version
 rule populations:
@@ -83,8 +88,6 @@ rule populations:
         stacks_dir = lambda wildcards, input:
             Path(input.catalog).parent,
         outdir = 'output/stacks_populations/{mapped}/r0'
-    threads:
-        75
     log:
         'output/logs/populations.{mapped}.r0.log'
     singularity:
@@ -94,7 +97,6 @@ rule populations:
         '-P {params.stacks_dir} '
         '-M {input.map} '
         '-O {params.outdir} '
-        '-t {threads} '
         '-r 0 '
         '--genepop --vcf '
         '&> {log}'
@@ -111,8 +113,6 @@ rule integrate_alignments:
     params:
         stacks_dir = 'output/stacks_denovo',
         out_dir = 'output/map_to_genome'
-    threads:
-        1
     log:
         'output/logs/integrate_alignments.log'
     singularity:
