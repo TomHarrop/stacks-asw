@@ -20,7 +20,7 @@ reads_dir = 'data/raw_reads'
 filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
 
 # containers
-stacks_container = ('shub://TomHarrop/singularity-containers:stacks_2.3e')
+stacks_container = ('shub://TomHarrop/variant-utils:stacks_2.3e')
 stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
                          '@bb2f9183318871f6228b51104056a2d0')
 r_container = 'shub://TomHarrop/singularity-containers:r_3.5.0'
