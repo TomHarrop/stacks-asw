@@ -1,6 +1,10 @@
+#!/usr/bin/env python3
+
 import pandas
 import pickle
 import multiprocessing
+from pathlib import Path
+
 
 #############
 # FUNCTIONS #
@@ -11,6 +15,22 @@ def lookup_indiv(pickle_file, individual):
         individual_i = pickle.load(f)
         sample_i = individual_i[individual]
         return(sample_i)
+
+
+def stacks_mapping_resovler(wildcards):
+    if wildcards.mapped == 'mapped':
+        return {
+            'catalog': 'output/map_to_genome/catalog.fa.gz',
+            'calls': 'output/map_to_genome/catalog.calls'
+        }
+    elif wildcards.mapped == 'denovo':
+        return {
+            'catalog': 'output/stacks_denovo/catalog.fa.gz',
+            'calls': 'output/stacks_denovo/catalog.calls'
+        }
+    else:
+        raise ValueError("WTF {wildcards.mapped}")
+
 
 ###########
 # GLOBALS #
@@ -43,7 +63,8 @@ all_indivs = sorted(set(popmap['individual']))
 
 rule target:
     input:
-        'output/stacks_populations/r0/populations.snps.vcf',
+        expand('output/stacks_populations/{mapped}/r0/populations.snps.vcf',
+               mapped=['mapped', 'denovo']),
         'output/combined_stats/individual_covstats_combined.csv'
 
 subworkflow process_reads:
@@ -51,21 +72,21 @@ subworkflow process_reads:
 
 
 # # 12. filter the final catalog by r
-# this is using the un-mapped catalog, because mapping is not great yet
+# make a denovo and mapped version
 rule populations:
     input:
-        'output/stacks_denovo/catalog.fa.gz',
-        'output/stacks_denovo/catalog.calls',
+        unpack(stacks_mapping_resovler),
         map = filtered_popmap
     output:
-        'output/stacks_populations/r0/populations.snps.vcf'
+        'output/stacks_populations/{mapped}/r0/populations.snps.vcf'
     params:
-        stacks_dir = 'output/stacks_denovo',
-        outdir = 'output/stacks_populations/r0'
+        stacks_dir = lambda wildcards, input:
+            Path(input.catalog).parent,
+        outdir = 'output/stacks_populations/{mapped}/r0'
     threads:
         75
     log:
-        'output/logs/populations_r0.log'
+        'output/logs/populations.{mapped}.r0.log'
     singularity:
         stacks2beta_container
     shell:
@@ -210,7 +231,7 @@ rule tsv2bam:
     log:
         'output/logs/tsv2bam.log'
     singularity:
-            stacks_container
+        stacks_container
     shell:
         'tsv2bam '
         '-P {params.stacks_dir} '
@@ -233,7 +254,7 @@ rule sstacks:
     log:
         'output/logs/sstacks.log'
     singularity:
-            stacks_container
+        stacks_container
     shell:
         'sstacks '
         '-P {params.stacks_dir} '

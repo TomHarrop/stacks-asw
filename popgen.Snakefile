@@ -1,8 +1,32 @@
 #!/usr/bin/env python3
 
+from pathlib import Path
+
+
+#############
+# FUNCTIONS #
+#############
+
+def stacks_mapping_resovler(wildcards):
+    if wildcards.mapped == 'mapped':
+        return {
+            'catalog': stacks('output/map_to_genome/catalog.fa.gz'),
+            'calls': stacks('output/map_to_genome/catalog.calls')
+        }
+    elif wildcards.mapped == 'denovo':
+        return {
+            'catalog': stacks('output/stacks_denovo/catalog.fa.gz'),
+            'calls': stacks('output/stacks_denovo/catalog.calls')
+        }
+    else:
+        raise ValueError("WTF {wildcards.mapped}")
+
+
 ###########
 # GLOBALS #
 ###########
+
+filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
 
 bioc_container = ('shub://TomHarrop/singularity-containers:'
                   'bioconductor_3.9')
@@ -22,21 +46,24 @@ subworkflow stacks:
 
 rule target:
     input:
-        'output/popgen/dapc.pdf',
-        'output/popgen/stacks_populations/populations.snps.vcf',
-        'output/popgen/stacks_populations/fst_plot.pdf'
+        expand('output/popgen/{mapped}/dapc.pdf',
+               mapped=['denovo', 'mapped']),
+        expand('output/popgen/{mapped}/stacks_populations/populations.snps.vcf',
+               mapped=['denovo', 'mapped']),
+        expand('output/popgen/{mapped}/stacks_populations/fst_plot.pdf',
+               mapped=['denovo', 'mapped'])
 
 rule dapc:
     input:
-        'output/popgen/plink.raw'
+        'output/popgen/{mapped}/plink.raw'
     output:
-        dapc_plot = 'output/popgen/dapc.pdf',
-        pca_plot = 'output/popgen/pca.pdf',
-        dapc_xv = 'output/popgen/dapc_xv.Rds'
+        dapc_plot = 'output/popgen/{mapped}/dapc.pdf',
+        pca_plot = 'output/popgen/{mapped}/pca.pdf',
+        dapc_xv = 'output/popgen/{mapped}/dapc_xv.Rds'
     threads:
         1
     log:
-        'output/logs/dapc.log'
+        'output/logs/dapc.{mapped}.log'
     singularity:
         bioc_container
     script:
@@ -44,11 +71,11 @@ rule dapc:
 
 rule plot_fst:
     input:
-        fst = 'output/popgen/stacks_populations/populations.fst_summary.tsv'
+        fst = 'output/popgen/{mapped}/stacks_populations/populations.fst_summary.tsv'
     output:
-        plot = 'output/popgen/stacks_populations/fst_plot.pdf'
+        plot = 'output/popgen/{mapped}/stacks_populations/fst_plot.pdf'
     log:
-        'output/logs/plot_fst.log'
+        'output/logs/plot_fst.{mapped}.log'
     singularity:
         r_container
     script:
@@ -57,20 +84,21 @@ rule plot_fst:
 
 rule populations:
     input:
-        'output/stacks_denovo/catalog.fa.gz',
-        'output/stacks_denovo/catalog.calls',
-        popmap = 'output/popgen/popmap.txt',
-        whitelist = 'output/popgen/whitelist.txt'
+        unpack(stacks_mapping_resovler),
+        map = filtered_popmap,
+        popmap = 'output/popgen/{mapped}/popmap.txt',
+        whitelist = 'output/popgen/{mapped}/whitelist.txt'
     output:
-        'output/popgen/stacks_populations/populations.snps.vcf',
-        'output/popgen/stacks_populations/populations.fst_summary.tsv'
+        'output/popgen/{mapped}/stacks_populations/populations.snps.vcf',
+        'output/popgen/{mapped}/stacks_populations/populations.fst_summary.tsv'
     params:
-        stacks_dir = 'output/stacks_denovo',
-        outdir = 'output/popgen/stacks_populations'
+        stacks_dir = lambda wildcards, input:
+            Path(input.catalog).parent,
+        outdir = 'output/popgen/{mapped}/stacks_populations'
     threads:
         75
     log:
-        'output/logs/popgen/stacks_populations.log'
+        'output/logs/popgen/stacks_populations.{mapped}.log'
     singularity:
         stacks2beta_container
     shell:
@@ -91,12 +119,12 @@ rule populations:
 
 rule generate_whitelist:
     input:
-        plink = 'output/popgen/plink.raw'
+        plink = 'output/popgen/{mapped}/plink.raw'
     output:
-        whitelist = 'output/popgen/whitelist.txt',
-        popmap = 'output/popgen/popmap.txt'
+        whitelist = 'output/popgen/{mapped}/whitelist.txt',
+        popmap = 'output/popgen/{mapped}/popmap.txt'
     log:
-        'output/logs/generate_whitelist.log'
+        'output/logs/generate_whitelist.{mapped}.log'
     singularity:
         bioc_container
     script:
@@ -104,12 +132,12 @@ rule generate_whitelist:
 
 rule convert_to_plink:
     input:
-        'output/popgen/snps.ped',
-        'output/popgen/snps.map'
+        'output/popgen/{mapped}/snps.ped',
+        'output/popgen/{mapped}/snps.map'
     output:
-        'output/popgen/plink.raw'
+        'output/popgen/{mapped}/plink.raw'
     params:
-        workdir = 'output/popgen'
+        workdir = 'output/{mapped}/popgen'
     threads:
         1
     singularity:
@@ -125,19 +153,19 @@ rule convert_to_plink:
 
 rule filter_snps:
     input:
-        'output/popgen/snps.gds'
+        'output/popgen/{mapped}/snps.gds'
     output:
-        'output/popgen/snps.ped',
-        'output/popgen/snps.map'
+        'output/popgen/{mapped}/snps.ped',
+        'output/popgen/{mapped}/snps.map'
     params:
         maf = 0.05,
         missing_rate = 0.2,
         sample_missing_quantile = 0.8,
-        ped_file = 'output/popgen/snps'
+        ped_file = 'output/popgen/{mapped}/snps'
     threads:
         1
     log:
-        'output/logs/filter_snps.log'
+        'output/logs/filter_snps.{mapped}.log'
     singularity:
         bioc_container
     script:
@@ -145,13 +173,13 @@ rule filter_snps:
 
 rule convert_to_gds:
     input:
-        stacks('output/stacks_populations/r0/populations.snps.vcf')
+        stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
     output:
-        'output/popgen/snps.gds'
+        'output/popgen/{mapped}/snps.gds'
     threads:
         1
     log:
-        'output/logs/convert_to_gds.log'
+        'output/logs/convert_to_gds.{mapped}.log'
     singularity:
         bioc_container
     script:
