@@ -63,10 +63,10 @@ subworkflow process_reads:
 
 rule target:
     input:
-        expand('output/popgen/{mapped}/stats_locusfilter.{ext}',
-               mapped=['mapped', 'denovo'],
-               ext=list(ext_to_arg.keys())),
-        expand('output/popgen/{mapped}/populations.snps.locusfilter.vcf',
+        # expand('output/popgen/{mapped}/stats_locusfilter.{ext}',
+        #        mapped=['mapped', 'denovo'],
+        #        ext=list(ext_to_arg.keys())),
+        expand('output/popgen/{mapped}/locus_filter.vcf',
                mapped=['mapped', 'denovo'])
 
 # rule target:
@@ -153,26 +153,26 @@ rule generate_whitelist:
     script:
         'src/generate_whitelist.R'
 
-rule convert_to_plink:
-    input:
-        'output/popgen/{mapped}/snps.ped',
-        'output/popgen/{mapped}/snps.map'
-    output:
-        'output/popgen/{mapped}/plink.raw'
-    params:
-        workdir = 'output/{mapped}/popgen'
-    threads:
-        1
-    singularity:
-        plink_container
-    shell:
-        'cd {params.workdir} || exit 1 ; '
-        'plink '
-        '--ped snps.ped '
-        '--map snps.map '
-        '--recode A '
-        '--allow-no-sex --allow-extra-chr --1 '
-        '&> plink_log.txt'
+# rule convert_to_plink:
+#     input:
+#         'output/popgen/{mapped}/snps.ped',
+#         'output/popgen/{mapped}/snps.map'
+#     output:
+#         'output/popgen/{mapped}/plink.raw'
+#     params:
+#         workdir = 'output/{mapped}/popgen'
+#     threads:
+#         1
+#     singularity:
+#         plink_container
+#     shell:
+#         'cd {params.workdir} || exit 1 ; '
+#         'plink '
+#         '--ped snps.ped '
+#         '--map snps.map '
+#         '--recode A '
+#         '--allow-no-sex --allow-extra-chr --1 '
+#         '&> plink_log.txt'
 
 # rule filter_snps:
 #     input:
@@ -287,6 +287,89 @@ rule filter_snps:
         '--stdout '
         '> populations.snps.locusfilter.vcf '
         '2> {log}'
+
+
+rule filter_lmiss:
+    input:
+        'output/popgen/{mapped}/filter_maf.vcf'
+    output:
+        'output/popgen/{mapped}/locus_filter.vcf'
+    params:
+        missing_rate = 0.2
+    log:
+        resolve_path('output/logs/filter_maf.{mapped}.log')
+    singularity:
+        vcftools_container
+    shell:
+        'vcftools '
+        '--vcf {input} '
+        '--max-missing {params.missing_rate} '
+        '--recode '
+        '--stdout '
+        '>> {output} '
+        '2> {log}'
+
+
+rule filter_maf:
+    input:
+        'output/popgen/{mapped}/filter_alleles.vcf'
+    output:
+        pipe('output/popgen/{mapped}/filter_maf.vcf')
+    params:
+        maf = 0.05,
+    log:
+        resolve_path('output/logs/filter_maf.{mapped}.log')
+    singularity:
+        vcftools_container
+    shell:
+        'vcftools '
+        '--vcf {input} '
+        '--maf {params.maf} '
+        '--recode '
+        '--stdout '
+        '>> {output} '
+        '2> {log}'
+
+rule filter_alleles:
+    input:
+        stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
+    output:
+        pipe('output/popgen/{mapped}/filter_alleles.vcf')
+    log:
+        resolve_path('output/logs/filter_alleles.{mapped}.log')
+    singularity:
+        vcftools_container
+    shell:
+        'vcftools '
+        '--vcf {input} '
+        '--max-alleles 2 '
+        '--recode '
+        '--stdout '
+        '>> {output} '
+        '2> {log}'
+
+
+
+# rule lmiss_filter:
+#     input:
+#         stats = 'output/stacks_populations/{mapped}/r0/stats_prefilter.lmiss',
+#         vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
+#     output:
+#         'output/popgen/{mapped}/populations.snps.locusfilter.vcf'
+#     singularity:
+
+
+# rule vcftools_result_filter:
+#     input:
+#         'output/stacks_populations/{mapped}/r0/stats_prefilter.{ext}'
+#     output:
+#         'test.{mapped}.{ext}.txt'
+#     singularity:
+#         r_container
+#     shell:
+#         'src/vcftools_result_filter.R '
+#         '{input} 6 max 0.05 '
+
 
 rule stats_prefilter:
     input:
