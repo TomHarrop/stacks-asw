@@ -239,21 +239,21 @@ rule convert_to_plink:
 # stats for filtering
 rule vcf_stats:
     input:
-        stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
+        vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
     output:
         'output/stacks_populations/{mapped}/r0/stats.{ext}'
     log:
         'output/logs/stats_{ext}.{mapped}.log'
     params:
         wd = 'output/stacks_populations/{mapped}/r0',
-        arg = lambda wildcards: ext_to_arg[wildcards.ext]
+        arg = lambda wildcards: ext_to_arg[wildcards.ext],
+        vcf = lambda wildcards, input: resolve_path(input.vcf)
     singularity:
         vcftools_container
     shell:
         'cd {params.wd} || exit 1 ; '
         'vcftools '
-        '--vcf '
-        + resolve_path('{input}') + ' '
+        '--vcf {params.vcf} '
         '--{params.arg} '
         '--out stats '
         '2> ' + resolve_path('{log}')
