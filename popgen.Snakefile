@@ -63,9 +63,11 @@ subworkflow process_reads:
 
 rule target:
     input:
-        expand('output/stacks_populations/{mapped}/r0/stats.{ext}',
+        expand('output/stacks_populations/{mapped}/r0/stats_prefilter.{ext}',
                mapped=['mapped', 'denovo'],
-               ext=list(ext_to_arg.keys()))
+               ext=list(ext_to_arg.keys())),
+        expand('output/popgen/{mapped}/populations.snps.locusfilter.vcf',
+               mapped=['mapped', 'denovo'])
 
 # rule target:
 #     input:
@@ -237,13 +239,41 @@ rule convert_to_plink:
 #         ''
 
 # stats for filtering
-rule vcf_stats:
+rule filter_snps:
     input:
         vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
     output:
-        'output/stacks_populations/{mapped}/r0/stats.{ext}'
+        'output/popgen/{mapped}/populations.snps.locusfilter.vcf'
+    params:
+        maf = 0.05,
+        missing_rate = 0.2,
+        wd = 'output/popgen/{mapped}',
+        vcf = lambda wildcards, input: resolve_path(input.vcf)        # sample_missing_quantile = 0.8,
+    threads:
+        1
     log:
-        'output/logs/stats_{ext}.{mapped}.log'
+        resolve_path('output/logs/filter_snps.{mapped}.log')
+    singularity:
+        vcftools_container
+    shell:
+        'cd {params.wd} || exit 1 ; '
+        'vcftools '
+        '--vcf {params.vcf} '
+        '--maf {params.maf} '
+        '--max-missing {params.missing_rate} '
+        '--max-alleles 2 '
+        '--recode '
+        '--stdout '
+        '> {output} '
+        '2> {log}'
+
+rule stats_prefilter:
+    input:
+        vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
+    output:
+        'output/stacks_populations/{mapped}/r0/stats_prefilter.{ext}'
+    log:
+        'output/logs/stats_prefilter_{ext}.{mapped}.log'
     params:
         wd = 'output/stacks_populations/{mapped}/r0',
         arg = lambda wildcards: ext_to_arg[wildcards.ext],
