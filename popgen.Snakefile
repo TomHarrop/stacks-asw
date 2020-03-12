@@ -239,7 +239,7 @@ rule convert_to_plink:
 # stats for filtering
 rule vcf_stats:
     input:
-        stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf.gz')
+        stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
     output:
         'output/stacks_populations/{mapped}/r0/stats.{ext}'
     log:
@@ -252,7 +252,7 @@ rule vcf_stats:
     shell:
         'cd {params.wd} || exit 1 ; '
         'vcftools '
-        '--gzvcf '
+        '--vcf '
         + resolve_path('{input}') + ' '
         '--{params.arg} '
         '--out stats '
