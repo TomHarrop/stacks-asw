@@ -63,9 +63,9 @@ subworkflow process_reads:
 
 rule target:
     input:
-        # expand('output/popgen/{mapped}/stats_locusfilter.{ext}',
-        #        mapped=['mapped', 'denovo'],
-        #        ext=list(ext_to_arg.keys())),
+        expand('output/popgen/{mapped}/stats_locusfilter.{ext}',
+               mapped=['mapped', 'denovo'],
+               ext=list(ext_to_arg.keys())),
         expand('output/popgen/{mapped}/locus_filter.vcf',
                mapped=['mapped', 'denovo'])
 
@@ -241,7 +241,7 @@ rule generate_whitelist:
 # stats for filtering
 rule stats_postfilter:
     input:
-        vcf = 'output/popgen/{mapped}/populations.snps.locusfilter.vcf'
+        vcf = 'output/popgen/{mapped}/locus_filter.vcf'
     output:
         'output/popgen/{mapped}/stats_locusfilter.{ext}'
     log:
@@ -297,7 +297,7 @@ rule filter_lmiss:
     params:
         missing_rate = 0.2
     log:
-        resolve_path('output/logs/filter_maf.{mapped}.log')
+        resolve_path('output/logs/filter_lmiss.{mapped}.log')
     singularity:
         vcftools_container
     shell:
