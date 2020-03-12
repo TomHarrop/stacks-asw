@@ -264,7 +264,7 @@ rule filter_snps:
         '--max-alleles 2 '
         '--recode '
         '--stdout '
-        '> {output} '
+        '> populations.snps.locusfilter.vcf '
         '2> {log}'
 
 rule stats_prefilter:
