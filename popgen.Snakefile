@@ -314,7 +314,7 @@ rule filter_maf:
     input:
         'output/popgen/{mapped}/filter_alleles.vcf'
     output:
-        pipe('output/popgen/{mapped}/filter_maf.vcf')
+        temp('output/popgen/{mapped}/filter_maf.vcf')
     params:
         maf = 0.05,
     log:
@@ -334,7 +334,7 @@ rule filter_alleles:
     input:
         stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
     output:
-        pipe('output/popgen/{mapped}/filter_alleles.vcf')
+        temp('output/popgen/{mapped}/filter_alleles.vcf')
     log:
         resolve_path('output/logs/filter_alleles.{mapped}.log')
     singularity:
