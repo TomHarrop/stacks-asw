@@ -47,6 +47,7 @@ stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta
 r_container = 'shub://TomHarrop/singularity-containers:r_3.5.0'
 bwa_container = 'shub://TomHarrop/singularity-containers:bwa_0.7.17'
 samtools = 'shub://TomHarrop/singularity-containers:samtools_1.9'
+vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
 
 #########
 # SETUP #
@@ -357,9 +358,19 @@ rule ustacks:
 
 
 # generic rule for indexing vcf
-rule index_vcf:
+rule sort_vcf:
     input:
         'output/{folder}/{file}.vcf'
+    output:
+        pipe('output/{folder}/{file}_sorted.vcf')
+    singularity:
+        vcftools_container
+    shell:
+        'vcf-sort {input} >> {output}'
+
+rule index_vcf:
+    input:
+        'output/{folder}/{file}_sorted.vcf'
     output:
         gz = 'output/{folder}/{file}.vcf.gz',
         tbi = 'output/{folder}/{file}.vcf.gz.tbi'
@@ -373,3 +384,6 @@ rule index_vcf:
         'bgzip -c {input} > {output.gz} 2> {log} '
         '; '
         'tabix -p vcf {output.gz} 2>> {log}'
+
+
+
