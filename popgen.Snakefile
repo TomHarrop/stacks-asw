@@ -285,7 +285,7 @@ rule stats_prefilter:
         'vcftools '
         '--vcf {params.vcf} '
         '--{params.arg} '
-        '--out stats '
+        '--out stats_prefilter '
         '2> ' + resolve_path('{log}')
 
 
