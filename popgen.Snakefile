@@ -63,7 +63,7 @@ subworkflow process_reads:
 
 rule target:
     input:
-        expand('output/stacks_populations/{mapped}/r0/stats_prefilter.{ext}',
+        expand('output/popgen/{mapped}/stats_locusfilter.{ext}',
                mapped=['mapped', 'denovo'],
                ext=list(ext_to_arg.keys())),
         expand('output/popgen/{mapped}/populations.snps.locusfilter.vcf',
@@ -239,6 +239,27 @@ rule convert_to_plink:
 #         ''
 
 # stats for filtering
+rule stats_postfilter:
+    input:
+        vcf = 'output/popgen/{mapped}/populations.snps.locusfilter.vcf'
+    output:
+        'output/popgen/{mapped}/stats_locusfilter.{ext}'
+    log:
+        'output/logs/stats_postfilter_{ext}.{mapped}.log'
+    params:
+        wd = 'output/popgen/{mapped}',
+        arg = lambda wildcards: ext_to_arg[wildcards.ext],
+        vcf = lambda wildcards, input: resolve_path(input.vcf)
+    singularity:
+        vcftools_container
+    shell:
+        'cd {params.wd} || exit 1 ; '
+        'vcftools '
+        '--vcf {params.vcf} '
+        '--{params.arg} '
+        '--out stats_locusfilter '
+        '2> ' + resolve_path('{log}')
+
 rule filter_snps:
     input:
         vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
