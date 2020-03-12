@@ -46,6 +46,7 @@ stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta
                          '@bb2f9183318871f6228b51104056a2d0')
 r_container = 'shub://TomHarrop/singularity-containers:r_3.5.0'
 bwa_container = 'shub://TomHarrop/singularity-containers:bwa_0.7.17'
+samtools = 'shub://TomHarrop/singularity-containers:samtools_1.9'
 
 #########
 # SETUP #
@@ -353,3 +354,22 @@ rule ustacks:
         '-m {params.m} '
         '-M {params.M} '
         '&> {log}'
+
+
+# generic rule for indexing vcf
+rule index_vcf:
+    input:
+        'output/{folder}/{file}.vcf'
+    output:
+        gz = 'output/{folder}/{file}.vcf.gz',
+        tbi = 'output/{folder}/{file}.vcf.gz.tbi'
+    log:
+        'output/logs/{folder}/{file}_index-vcf.log'
+    wildcard_constraints:
+        file = 'populations.snps'
+    singularity:
+        samtools
+    shell:
+        'bgzip -c {input} > {output.gz} 2> {log} '
+        '; '
+        'tabix -p vcf {output.gz} 2>> {log}'

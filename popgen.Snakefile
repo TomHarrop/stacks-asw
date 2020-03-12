@@ -33,6 +33,7 @@ stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta
                          '@bb2f9183318871f6228b51104056a2d0')
 r_container = ('shub://TomHarrop/'
                'singularity-containers:r_3.6.0')
+vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
 
 #########
 # RULES #
@@ -150,9 +151,44 @@ rule convert_to_plink:
         '--allow-no-sex --allow-extra-chr --1 '
         '&> plink_log.txt'
 
+# rule filter_snps:
+#     input:
+#         'output/popgen/{mapped}/snps.gds'
+#     output:
+#         'output/popgen/{mapped}/snps.ped',
+#         'output/popgen/{mapped}/snps.map'
+#     params:
+#         maf = 0.05,
+#         missing_rate = 0.2,
+#         sample_missing_quantile = 0.8,
+#         ped_file = 'output/popgen/{mapped}/snps'
+#     threads:
+#         1
+#     log:
+#         'output/logs/filter_snps.{mapped}.log'
+#     singularity:
+#         bioc_container
+#     script:
+#         'src/filter_snps.R'
+
+# rule convert_to_gds:
+#     input:
+#         stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
+#     output:
+#         'output/popgen/{mapped}/snps.gds'
+#     threads:
+#         1
+#     log:
+#         'output/logs/convert_to_gds.{mapped}.log'
+#     singularity:
+#         bioc_container
+#     script:
+#         'src/convert_to_gds.R'
+
+
 rule filter_snps:
     input:
-        'output/popgen/{mapped}/snps.gds'
+        stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf.gz')
     output:
         'output/popgen/{mapped}/snps.ped',
         'output/popgen/{mapped}/snps.map'
@@ -166,20 +202,18 @@ rule filter_snps:
     log:
         'output/logs/filter_snps.{mapped}.log'
     singularity:
-        bioc_container
-    script:
-        'src/filter_snps.R'
+        vcftools_container
+    shell:
+        'vcftools '
+        '--gzvcf {input} '
+        '--maf {params.maf} '
+        '--max-missing {params.missing_rate} '
+        '--max-alleles 2 '
+        '--recode '
+        '--sdtout '
+        '--plink '
+        '>{output} '
+        ''
 
-rule convert_to_gds:
-    input:
-        stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
-    output:
-        'output/popgen/{mapped}/snps.gds'
-    threads:
-        1
-    log:
-        'output/logs/convert_to_gds.{mapped}.log'
-    singularity:
-        bioc_container
-    script:
-        'src/convert_to_gds.R'
+
+# generic index rule

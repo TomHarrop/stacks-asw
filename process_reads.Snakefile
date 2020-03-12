@@ -17,7 +17,7 @@ import re
 key_file = 'data/reads/SQ0727.txt'
 
 # containers
-stacks_container = 'shub://TomHarrop/singularity-containers:stacks_2.0b'
+stacks_container = ('shub://TomHarrop/variant-utils:stacks_2.3e')
 bbduk_container = 'shub://TomHarrop/singularity-containers:bbmap_38.00'
 r_container = 'shub://TomHarrop/singularity-containers:r_3.5.0'
 
