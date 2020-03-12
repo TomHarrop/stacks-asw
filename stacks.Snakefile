@@ -366,7 +366,7 @@ rule sort_vcf:
     singularity:
         vcftools_container
     shell:
-        'vcf-sort {input} >> {output}'
+        'vcf-sort {input} >> {output} 2> /dev/null'
 
 rule index_vcf:
     input:
@@ -384,6 +384,4 @@ rule index_vcf:
         'bgzip -c {input} > {output.gz} 2> {log} '
         '; '
         'tabix -p vcf {output.gz} 2>> {log}'
-
-
 

@@ -7,6 +7,10 @@ from pathlib import Path
 # FUNCTIONS #
 #############
 
+def resolve_path(path):
+    return(str(Path(path).resolve()))
+
+
 def stacks_mapping_resovler(wildcards):
     if wildcards.mapped == 'mapped':
         return {
@@ -35,6 +39,16 @@ r_container = ('shub://TomHarrop/'
                'singularity-containers:r_3.6.0')
 vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
 
+# dict of extensions and arguments for vcftools
+ext_to_arg = {
+    'frq': 'freq2 --max-alleles 2',
+    'idepth': 'depth',
+    'ldepth.mean': 'site-mean-depth',
+    'lqual': 'site-quality',
+    'imiss': 'missing-indv',
+    'lmiss': 'missing-site'}
+
+
 #########
 # RULES #
 #########
@@ -46,14 +60,21 @@ subworkflow stacks:
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
 
+
 rule target:
     input:
-        expand('output/popgen/{mapped}/dapc.pdf',
-               mapped=['denovo', 'mapped']),
-        expand('output/popgen/{mapped}/stacks_populations/populations.snps.vcf',
-               mapped=['denovo', 'mapped']),
-        expand('output/popgen/{mapped}/stacks_populations/fst_plot.pdf',
-               mapped=['denovo', 'mapped'])
+        expand('output/stacks_populations/{mapped}/r0/stats.{ext}',
+               mapped=['mapped', 'denovo'],
+               ext=list(ext_to_arg.keys()))
+
+# rule target:
+#     input:
+#         expand('output/popgen/{mapped}/dapc.pdf',
+#                mapped=['denovo', 'mapped']),
+#         expand('output/popgen/{mapped}/stacks_populations/populations.snps.vcf',
+#                mapped=['denovo', 'mapped']),
+#         expand('output/popgen/{mapped}/stacks_populations/fst_plot.pdf',
+#                mapped=['denovo', 'mapped'])
 
 rule dapc:
     input:
@@ -186,34 +207,56 @@ rule convert_to_plink:
 #         'src/convert_to_gds.R'
 
 
-rule filter_snps:
+# rule filter_snps:
+#     input:
+#         stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf.gz')
+#     output:
+#         'output/popgen/{mapped}/snps.ped',
+#         'output/popgen/{mapped}/snps.map'
+#     params:
+#         maf = 0.05,
+#         missing_rate = 0.2,
+#         sample_missing_quantile = 0.8,
+#         ped_file = 'output/popgen/{mapped}/snps'
+#     threads:
+#         1
+#     log:
+#         'output/logs/filter_snps.{mapped}.log'
+#     singularity:
+#         vcftools_container
+#     shell:
+#         'vcftools '
+#         '--gzvcf {input} '
+#         '--maf {params.maf} '
+#         '--max-missing {params.missing_rate} '
+#         '--max-alleles 2 '
+#         '--recode '
+#         '--sdtout '
+#         '--plink '
+#         '>{output} '
+#         ''
+
+# stats for filtering
+rule vcf_stats:
     input:
         stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf.gz')
     output:
-        'output/popgen/{mapped}/snps.ped',
-        'output/popgen/{mapped}/snps.map'
-    params:
-        maf = 0.05,
-        missing_rate = 0.2,
-        sample_missing_quantile = 0.8,
-        ped_file = 'output/popgen/{mapped}/snps'
-    threads:
-        1
+        'output/stacks_populations/{mapped}/r0/stats.{ext}'
     log:
-        'output/logs/filter_snps.{mapped}.log'
+        'output/logs/stats_{ext}.{mapped}.log'
+    params:
+        wd = 'output/stacks_populations/{mapped}/r0',
+        arg = lambda wildcards: ext_to_arg[wildcards.ext]
     singularity:
         vcftools_container
     shell:
+        'cd {params.wd} || exit 1 ; '
         'vcftools '
-        '--gzvcf {input} '
-        '--maf {params.maf} '
-        '--max-missing {params.missing_rate} '
-        '--max-alleles 2 '
-        '--recode '
-        '--sdtout '
-        '--plink '
-        '>{output} '
-        ''
+        '--gzvcf '
+        + resolve_path('{input}') + ' '
+        '--{params.arg} '
+        '--out stats '
+        '2> ' + resolve_path('{log}')
 
 
 # generic index rule
