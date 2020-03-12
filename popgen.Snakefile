@@ -8,7 +8,7 @@ from pathlib import Path
 #############
 
 def resolve_path(path):
-    return(str(Path(path).resolve()))
+    return(Path(path).resolve().as_posix())
 
 
 def stacks_mapping_resovler(wildcards):
