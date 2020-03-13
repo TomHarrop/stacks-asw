@@ -242,7 +242,7 @@ rule generate_whitelist:
 # stats for filtering
 rule stats_postfilter:
     input:
-        vcf = 'output/popgen/{mapped}/locus_filter.vcf'
+        vcf = 'output/popgen/{mapped}/locusfilter.vcf'
     output:
         'output/popgen/{mapped}/stats_locusfilter.{ext}'
     log:
@@ -259,138 +259,6 @@ rule stats_postfilter:
         '--vcf {params.vcf} '
         '--{params.arg} '
         '--out stats_locusfilter '
-        '2> ' + resolve_path('{log}')
-
-rule filter_snps:
-    input:
-        vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
-    output:
-        'output/popgen/{mapped}/populations.snps.locusfilter.vcf'
-    params:
-        maf = 0.05,
-        missing_rate = 0.2,
-        wd = 'output/popgen/{mapped}',
-        vcf = lambda wildcards, input: resolve_path(input.vcf)        # sample_missing_quantile = 0.8,
-    threads:
-        1
-    log:
-        resolve_path('output/logs/filter_snps.{mapped}.log')
-    singularity:
-        vcftools_container
-    shell:
-        'cd {params.wd} || exit 1 ; '
-        'vcftools '
-        '--vcf {params.vcf} '
-        '--maf {params.maf} '
-        '--max-missing {params.missing_rate} '
-        '--max-alleles 2 '
-        '--recode '
-        '--stdout '
-        '> populations.snps.locusfilter.vcf '
-        '2> {log}'
-
-
-rule filter_lmiss:
-    input:
-        'output/popgen/{mapped}/filter_maf.vcf'
-    output:
-        'output/popgen/{mapped}/locus_filter.vcf'
-    params:
-        missing_rate = 0.2
-    log:
-        resolve_path('output/logs/filter_lmiss.{mapped}.log')
-    singularity:
-        vcftools_container
-    shell:
-        'vcftools '
-        '--vcf {input} '
-        '--max-missing {params.missing_rate} '
-        '--recode '
-        '--stdout '
-        '>> {output} '
-        '2> {log}'
-
-
-rule filter_maf:
-    input:
-        'output/popgen/{mapped}/filter_alleles.vcf'
-    output:
-        temp('output/popgen/{mapped}/filter_maf.vcf')
-    params:
-        maf = 0.05,
-    log:
-        resolve_path('output/logs/filter_maf.{mapped}.log')
-    singularity:
-        vcftools_container
-    shell:
-        'vcftools '
-        '--vcf {input} '
-        '--maf {params.maf} '
-        '--recode '
-        '--stdout '
-        '>> {output} '
-        '2> {log}'
-
-rule filter_alleles:
-    input:
-        stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
-    output:
-        temp('output/popgen/{mapped}/filter_alleles.vcf')
-    log:
-        resolve_path('output/logs/filter_alleles.{mapped}.log')
-    singularity:
-        vcftools_container
-    shell:
-        'vcftools '
-        '--vcf {input} '
-        '--max-alleles 2 '
-        '--recode '
-        '--stdout '
-        '>> {output} '
-        '2> {log}'
-
-
-
-# rule lmiss_filter:
-#     input:
-#         stats = 'output/stacks_populations/{mapped}/r0/stats_prefilter.lmiss',
-#         vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
-#     output:
-#         'output/popgen/{mapped}/populations.snps.locusfilter.vcf'
-#     singularity:
-
-
-# rule vcftools_result_filter:
-#     input:
-#         'output/stacks_populations/{mapped}/r0/stats_prefilter.{ext}'
-#     output:
-#         'test.{mapped}.{ext}.txt'
-#     singularity:
-#         r_container
-#     shell:
-#         'src/vcftools_result_filter.R '
-#         '{input} 6 max 0.05 '
-
-
-rule stats_prefilter:
-    input:
-        vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
-    output:
-        'output/stacks_populations/{mapped}/r0/stats_prefilter.{ext}'
-    log:
-        'output/logs/stats_prefilter_{ext}.{mapped}.log'
-    params:
-        wd = 'output/stacks_populations/{mapped}/r0',
-        arg = lambda wildcards: ext_to_arg[wildcards.ext],
-        vcf = lambda wildcards, input: resolve_path(input.vcf)
-    singularity:
-        vcftools_container
-    shell:
-        'cd {params.wd} || exit 1 ; '
-        'vcftools '
-        '--vcf {params.vcf} '
-        '--{params.arg} '
-        '--out stats_prefilter '
         '2> ' + resolve_path('{log}')
 
 rule locusfilter:
@@ -410,8 +278,11 @@ rule locusfilter:
     shell:
         'bcftools view '
         '--max-alleles {params.max_alleles} '
-
-
+        '--min-af {params.min_maf}:nonmajor '
+        '--exclude "F_MISSING>{params.f_missing} '
+        '{input.vcf} '
+        '> {output} '
+        '2> {log}'
 
 rule index_vcf:
     input:
@@ -433,7 +304,7 @@ rule bgzip_vcf:
     shell:
         'bgzip -c {input} > {output}'
 
-rule sort_vcf:
+rule sort_vcf:      # segfaults on some computers
     input:
         'output/popgen/{mapped}/populations_header.vcf'
     output:
@@ -442,7 +313,6 @@ rule sort_vcf:
         samtools
     shell:
         'bcftools sort {input} > {output}'
-
 
 rule add_vcf_header:
     input:
@@ -458,7 +328,6 @@ rule add_vcf_header:
         '{input.fai} >> {output}  ; '
         'sed -n -e \'/#CHROM/,$p\' {input.vcf} >> {output}'
 
-
 rule index_genome:
     input:
         'data/draft_genome.fasta'
@@ -469,5 +338,3 @@ rule index_genome:
         samtools
     shell:
         'cp {input} {output.fa} ; samtools faidx {output.fa}'
-
-# generic index rule
