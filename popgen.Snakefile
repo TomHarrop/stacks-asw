@@ -393,9 +393,16 @@ rule stats_prefilter:
         '--out stats_prefilter '
         '2> ' + resolve_path('{log}')
 
-# rule locusfilter:
-#     input:
-
+rule locusfilter:
+    input:
+        vcf = 'output/popgen/{mapped}/populations.vcf.gz',
+        tbi = 'output/popgen/{mapped}/populations.vcf.gz.tbi'
+    output:
+        'output/popgen/{mapped}/locusfilter.vcf'
+    singularity:
+        samtools
+    shell:
+        'echo '
 
 
 rule index_vcf:
@@ -422,11 +429,11 @@ rule sort_vcf:
     input:
         'output/popgen/{mapped}/populations_header.vcf'
     output:
-        pipe('output/popgen/{mapped}/populations_sorted.vcf')
+        temp('output/popgen/{mapped}/populations_sorted.vcf')
     singularity:
         samtools
     shell:
-        'bcftools sort {input} >> {output}'
+        'bcftools sort {input} > {output}'
 
 
 rule add_vcf_header:
