@@ -394,6 +394,37 @@ rule stats_prefilter:
         '2> ' + resolve_path('{log}')
 
 
+rule index_vcf:
+    input:
+        'output/popgen/{mapped}/populations.vcf.gz'
+    input:
+        'output/popgen/{mapped}/populations.vcf.gz.tbi'
+    singularity:
+        samtools
+    shell:
+        'tabix -p vcf {input}'
+
+rule bgzip_vcf:
+    input:
+        'output/popgen/{mapped}/populations_sorted.vcf'
+    output:
+        'output/popgen/{mapped}/populations.vcf.gz'
+    singularity:
+        samtools
+    shell:
+        'bgzip {input} > {output}'
+
+rule sort_vcf:
+    input:
+        'output/popgen/{mapped}/populations_header.vcf'
+    output:
+        pipe('output/popgen/{mapped}/populations_sorted.vcf')
+    singularity:
+        samtools
+    shell:
+        'bcftools sort {input} >> {output}'
+
+
 rule add_vcf_header:
     input:
         vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf'),
