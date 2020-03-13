@@ -279,7 +279,7 @@ rule locusfilter:
         'bcftools view '
         '--max-alleles {params.max_alleles} '
         '--min-af {params.min_maf}:nonmajor '
-        '--exclude "F_MISSING>{params.f_missing} '
+        '--exclude "F_MISSING>{params.f_missing}"" '
         '{input.vcf} '
         '> {output} '
         '2> {log}'
