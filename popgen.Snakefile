@@ -65,10 +65,10 @@ subworkflow process_reads:
 rule target:
     input:
         expand('output/popgen/{mapped}/stats_locusfilter.{ext}',
-               mapped=['mapped', 'denovo'],
+               mapped=['mapped'],
                ext=list(ext_to_arg.keys())),
-        expand('output/popgen/{mapped}/locus_filter.vcf',
-               mapped=['mapped', 'denovo'])
+        expand('output/popgen/{mapped}/locusfilter.vcf',
+               mapped=['mapped'])
 
 # rule target:
 #     input:
