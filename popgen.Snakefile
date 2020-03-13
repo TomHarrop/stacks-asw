@@ -393,8 +393,8 @@ rule stats_prefilter:
         '--out stats_prefilter '
         '2> ' + resolve_path('{log}')
 
-rule locusfilter:
-    input:
+# rule locusfilter:
+#     input:
 
 
 
