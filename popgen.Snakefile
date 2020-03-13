@@ -399,10 +399,18 @@ rule locusfilter:
         tbi = 'output/popgen/{mapped}/populations.vcf.gz.tbi'
     output:
         'output/popgen/{mapped}/locusfilter.vcf'
+    params:
+        max_alleles = 2,
+        min_maf = 0.05,
+        f_missing = 0.2
+    log:
+        'output/logs/locusfilter.{mapped}.log'
     singularity:
         samtools
     shell:
-        'echo '
+        'bcftools view '
+        '--max-alleles {params.max_alleles} '
+
 
 
 rule index_vcf:
@@ -423,7 +431,7 @@ rule bgzip_vcf:
     singularity:
         samtools
     shell:
-        'bgzip {input} > {output}'
+        'bgzip -c {input} > {output}'
 
 rule sort_vcf:
     input:
