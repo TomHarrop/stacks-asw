@@ -393,11 +393,15 @@ rule stats_prefilter:
         '--out stats_prefilter '
         '2> ' + resolve_path('{log}')
 
+rule locusfilter:
+    input:
+
+
 
 rule index_vcf:
     input:
         'output/popgen/{mapped}/populations.vcf.gz'
-    input:
+    output:
         'output/popgen/{mapped}/populations.vcf.gz.tbi'
     singularity:
         samtools
