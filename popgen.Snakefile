@@ -38,6 +38,7 @@ stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta
 r_container = ('shub://TomHarrop/'
                'singularity-containers:r_3.6.0')
 vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
+samtools = 'shub://TomHarrop/singularity-containers:samtools_1.9'
 
 # dict of extensions and arguments for vcftools
 ext_to_arg = {
@@ -392,5 +393,31 @@ rule stats_prefilter:
         '--out stats_prefilter '
         '2> ' + resolve_path('{log}')
 
+
+rule add_vcf_header:
+    input:
+        vcf = stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf'),
+        fai = 'output/map_to_genome/draft_genome.fasta.fai'
+    output:
+        temp('output/popgen/{mapped}/populations_header.vcf')
+    singularity:
+        samtools
+    shell:
+        'sed -e \'/#CHROM/,$d\' {input.vcf} > {output} ; '
+        'awk \'{{printf("##contig=<ID=%s,length=%d>\\n",$1,$2);}}\' '
+        '{input.fai} >> {output}  ; '
+        'sed -n -e \'/#CHROM/,$p\' {input.vcf} >> {output}'
+
+
+rule index_genome:
+    input:
+        'data/draft_genome.fasta'
+    output:
+        fa = 'output/map_to_genome/draft_genome.fasta',
+        fai = 'output/map_to_genome/draft_genome.fasta.fai'
+    singularity:
+        samtools
+    shell:
+        'cp {input} {output.fa} ; samtools faidx {output.fa}'
 
 # generic index rule
