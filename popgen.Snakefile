@@ -30,8 +30,8 @@ def stacks_mapping_resovler(wildcards):
 # GLOBALS #
 ###########
 
-bioc_container = ('shub://TomHarrop/singularity-containers:'
-                  'bioconductor_3.9')
+bioc_container = ('shub://TomHarrop/r-containers:'
+                  'bioconductor_3.10')
 plink_container = 'shub://TomHarrop/singularity-containers:plink_1.09beta5'
 stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
                          '@bb2f9183318871f6228b51104056a2d0')
@@ -107,7 +107,6 @@ rule plot_fst:
     script:
         'src/plot_fst.R'
 
-
 rule populations:
     input:
         unpack(stacks_mapping_resovler),
@@ -143,7 +142,10 @@ rule populations:
 
 rule generate_whitelist:
     input:
-        plink = 'output/popgen/{mapped}/plink.raw'
+        vcf = 'output/popgen/{mapped}/locusfilter.vcf',
+        imiss = 'output/popgen/{mapped}/stats_locusfilter.imiss'
+    params:
+        imiss_rate = 0.2
     output:
         whitelist = 'output/popgen/{mapped}/whitelist.txt',
         popmap = 'output/popgen/{mapped}/popmap.txt'
@@ -153,91 +155,6 @@ rule generate_whitelist:
         bioc_container
     script:
         'src/generate_whitelist.R'
-
-# rule convert_to_plink:
-#     input:
-#         'output/popgen/{mapped}/snps.ped',
-#         'output/popgen/{mapped}/snps.map'
-#     output:
-#         'output/popgen/{mapped}/plink.raw'
-#     params:
-#         workdir = 'output/{mapped}/popgen'
-#     threads:
-#         1
-#     singularity:
-#         plink_container
-#     shell:
-#         'cd {params.workdir} || exit 1 ; '
-#         'plink '
-#         '--ped snps.ped '
-#         '--map snps.map '
-#         '--recode A '
-#         '--allow-no-sex --allow-extra-chr --1 '
-#         '&> plink_log.txt'
-
-# rule filter_snps:
-#     input:
-#         'output/popgen/{mapped}/snps.gds'
-#     output:
-#         'output/popgen/{mapped}/snps.ped',
-#         'output/popgen/{mapped}/snps.map'
-#     params:
-#         maf = 0.05,
-#         missing_rate = 0.2,
-#         sample_missing_quantile = 0.8,
-#         ped_file = 'output/popgen/{mapped}/snps'
-#     threads:
-#         1
-#     log:
-#         'output/logs/filter_snps.{mapped}.log'
-#     singularity:
-#         bioc_container
-#     script:
-#         'src/filter_snps.R'
-
-# rule convert_to_gds:
-#     input:
-#         stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf')
-#     output:
-#         'output/popgen/{mapped}/snps.gds'
-#     threads:
-#         1
-#     log:
-#         'output/logs/convert_to_gds.{mapped}.log'
-#     singularity:
-#         bioc_container
-#     script:
-#         'src/convert_to_gds.R'
-
-
-# rule filter_snps:
-#     input:
-#         stacks('output/stacks_populations/{mapped}/r0/populations.snps.vcf.gz')
-#     output:
-#         'output/popgen/{mapped}/snps.ped',
-#         'output/popgen/{mapped}/snps.map'
-#     params:
-#         maf = 0.05,
-#         missing_rate = 0.2,
-#         sample_missing_quantile = 0.8,
-#         ped_file = 'output/popgen/{mapped}/snps'
-#     threads:
-#         1
-#     log:
-#         'output/logs/filter_snps.{mapped}.log'
-#     singularity:
-#         vcftools_container
-#     shell:
-#         'vcftools '
-#         '--gzvcf {input} '
-#         '--maf {params.maf} '
-#         '--max-missing {params.missing_rate} '
-#         '--max-alleles 2 '
-#         '--recode '
-#         '--sdtout '
-#         '--plink '
-#         '>{output} '
-#         ''
 
 # stats for filtering
 rule stats_postfilter:
