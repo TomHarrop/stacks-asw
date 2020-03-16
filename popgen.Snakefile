@@ -132,7 +132,7 @@ rule populations:
              '--bootstrap '
              '--bootstrap_wl '
              + input.whitelist + ' '
-             '--bootstrap-reps 1000') if wildcards.mapped == 'mapped' else ' '
+             '--bootstrap_reps 1000') if wildcards.mapped == 'mapped' else ' '
     log:
         'output/logs/popgen/stacks_populations.{mapped}.log'
     singularity:
