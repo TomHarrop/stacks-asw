@@ -30,8 +30,8 @@ def stacks_mapping_resovler(wildcards):
 # GLOBALS #
 ###########
 
-bioc_container = ('shub://TomHarrop/r-containers:'
-                  'bioconductor_3.10')
+bioc_container = ('shub://TomHarrop/r-containers:bioconductor_3.10'
+                  '@22b77812ec8211c7bbe29c9bbfc6dfba6a833982')
 plink_container = 'shub://TomHarrop/singularity-containers:plink_1.09beta5'
 stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
                          '@bb2f9183318871f6228b51104056a2d0')
@@ -64,24 +64,16 @@ subworkflow process_reads:
 
 rule target:
     input:
-        expand('output/popgen/{mapped}/stats_locusfilter.{ext}',
-               mapped=['mapped'],
-               ext=list(ext_to_arg.keys())),
-        expand('output/popgen/{mapped}/locusfilter.vcf',
-               mapped=['mapped'])
-
-# rule target:
-#     input:
-#         expand('output/popgen/{mapped}/dapc.pdf',
-#                mapped=['denovo', 'mapped']),
-#         expand('output/popgen/{mapped}/stacks_populations/populations.snps.vcf',
-#                mapped=['denovo', 'mapped']),
-#         expand('output/popgen/{mapped}/stacks_populations/fst_plot.pdf',
-#                mapped=['denovo', 'mapped'])
+        expand('output/popgen/{mapped}/dapc.pdf',
+               mapped=['denovo', 'mapped']),
+        expand('output/popgen/{mapped}/stacks_populations/populations.snps.vcf',
+               mapped=['denovo', 'mapped']),
+        expand('output/popgen/{mapped}/stacks_populations/fst_plot.pdf',
+               mapped=['denovo', 'mapped'])
 
 rule dapc:
     input:
-        'output/popgen/{mapped}/plink.raw'
+        'output/popgen/{mapped}/stacks_populations/populations.snps.vcf'
     output:
         dapc_plot = 'output/popgen/{mapped}/dapc.pdf',
         pca_plot = 'output/popgen/{mapped}/pca.pdf',

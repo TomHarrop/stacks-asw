@@ -10,7 +10,7 @@ library(ggplot2)
 fst_file <- snakemake@input[["fst"]]
 fst_plot_file <- snakemake@output[["plot"]]
 
-#fst_file <- "output/popgen/stacks_populations/populations.fst_summary.tsv"
+# fst_file <- "output/popgen/mapped/stacks_populations/populations.fst_summary.tsv"
 
 # read data
 fst_mat_dt <- fread(fst_file)
