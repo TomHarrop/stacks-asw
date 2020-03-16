@@ -49,9 +49,10 @@ bioc_container = ('shub://TomHarrop/r-containers:bioconductor_3.10'
                   '@22b77812ec8211c7bbe29c9bbfc6dfba6a833982')
 r_container = ('shub://TomHarrop/singularity-containers:r_3.6.0')
 samtools = 'shub://TomHarrop/singularity-containers:samtools_1.9'
-stacks2beta_container = ('shub://TomHarrop/'
-                         'singularity-containers:stacks_2.0beta9'
-                         '@bb2f9183318871f6228b51104056a2d0')
+stacks252 = 'shub://TomHarrop/variant-utils:stacks_2.5.2'
+# stacks2beta_container = ('shub://TomHarrop/'
+#                          'singularity-containers:stacks_2.0beta9'
+#                          '@bb2f9183318871f6228b51104056a2d0')
 vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
 
 # dict of extensions and arguments for vcftools
@@ -136,20 +137,17 @@ rule populations:
     log:
         'output/logs/popgen/stacks_populations.{mapped}.log'
     singularity:
-        stacks2beta_container
+        stacks252
     shell:
         'populations '
         '-P {params.stacks_dir} '
         '-M {input.popmap} '
         '-O {params.outdir} '
         '-W {input.whitelist} '
-        # '-r 0 '
-        # '--genepop '
-        # '--plink '
-        # '--vcf '
+        '-r 0 '
+        '--vcf '
         '--hwe '
         '--fstats '
-        # '--fasta_loci '
         '{params.smoothe} '
         '&> {log}'
 
