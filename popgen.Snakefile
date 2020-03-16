@@ -131,7 +131,8 @@ rule populations:
             ('--smooth '
              '--bootstrap '
              '--bootstrap_wl '
-             + input.whitelist + ' ') if wildcards.mapped == 'mapped' else ' '
+             + input.whitelist + ' '
+             '--bootstrap-reps 1000') if wildcards.mapped == 'mapped' else ' '
     log:
         'output/logs/popgen/stacks_populations.{mapped}.log'
     singularity:
@@ -142,13 +143,13 @@ rule populations:
         '-M {input.popmap} '
         '-O {params.outdir} '
         '-W {input.whitelist} '
-        '-r 0 '
-        '--genepop '
-        '--plink '
-        '--vcf '
+        # '-r 0 '
+        # '--genepop '
+        # '--plink '
+        # '--vcf '
         '--hwe '
         '--fstats '
-        '--fasta_loci '
+        # '--fasta_loci '
         '{params.smoothe} '
         '&> {log}'
 
