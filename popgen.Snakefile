@@ -170,10 +170,25 @@ rule stats_postfilter:
         '--out stats_locusfilter '
         '2> ' + resolve_path('{log}')
 
+
+def resolve_filter_input(wildcards):
+    if wildcards.mapped == 'mapped':
+        return {
+            'vcf': 'output/popgen/mapped/populations.vcf.gz',
+            'tbi': 'output/popgen/mapped/populations.vcf.gz.tbi'
+        }
+    elif wildcards.mapped == 'denovo':
+        return {
+            'vcf': stacks(
+                'output/stacks_populations/denovo/r0/populations.snps.vcf')
+        }
+    else:
+        raise ValueError("WTF {wildcards.mapped}")
+
+
 rule locusfilter:
     input:
-        vcf = 'output/popgen/{mapped}/populations.vcf.gz',
-        tbi = 'output/popgen/{mapped}/populations.vcf.gz.tbi'
+        unpack(resolve_filter_input)
     output:
         'output/popgen/{mapped}/locusfilter.vcf'
     params:
