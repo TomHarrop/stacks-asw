@@ -11,6 +11,21 @@ def resolve_path(path):
     return(Path(path).resolve().as_posix())
 
 
+def resolve_filter_input(wildcards):
+    if wildcards.mapped == 'mapped':
+        return {
+            'vcf': 'output/popgen/mapped/populations.vcf.gz',
+            'tbi': 'output/popgen/mapped/populations.vcf.gz.tbi'
+        }
+    elif wildcards.mapped == 'denovo':
+        return {
+            'vcf': stacks(
+                'output/stacks_populations/denovo/r0/populations.snps.vcf')
+        }
+    else:
+        raise ValueError("WTF {wildcards.mapped}")
+
+
 def stacks_mapping_resovler(wildcards):
     if wildcards.mapped == 'mapped':
         return {
@@ -112,7 +127,9 @@ rule populations:
     params:
         stacks_dir = lambda wildcards, input:
             Path(input.catalog).parent,
-        outdir = 'output/popgen/{mapped}/stacks_populations'
+        outdir = 'output/popgen/{mapped}/stacks_populations',
+        smoothe = lambda wildcards:
+            '-k ' if wildcards.mapped == 'mapped' else ' '
     log:
         'output/logs/popgen/stacks_populations.{mapped}.log'
     singularity:
@@ -130,6 +147,7 @@ rule populations:
         '--hwe '
         '--fstats '
         '--fasta_loci '
+        '{params.smoothe} '
         '&> {log}'
 
 rule generate_whitelist:
@@ -169,22 +187,6 @@ rule stats_postfilter:
         '--{params.arg} '
         '--out stats_locusfilter '
         '2> ' + resolve_path('{log}')
-
-
-def resolve_filter_input(wildcards):
-    if wildcards.mapped == 'mapped':
-        return {
-            'vcf': 'output/popgen/mapped/populations.vcf.gz',
-            'tbi': 'output/popgen/mapped/populations.vcf.gz.tbi'
-        }
-    elif wildcards.mapped == 'denovo':
-        return {
-            'vcf': stacks(
-                'output/stacks_populations/denovo/r0/populations.snps.vcf')
-        }
-    else:
-        raise ValueError("WTF {wildcards.mapped}")
-
 
 rule locusfilter:
     input:
