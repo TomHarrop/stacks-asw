@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pandas
-import pathlib2
+from pathlib import Path
 
 ###########
 # GLOBALS #
@@ -15,7 +15,7 @@ filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
 #########
 
 # singularity args
-full_path = pathlib2.Path('.').resolve()
+full_path = Path('.').resolve()
 root_dir = ''.join(full_path.parts[0:2])
 singularity_args = '-B {0}'.format(root_dir)
 
