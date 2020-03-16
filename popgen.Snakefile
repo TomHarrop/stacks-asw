@@ -127,8 +127,11 @@ rule populations:
         stacks_dir = lambda wildcards, input:
             Path(input.catalog).parent,
         outdir = 'output/popgen/{mapped}/stacks_populations',
-        smoothe = lambda wildcards:
-            '-k ' if wildcards.mapped == 'mapped' else ' '
+        smoothe = lambda wildcards, input:
+            ('--smooth '
+             '--bootstrap '
+             '--bootstrap-wl '
+             + input.whitelist + ' ') if wildcards.mapped == 'mapped' else ' '
     log:
         'output/logs/popgen/stacks_populations.{mapped}.log'
     singularity:
