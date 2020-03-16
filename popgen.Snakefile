@@ -130,7 +130,7 @@ rule populations:
         smoothe = lambda wildcards, input:
             ('--smooth '
              '--bootstrap '
-             '--bootstrap-wl '
+             '--bootstrap_wl '
              + input.whitelist + ' ') if wildcards.mapped == 'mapped' else ' '
     log:
         'output/logs/popgen/stacks_populations.{mapped}.log'
