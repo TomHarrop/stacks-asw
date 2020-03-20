@@ -129,7 +129,7 @@ rule populations:
             Path(input.catalog).parent,
         outdir = 'output/popgen/{mapped}/stacks_populations',
         smoothe = lambda wildcards, input:
-            ('--fst-correction \'p_value\' '
+            ('--fst-correction '
              '--smooth '
              '--bootstrap '
              '--bootstrap-wl ' + input.whitelist + ' '
