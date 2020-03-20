@@ -131,7 +131,7 @@ rule populations:
         smoothe = lambda wildcards, input:
             ('--fst-correction '
              '--smooth '
-             '--sigma 1331380 '
+             # '--sigma 1331380 '
              '--bootstrap '
              '--bootstrap-wl ' + input.whitelist + ' '
              '--bootstrap-reps 1000 ') if wildcards.mapped == 'mapped' else ' '
