@@ -23,14 +23,11 @@ indiv_missing_rate <- as.numeric(snakemake@params[["imiss_rate"]])
 # indiv_missing_rate <- 0.2
 # fai_file <- "output/map_to_genome/draft_genome.fasta.fai"
 
-
 ########
 # MAIN #
 ########
 
 snp_data <- readVcf(vcf)
-gl <- vcfR2genlight(snp_data)
-
 imiss <- fread(imiss_file)
 
 # get the long boiz
