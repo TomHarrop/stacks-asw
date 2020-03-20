@@ -58,6 +58,13 @@ ggplot(phistats_with_len, aes(x = bp_coord, y = `Smoothed D_est`)) +
   geom_point()
 
 
+# distance between markers
+phistats_with_len[, prev_loc := c(0, bp_coord[-.N])]
+phistats_with_len[, distance_from_prev := bp_coord - prev_loc]
+
+phistats_with_len[, summary(distance_from_prev)]
+
+
 plot_contig <- fai[3, V1]
 x_lim <- fai[V1 == plot_contig, c(0, V2)]
 

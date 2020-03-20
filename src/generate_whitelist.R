@@ -5,6 +5,7 @@ sink(log, type = "message")
 sink(log, append = TRUE, type = "output")
 
 library(data.table)
+library(VariantAnnotation)
 
 ###########
 # GLOBALS #
@@ -20,13 +21,25 @@ indiv_missing_rate <- as.numeric(snakemake@params[["imiss_rate"]])
 # vcf <- "output/popgen/mapped/locusfilter.vcf"
 # imiss_file <- "output/popgen/mapped/stats_locusfilter.imiss"
 # indiv_missing_rate <- 0.2
+# fai_file <- "output/map_to_genome/draft_genome.fasta.fai"
+
 
 ########
 # MAIN #
 ########
 
-snp_data <- VariantAnnotation::readVcf(vcf)
+snp_data <- readVcf(vcf)
+gl <- vcfR2genlight(snp_data)
+
 imiss <- fread(imiss_file)
+
+# get the long boiz
+fai_names <- c("Chr", "chr_length")
+fai <- fread(fai_file, select = 1:2, col.names = fai_names)
+keep_chr <- fai[chr_length > 1e6, Chr]
+
+# subset by snps on those chr
+snp_set <- snp_data[seqnames(rowRanges(snp_data)) %in% keep_chr, ]
 
 # individual missingness and population size filters
 keep_indiv <- imiss[F_MISS < indiv_missing_rate, unique(INDV)]
@@ -50,7 +63,7 @@ fwrite(popmap,
        col.names = FALSE)
 
 # make whitelist
-loc_names <- data.table(names(snp_data))
+loc_names <- data.table(names(snp_set))
 whitelist <- loc_names[, tstrsplit(V1, "_")]
 whitelist[, V3 := NULL]
 fwrite(whitelist,
