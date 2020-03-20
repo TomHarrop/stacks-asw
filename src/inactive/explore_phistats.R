@@ -31,18 +31,37 @@ phistats_with_len <- merge(phistats, chr_coords, by = "Chr")
 setorder(phistats_with_len, -chr_length, Chr, BP)
 phistats_with_len[, bp_coord := BP + chr_start - 1]
 
+# pick out the outliers
 q99 <- phistats_with_len[, quantile(`Smoothed Phi_st`, 0.99)]
+phistats_with_len[`Smoothed Phi_st` > q99, outlier := TRUE]
+phistats_with_len[outlier == TRUE, point_colour := Chr]
+phistats_with_len[is.na(outlier), point_colour := NA]
 
-ggplot(phistats_with_len, aes(x = bp_coord, y = `Smoothed Phi_st`)) +
+# order the contigs
+phistats_with_len[
+  , point_colour := factor(point_colour,
+           levels = unique(gtools::mixedsort(point_colour, na.last = TRUE)))]
+
+ggplot() +
+  theme_minimal() +
   theme(axis.text.x = element_text(angle = 30,
                                    hjust = 1,
                                    vjust = 1),
         axis.ticks.x = element_blank(),
-        axis.ticks.length.x = unit(0, "mm")) +
+        axis.ticks.length.x = unit(0, "mm"),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()) +
   scale_x_continuous(breaks = chr_coords[, lab_pos],
                      labels = chr_coords[, x_lab]) +
+  scale_colour_viridis_d() +
   geom_hline(yintercept = q99) +
-  geom_point()
+  geom_point(mapping = aes(x = bp_coord,
+                           y = `Smoothed Phi_st`),
+             data = phistats_with_len[is.na(point_colour)]) +
+  geom_point(mapping = aes(x = bp_coord,
+                           y = `Smoothed Phi_st`,
+                           colour = point_colour),
+             data = phistats_with_len[!is.na(point_colour)])
 
 
 d99 <- phistats_with_len[, quantile(`Smoothed D_est`, 0.99)]
