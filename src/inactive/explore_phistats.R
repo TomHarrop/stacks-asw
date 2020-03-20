@@ -32,8 +32,8 @@ setorder(phistats_with_len, -chr_length, Chr, BP)
 phistats_with_len[, bp_coord := BP + chr_start - 1]
 
 # pick out the outliers
-q99 <- phistats_with_len[, quantile(`Smoothed Phi_st`, 0.99)]
-phistats_with_len[`Smoothed Phi_st` > q99, outlier := TRUE]
+q99 <- phistats_with_len[, quantile(`phi_st`, 0.99)]
+phistats_with_len[`phi_st` > q99, outlier := TRUE]
 phistats_with_len[outlier == TRUE, point_colour := Chr]
 phistats_with_len[is.na(outlier), point_colour := NA]
 
@@ -56,10 +56,10 @@ ggplot() +
   scale_colour_viridis_d() +
   geom_hline(yintercept = q99) +
   geom_point(mapping = aes(x = bp_coord,
-                           y = `Smoothed Phi_st`),
+                           y = `phi_st`),
              data = phistats_with_len[is.na(point_colour)]) +
   geom_point(mapping = aes(x = bp_coord,
-                           y = `Smoothed Phi_st`,
+                           y = `phi_st`,
                            colour = point_colour),
              data = phistats_with_len[!is.na(point_colour)])
 
