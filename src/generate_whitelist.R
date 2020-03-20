@@ -16,6 +16,8 @@ imiss_file <- snakemake@input[["imiss"]]
 whitelist_file <- snakemake@output[["whitelist"]]
 popmap_file <- snakemake@output[["popmap"]]
 indiv_missing_rate <- as.numeric(snakemake@params[["imiss_rate"]])
+fai_file <- snakemake@input[["fai"]]
+
 
 # dev
 # vcf <- "output/popgen/mapped/locusfilter.vcf"

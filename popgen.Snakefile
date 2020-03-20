@@ -155,7 +155,8 @@ rule populations:
 rule generate_whitelist:
     input:
         vcf = 'output/popgen/{mapped}/locusfilter.vcf',
-        imiss = 'output/popgen/{mapped}/stats_locusfilter.imiss'
+        imiss = 'output/popgen/{mapped}/stats_locusfilter.imiss',
+        fai = 'output/map_to_genome/draft_genome.fasta.fai'
     params:
         imiss_rate = 0.2
     output:
