@@ -25,6 +25,9 @@ fai_file <- snakemake@input[["fai"]]
 # indiv_missing_rate <- 0.2
 # fai_file <- "output/map_to_genome/draft_genome.fasta.fai"
 
+n_pops <- c("Coromandel", "Ruakura", "Taranaki", "Wellington", "Greymouth")
+s_pops <- c("Lincoln", "O", "MararoaDowns", "Mossburn", "Fortrose")
+
 ########
 # MAIN #
 ########
@@ -55,6 +58,9 @@ popmap <- imiss[
     INDV %in% keep_indiv & population %in% keep_pop,
     .(individual = INDV,
       population)]
+
+popmap[population %in% n_pops, group := "North"]
+popmap[population %in% s_pops, group := "South"]
 
 fwrite(popmap,
        popmap_file,
