@@ -150,7 +150,7 @@ rule populations:
         '--vcf '
         # '--hwe '
         '--fstats '
-        '{params.smoothe} '
+        # '{params.smoothe} '
         '&> {log}'
 
 rule generate_whitelist:
