@@ -48,7 +48,7 @@ def stacks_mapping_resovler(wildcards):
 bioc_container = ('shub://TomHarrop/r-containers:bioconductor_3.10'
                   '@22b77812ec8211c7bbe29c9bbfc6dfba6a833982')
 r_container = ('shub://TomHarrop/singularity-containers:r_3.6.0')
-samtools = 'shub://TomHarrop/singularity-containers:samtools_1.9'
+samtools = 'shub://TomHarrop/align-utils:samtools_1.10'
 stacks252 = 'shub://TomHarrop/variant-utils:stacks_2.52'
 # stacks2beta_container = ('shub://TomHarrop/'
 #                          'singularity-containers:stacks_2.0beta9'
