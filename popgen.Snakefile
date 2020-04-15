@@ -247,7 +247,7 @@ rule sort_vcf:      # segfaults on some computers
         'bcftools sort '
         '--max-mem 500G '
         '--output-type v '
-        '--temp-dir ' + tempfile.mkdtemp() +
+        '--temp-dir ' + tempfile.mkdtemp() + ' '
         '{input} '
         '> {output} '
         '2> {log}'
