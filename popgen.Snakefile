@@ -245,9 +245,9 @@ rule sort_vcf:      # segfaults on some computers
     shell:
         'bcftools sort '
         '--max-mem 500G '
-        '--output-type v'
-        '--output-file {output} '
+        '--output-type v '
         '{input} '
+        '> {output} '
         '2> {log}'
 
 rule add_vcf_header:
