@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
+import tempfile
 
 
 #############
@@ -246,7 +247,7 @@ rule sort_vcf:      # segfaults on some computers
         'bcftools sort '
         '--max-mem 500G '
         '--output-type v '
-        '--temp-dir "$( mktemp -d )" '
+        '--temp-dir ' + tempfile.mkdtemp() +
         '{input} '
         '> {output} '
         '2> {log}'
