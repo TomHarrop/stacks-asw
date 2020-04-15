@@ -238,10 +238,17 @@ rule sort_vcf:      # segfaults on some computers
         'output/popgen/{mapped}/populations_header.vcf'
     output:
         temp('output/popgen/{mapped}/populations_sorted.vcf')
+    log:
+        'output/logs/sort_vcf.{mapped}.log'
     singularity:
         samtools
     shell:
-        'bcftools sort {input} > {output}'
+        'bcftools sort '
+        '--max-mem 500G '
+        '--output-type v'
+        '--output-file {output} '
+        '{input} '
+        '2> {log}'
 
 rule add_vcf_header:
     input:
