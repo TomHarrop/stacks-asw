@@ -68,8 +68,8 @@ for key in individual_to_sample_fullname:
 
 rule target:
     input:
-        'output/stacks_config/filtered_population_map.txt',
-        'output/stacks_config/individual_i.p'
+        'output/000_config/filtered_population_map.txt',
+        'output/000_config/individual_i.p'
 
 
 # 5. make a dictionary of sample:i for cstacks
@@ -77,7 +77,7 @@ rule enumerate_filtered_samples:
     input:
         key_file
     output:
-        pickle = 'output/stacks_config/individual_i.p'
+        pickle = 'output/000_config/individual_i.p'
     run:
         # count the individuals
         my_individuals = enumerate(all_individuals)
@@ -89,12 +89,12 @@ rule enumerate_filtered_samples:
 # 4. filter the population map
 rule filter_samples:
     input:
-        popmap = 'output/stacks_config/population_map.txt',
-        read_stats = 'output/combined_stats/reads.csv',
-        gc_stats = 'output/combined_stats/gc_stats.csv'
+        popmap = 'output/000_config/population_map.txt',
+        read_stats = 'output/040_stats/reads.csv',
+        gc_stats = 'output/040_stats/gc_stats.csv'
     output:
-        map = 'output/stacks_config/filtered_population_map.txt',
-        plot = 'output/combined_stats/read_count_histogram.pdf'
+        map = 'output/000_config/filtered_population_map.txt',
+        plot = 'output/040_stats/read_count_histogram.pdf'
     log:
         'output/logs/filter_samples.log'
     singularity:
@@ -105,14 +105,14 @@ rule filter_samples:
 # 4. run reformat.sh to count reads and get a gc histogram
 rule combine_individual_stats:
     input:
-        read_stats = expand('output/individual_stats/reads/{individual}.txt',
+        read_stats = expand('output/040_stats/reads/{individual}.txt',
                             individual=all_individuals),
-        gc_stats = expand('output/individual_stats/gc_hist/{individual}.txt',
+        gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
                           individual=all_individuals)
     output:
-        read_stats = 'output/combined_stats/reads.csv',
-        gc_stats = 'output/combined_stats/gc_stats.csv',
-        gc_hist = 'output/combined_stats/gc_hist.csv'
+        read_stats = 'output/040_stats/reads.csv',
+        gc_stats = 'output/040_stats/gc_stats.csv',
+        gc_hist = 'output/040_stats/gc_hist.csv'
     log:
         'output/logs/combine_individual_stats.log'
     threads:
@@ -124,10 +124,10 @@ rule combine_individual_stats:
 
 rule count_reads:
     input:
-        'output/combined/{individual}.fq.gz'
+        'output/030_combined/{individual}.fq.gz'
     output:
-        reads = 'output/individual_stats/reads/{individual}.txt',
-        gc = 'output/individual_stats/gc_hist/{individual}.txt'
+        reads = 'output/040_stats/reads/{individual}.txt',
+        gc = 'output/040_stats/gc_hist/{individual}.txt'
     threads:
         1
     priority:
@@ -147,33 +147,33 @@ rule count_reads:
 rule combine_reads:
     input:
         lambda wildcards: expand(
-            'output/filtering/kept/{sample_fullname}.fq.gz',
+            'output/020_filtered/kept/{sample_fullname}.fq.gz',
             sample_fullname=individual_to_sample_fullname[wildcards.individual])
     output:
-        'output/combined/{individual}.fq.gz'
+        'output/030_combined/{individual}.fq.gz'
     shell:
         'cat {input} > {output}'
 
 # # 2b. filter and truncate demuxed reads
 rule trim_adaptors:
     input:
-        'output/demux/{sample_fullname}.fq.gz'
+        'output/010_demux/{sample_fullname}.fq.gz'
     output:
-        kept = 'output/filtering/kept/{sample_fullname}.fq.gz',
-        discarded = 'output/filtering/discarded/{sample_fullname}.fq.gz',
-        adaptor_stats = 'output/filtering/adaptor_stats/{sample_fullname}.txt',
-        truncate_stats = ('output/filtering/truncate_stats/'
+        kept = 'output/020_filtered/kept/{sample_fullname}.fq.gz',
+        discarded = 'output/020_filtered/discarded/{sample_fullname}.fq.gz',
+        adaptor_stats = 'output/020_filtered/adaptor_stats/{sample_fullname}.txt',
+        truncate_stats = ('output/020_filtered/truncate_stats/'
                           '{sample_fullname}.txt'),
-        gc_hist = 'output/filtering/gc_hist/{sample_fullname}.txt',
-        lhist = 'output/filtering/lhist/{sample_fullname}.txt'
+        gc_hist = 'output/020_filtered/gc_hist/{sample_fullname}.txt',
+        lhist = 'output/020_filtered/lhist/{sample_fullname}.txt'
     params:
         adaptors = 'data/adaptors/bbduk_adaptors_plus_AgR_common.fa'
     singularity:
         bbduk_container
     log:
-        adaptors = 'output/logs/filtering/{sample_fullname}_adaptors.txt',
-        truncate = 'output/logs/filtering/{sample_fullname}_truncate.txt',
-        lhist = 'output/logs/filtering/{sample_fullname}_lhist.txt'
+        adaptors = 'output/logs/trim_adaptors.{sample_fullname}.adaptors.txt',
+        truncate = 'output/logs/trim_adaptors.{sample_fullname}.truncate.txt',
+        lhist = 'output/logs/trim_adaptors.{sample_fullname}.lhist.txt'
     threads:
         1
     shell:
@@ -215,13 +215,13 @@ for fc_lane in all_fc_lanes:
     rule:
         input:
             read_file = 'data/reads/{0}_fastq.gz'.format(fc_lane),
-            config_file = 'output/stacks_config/{0}.config'.format(fc_lane)
+            config_file = 'output/000_config/{0}.config'.format(fc_lane)
         output:
             expand(
-                'output/demux/{sample_fullname}.fq.gz',
+                'output/010_demux/{sample_fullname}.fq.gz',
                 sample_fullname=fc_name_to_sample_fullname[fc_lane])
         log:
-            'output/logs/demux/{0}.log'.format(fc_lane)
+            'output/logs/demux.{0}.log'.format(fc_lane)
         threads:
             1
         singularity:
@@ -247,11 +247,11 @@ rule write_config_files:
     input:
         key_file = key_file
     output:
-        expand('output/stacks_config/{fc_lane}.config',
+        expand('output/000_config/{fc_lane}.config',
                fc_lane=all_fc_lanes),
-        population_map = 'output/stacks_config/population_map.txt'
+        population_map = 'output/000_config/population_map.txt'
     params:
-        outdir = 'output/stacks_config'
+        outdir = 'output/000_config'
     log:
         'output/logs/write_config_files.log'
     singularity:
