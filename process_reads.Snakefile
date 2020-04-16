@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import pandas
-import pickle
 import re
 
 #############
@@ -20,6 +19,7 @@ key_file = 'data/reads/SQ0727.txt'
 stacks_container = ('shub://TomHarrop/variant-utils:stacks_2.53')
 bbduk_container = 'shub://TomHarrop/seq-utils:bbmap_38.76'
 r_container = 'shub://TomHarrop/r-containers:r_3.6.1'
+pandas_container = 'shub://TomHarrop/py-containers:pandas_0.25.3'
 
 #########
 # SETUP #
@@ -75,16 +75,13 @@ rule target:
 # 5. make a dictionary of sample:i for cstacks
 rule enumerate_filtered_samples:
     input:
-        key_file
+        key_file = key_file
     output:
         pickle = 'output/000_config/individual_i.p'
-    run:
-        # count the individuals
-        my_individuals = enumerate(all_individuals)
-        individual_i = {y: x for x, y in my_individuals}
-        # pickle the individual_i dict for other rules to use
-        with open(output.pickle, 'wb+') as f:
-            pickle.dump(individual_i, f)
+    singularity:
+        pandas_container
+    script:
+        'src/enumerate_filtered_samples.py'
 
 # 4. filter the population map
 rule filter_samples:
