@@ -17,9 +17,9 @@ import re
 key_file = 'data/reads/SQ0727.txt'
 
 # containers
-stacks_container = ('shub://TomHarrop/variant-utils:stacks_2.3e')
-bbduk_container = 'shub://TomHarrop/singularity-containers:bbmap_38.00'
-r_container = 'shub://TomHarrop/singularity-containers:r_3.5.0'
+stacks_container = ('shub://TomHarrop/variant-utils:stacks_2.53')
+bbduk_container = 'shub://TomHarrop/seq-utils:bbmap_38.76'
+r_container = 'shub://TomHarrop/r-containers:r_3.6.1'
 
 #########
 # SETUP #
@@ -235,7 +235,7 @@ for fc_lane in all_fc_lanes:
             '-c -q '
             # '-r --barcode_dist_1 1 '  # rescue barcodes
             '--barcode_dist_1 0 '       # don't allow bc mismatches
-            # '-t 91 '                    # truncate output to 91 b
+            # '-t 91 '                  # truncate output to 91 b
             '-w 0.1 '                   # window: approx. 9 bases
             '-s 15 '                    # minimum avg PHRED in window
             '--inline_null '
