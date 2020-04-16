@@ -9,15 +9,6 @@ sink(log, append = TRUE, type = "output")
 library(data.table)
 library(ggplot2)
 
-#############
-# FUNCTIONS #
-#############
-
-TouchFlagFile <- function(individual, flag_dir) {
-    flag_path <- paste0(flag_dir, "/", individual, ".tmp")
-    file.create(flag_path)
-}
-
 ###########
 # GLOBALS #
 ###########

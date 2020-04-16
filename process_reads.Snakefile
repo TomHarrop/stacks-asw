@@ -3,11 +3,6 @@
 import pandas
 import re
 
-#############
-# FUNCTIONS #
-#############
-
-
 ###########
 # GLOBALS #
 ###########
@@ -16,10 +11,10 @@ import re
 key_file = 'data/reads/SQ0727.txt'
 
 # containers
-stacks_container = ('shub://TomHarrop/variant-utils:stacks_2.53')
 bbduk_container = 'shub://TomHarrop/seq-utils:bbmap_38.76'
-r_container = 'shub://TomHarrop/r-containers:r_3.6.1'
 pandas_container = 'shub://TomHarrop/py-containers:pandas_0.25.3'
+r_container = 'shub://TomHarrop/r-containers:r_3.6.1'
+stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 
 #########
 # SETUP #

@@ -1,0 +1,577 @@
+flowcell	lane	barcode	sample	platename	row	column	libraryprepid	counter	comment	enzyme	species	numberofbarcodes	bifo	control	fastq_link
+CCHR3ANXX	4	AACAGTC	Reefton10	GBS2055	A	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCACAGT	Greymouth17	GBS2055	A	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGGACC	Coromandel18	GBS2055	A	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAACAAT	Greymouth45	GBS2055	A	8	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTACGC	Fortrose4	GBS2055	A	10	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTTAGA	Mossburn10	GBS2055	A	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AAGACCT	Lincoln50	GBS2055	A	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CACTAGC	Wellington35	GBS2055	A	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCTGAAT	Mararoa Downs3	GBS2055	A	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGACATA	Wellington3	GBS2055	A	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGACGA	O1.8	GBS2055	A	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCATGCC	Fortrose22	GBS2055	A	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAGAATC	Mararoa Downs17	GBS2055	C	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCTGAC	Ruakura32	GBS2055	C	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGGCTGA	O1.6	GBS2055	C	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAATTAC	Taranaki7	GBS2055	C	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCGCCA	Taranaki1	GBS2055	C	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GTCCGCA	Fortrose31	GBS2055	C	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TCTGACA	Lincoln98	GBS2055	C	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGTCAGC	Taranaki30	GBS2055	C	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTCAGAA	Coromandel45	GBS2055	C	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGTAGGC	Mararoa Downs19	GBS2055	C	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTAAGGC	Mossburn50	GBS2055	C	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACATGTT	Mararoa Downs30	GBS2055	C	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ATCGCGC	Fortrose4	GBS2055	E	2	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TAAGCAC	Greymouth50	GBS2055	E	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCCAATA	Taranaki29	GBS2055	E	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TCATGGA	Mararoa Downs28	GBS2055	E	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CGTAACC	Fortrose4	GBS2055	E	10	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ATGTATC	Wellington2	GBS2055	E	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GATATCT	Greymouth48	GBS2055	E	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGCGACT	Coromandel43	GBS2055	E	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCACTGA	Greymouth40	GBS2055	E	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TAACGAGA	GBSNEG2	GBS2055	E	20	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACTGGTGT	O1.9	GBS2055	E	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TAACAGTGA	O2.8	GBS2055	K	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGAACAGA	Mossburn16	GBS2055	E	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAATGCGA	Coromandel30	GBS2055	G	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AACAGTGT	Lincoln40	GBS2055	G	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTGTAAGT	Greymouth51	GBS2055	G	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GTAGGCGT	Mossburn14	GBS2055	G	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGCGTGGA	Taranaki11	GBS2055	G	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCAACAGT	Wellington40	GBS2055	G	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTACGAA	Reefton15	GBS2055	G	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCTATGT	Mossburn11	GBS2055	G	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCTGTAGT	GBSNEG3	GBS2055	G	18	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CACCAGTA	Ruakura84	GBS2055	G	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGTTGCAA	Ruakura22	GBS2055	G	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ATCGTTGT	Lincoln28	GBS2055	G	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGTATCT	Mossburn9	GBS2055	I	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGAATCCA	Fortrose5	GBS2055	I	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CACTCGTT	Reefton25	GBS2055	I	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGCTTAT	Reefton7	GBS2055	I	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCCACACT	Coromandel47	GBS2055	I	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTTGCTA	Lincoln43	GBS2055	I	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGCCATT	Mararoa Downs23	GBS2055	I	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGAAGTCA	Fortrose12	GBS2055	I	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AAGACAAT	Mararoa Downs15	GBS2055	I	18	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCACGGTA	Greymouth16	GBS2055	I	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGTGACCA	Lincoln69	GBS2055	I	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAACTACA	Fortrose21	GBS2055	I	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCGGTAT	GBSNEG1	GBS2055	K	2	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGGTTCGA	Mararoa Downs21	GBS2055	K	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTTGGACT	Ruakura98	GBS2055	K	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAGCTCGA	Reefton13	GBS2055	K	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGTGTCGA	Taranaki14	GBS2055	K	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTACACGA	Greymouth45	GBS2055	K	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCGTTGGA	Greymouth43	GBS2055	K	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACGTGGTGT	Fortrose1	GBS2055	K	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCCACAAGT	Lincoln1	GBS2055	K	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGTTGACGT	Greymouth21	GBS2055	K	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCTGGAGGT	O2.4	GBS2055	K	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGAACTAGA	Taranaki23	GBS2055	M	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTCAACGT	O1.2	GBS2055	M	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CAGGTGTGT	Wellington27	GBS2055	M	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGAAGTCGA	Lincoln12	GBS2055	M	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCTAAGGT	Greymouth45	GBS2055	M	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGTGCGTGT	Wellington20	GBS2055	M	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAACATGGA	Ruakura12	GBS2055	M	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GTGAGGCGA	Taranaki50	GBS2055	M	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CGGAGTGGT	Greymouth1	GBS2055	M	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAAGACATT	Mararoa Downs15	GBS2055	M	20	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGCTTCAA	Mararoa Downs10	GBS2055	M	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGTCGTGTA	Lincoln33	GBS2055	M	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CACCATGAT	Taranaki26	GBS2055	O	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGAACACAA	Coromandel15	GBS2055	O	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AACCTTCGA	Greymouth18	GBS2055	O	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGTCAGAA	Fortrose33	GBS2055	O	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AACACGCAT	Fortrose11	GBS2055	O	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCACAAGTA	O1.10	GBS2055	O	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CGTTGTAGA	Reefton17	GBS2055	O	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACACCAAGT	O2.3	GBS2055	O	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTTGGTTAA	Wellington19	GBS2055	O	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GACCAATAA	Greymouth27	GBS2055	O	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCTTAGTA	O3.1	GBS2055	O	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGGCGGATA	Mararoa Downs14	GBS2055	O	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCACGTA	Mossburn43	GBS2055	B	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGTCAC	GBSNEG4	GBS2055	B	3	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGTGCAC	Mararoa Downs15	GBS2055	B	5	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AACCGAT	Lincoln20	GBS2055	B	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGTTCTT	Reefton9	GBS2055	B	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAGGTCC	Ruakura61	GBS2055	B	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAACCTC	Reefton19	GBS2055	B	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCAGCT	Mararoa Downs15	GBS2055	B	15	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGAGTC	Greymouth25	GBS2055	B	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GACACAT	O2.5	GBS2055	B	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGTCATT	Mararoa Downs20	GBS2055	B	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ATTCTGC	Coromandel20	GBS2055	B	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCCTTAT	Fortrose4	GBS2055	D	1	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ATCGGTT	Wellington38	GBS2055	D	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TAGTGCC	Mossburn13	GBS2055	D	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGAACTA	Wellington34	GBS2055	D	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTAGTT	Fortrose16	GBS2055	D	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GTGCAGT	Mararoa Downs29	GBS2055	D	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGACTAC	Fortrose18	GBS2055	D	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CACTGCA	Ruakura45	GBS2055	D	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AAGGCTC	Coromandel35	GBS2055	D	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCGACTA	Mararoa Downs18	GBS2055	D	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCGTAT	Mararoa Downs26	GBS2055	D	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CGTCGCA	Reefton8	GBS2055	D	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTACGCT	Mararoa Downs25	GBS2055	F	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGATTCT	Wellington43	GBS2055	F	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TCGCACT	O2.1	GBS2055	F	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CGCATTA	Wellington26	GBS2055	F	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GATCCGT	Mossburn41	GBS2055	F	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGCGGAA	Ruakura16	GBS2055	F	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACGCGTC	Mossburn27	GBS2055	F	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTGCCAA	Coromandel53	GBS2055	F	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTTGTAGA	Mossburn2	GBS2055	F	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GACCTTGT	Fortrose15	GBS2055	F	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCATAGT	Fortrose17	GBS2055	F	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGCCTGA	Greymouth15	GBS2055	F	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GATGCGGT	Taranaki34	GBS2055	H	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCACTCGA	O1.7	GBS2055	H	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGTGCGGA	Fortrose23	GBS2055	H	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCAAGTGA	O1.4	GBS2055	H	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AAGCATGA	Lincoln58	GBS2055	H	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	5	CGTCGCA	Reefton8	GBS2055	D	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	4	AGTCTGGA	Reefton11	GBS2055	H	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAAGAACT	Taranaki18	GBS2055	H	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCGTCTA	Mararoa Downs22	GBS2055	H	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AACGAATA	Taranaki15	GBS2055	H	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CGTAGTGT	Wellington10	GBS2055	H	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCTCGAT	Greymouth31	GBS2055	H	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGAACACT	O3.2	GBS2055	H	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CACCGACT	Coromandel37	GBS2055	J	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGGACTT	Coromandel12	GBS2055	J	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCTTAGGA	Ruakura2	GBS2055	J	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGTCGAGA	Taranaki17	GBS2055	J	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TAAGACAA	Fortrose25	GBS2055	J	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTGTGTTA	Lincoln56	GBS2055	J	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCCATATA	Greymouth2	GBS2055	J	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGTCGCA	Coromandel55	GBS2055	J	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGACAAGT	Reefton5	GBS2055	J	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCACTGT	Wellington13	GBS2055	J	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CAGGTGAA	Greymouth45	GBS2055	J	21	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGAATCAT	Ruakura23	GBS2055	J	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GTCTTCGA	Wellington29	GBS2055	L	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGTCAGCT	Fortrose34	GBS2055	L	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTATCGT	Lincoln3	GBS2055	L	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ATGGAGCA	O2.2	GBS2055	L	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTACCAGT	Lincoln85	GBS2055	L	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCTTGTGA	Taranaki36	GBS2055	L	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAGAACAGT	Fortrose2	GBS2055	L	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGTGTCGGT	Mararoa Downs16	GBS2055	L	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CACCATTGA	Reefton20	GBS2055	L	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGTCATGT	Ruakura31	GBS2055	L	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CGTGGAGGA	Lincoln59	GBS2055	L	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CATGGTGGT	Reefton21	GBS2055	L	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGAATACGT	Coromandel39	GBS2055	N	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCTACAGA	Ruakura95	GBS2055	N	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GCCACCTGA	Wellington11	GBS2055	N	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTCTCCAGT	Coromandel23	GBS2055	N	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGAGACAGT	Ruakura99	GBS2055	N	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TCTCTGTGA	Lincoln67	GBS2055	N	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGTGCGGAT	Reefton6	GBS2055	N	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AACAGAATA	Taranaki20	GBS2055	N	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCACACTGT	Taranaki49	GBS2055	N	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGTTGTCTA	Ruakura47	GBS2055	N	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGTTCTTA	Coromandel46	GBS2055	N	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AACGAACTA	O1.5	GBS2055	N	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAACCACGT	Reefton16	GBS2055	P	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACCAACGTA	Mossburn52	GBS2055	P	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTTGTGAAT	Mossburn25	GBS2055	P	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CTGTGGTGA	Wellington12	GBS2055	P	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GGAACAGTT	Mossburn26	GBS2055	P	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TTGGACATA	Greymouth52	GBS2055	P	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	ACGTTGGTT	Reefton12	GBS2055	P	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	TGAACTGGT	Mossburn49	GBS2055	P	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	CCTCCTAGA	Ruakura42	GBS2055	P	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	AGGCGGTAT	Coromandel26	GBS2055	P	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GAAGACTAA	Mossburn15	GBS2055	P	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	4	GTGGCGTAT	Ruakura40	GBS2055	P	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_4_fastq.txt.gz
+CCHR3ANXX	5	AACAGTC	Reefton10	GBS2055	A	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCACAGT	Greymouth17	GBS2055	A	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGGACC	Coromandel18	GBS2055	A	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAACAAT	Greymouth45	GBS2055	A	8	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTACGC	Fortrose4	GBS2055	A	10	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTTAGA	Mossburn10	GBS2055	A	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AAGACCT	Lincoln50	GBS2055	A	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CACTAGC	Wellington35	GBS2055	A	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCTGAAT	Mararoa Downs3	GBS2055	A	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGACATA	Wellington3	GBS2055	A	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGACGA	O1.8	GBS2055	A	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCATGCC	Fortrose22	GBS2055	A	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAGAATC	Mararoa Downs17	GBS2055	C	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCTGAC	Ruakura32	GBS2055	C	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGGCTGA	O1.6	GBS2055	C	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAATTAC	Taranaki7	GBS2055	C	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCGCCA	Taranaki1	GBS2055	C	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GTCCGCA	Fortrose31	GBS2055	C	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TCTGACA	Lincoln98	GBS2055	C	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGTCAGC	Taranaki30	GBS2055	C	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTCAGAA	Coromandel45	GBS2055	C	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGTAGGC	Mararoa Downs19	GBS2055	C	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTAAGGC	Mossburn50	GBS2055	C	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACATGTT	Mararoa Downs30	GBS2055	C	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ATCGCGC	Fortrose4	GBS2055	E	2	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TAAGCAC	Greymouth50	GBS2055	E	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCCAATA	Taranaki29	GBS2055	E	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TCATGGA	Mararoa Downs28	GBS2055	E	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CGTAACC	Fortrose4	GBS2055	E	10	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ATGTATC	Wellington2	GBS2055	E	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GATATCT	Greymouth48	GBS2055	E	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGCGACT	Coromandel43	GBS2055	E	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCACTGA	Greymouth40	GBS2055	E	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TAACGAGA	GBSNEG2	GBS2055	E	20	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACTGGTGT	O1.9	GBS2055	E	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGAACAGA	Mossburn16	GBS2055	E	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAATGCGA	Coromandel30	GBS2055	G	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AACAGTGT	Lincoln40	GBS2055	G	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTGTAAGT	Greymouth51	GBS2055	G	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GTAGGCGT	Mossburn14	GBS2055	G	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGCGTGGA	Taranaki11	GBS2055	G	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCAACAGT	Wellington40	GBS2055	G	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTACGAA	Reefton15	GBS2055	G	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCTATGT	Mossburn11	GBS2055	G	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCTGTAGT	GBSNEG3	GBS2055	G	18	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CACCAGTA	Ruakura84	GBS2055	G	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGTTGCAA	Ruakura22	GBS2055	G	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ATCGTTGT	Lincoln28	GBS2055	G	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGTATCT	Mossburn9	GBS2055	I	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGAATCCA	Fortrose5	GBS2055	I	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CACTCGTT	Reefton25	GBS2055	I	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGCTTAT	Reefton7	GBS2055	I	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCCACACT	Coromandel47	GBS2055	I	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTTGCTA	Lincoln43	GBS2055	I	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGCCATT	Mararoa Downs23	GBS2055	I	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGAAGTCA	Fortrose12	GBS2055	I	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AAGACAAT	Mararoa Downs15	GBS2055	I	18	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCACGGTA	Greymouth16	GBS2055	I	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGTGACCA	Lincoln69	GBS2055	I	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAACTACA	Fortrose21	GBS2055	I	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCGGTAT	GBSNEG1	GBS2055	K	2	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGGTTCGA	Mararoa Downs21	GBS2055	K	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTTGGACT	Ruakura98	GBS2055	K	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAGCTCGA	Reefton13	GBS2055	K	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGTGTCGA	Taranaki14	GBS2055	K	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTACACGA	Greymouth45	GBS2055	K	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCGTTGGA	Greymouth43	GBS2055	K	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACGTGGTGT	Fortrose1	GBS2055	K	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TAACAGTGA	O2.8	GBS2055	K	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCCACAAGT	Lincoln1	GBS2055	K	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGTTGACGT	Greymouth21	GBS2055	K	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCTGGAGGT	O2.4	GBS2055	K	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGAACTAGA	Taranaki23	GBS2055	M	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTCAACGT	O1.2	GBS2055	M	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CAGGTGTGT	Wellington27	GBS2055	M	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGAAGTCGA	Lincoln12	GBS2055	M	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCTAAGGT	Greymouth45	GBS2055	M	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGTGCGTGT	Wellington20	GBS2055	M	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAACATGGA	Ruakura12	GBS2055	M	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GTGAGGCGA	Taranaki50	GBS2055	M	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CGGAGTGGT	Greymouth1	GBS2055	M	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAAGACATT	Mararoa Downs15	GBS2055	M	20	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGCTTCAA	Mararoa Downs10	GBS2055	M	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGTCGTGTA	Lincoln33	GBS2055	M	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CACCATGAT	Taranaki26	GBS2055	O	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGAACACAA	Coromandel15	GBS2055	O	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AACCTTCGA	Greymouth18	GBS2055	O	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGTCAGAA	Fortrose33	GBS2055	O	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AACACGCAT	Fortrose11	GBS2055	O	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCACAAGTA	O1.10	GBS2055	O	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CGTTGTAGA	Reefton17	GBS2055	O	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACACCAAGT	O2.3	GBS2055	O	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTTGGTTAA	Wellington19	GBS2055	O	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GACCAATAA	Greymouth27	GBS2055	O	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCTTAGTA	O3.1	GBS2055	O	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGGCGGATA	Mararoa Downs14	GBS2055	O	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCACGTA	Mossburn43	GBS2055	B	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGTCAC	GBSNEG4	GBS2055	B	3	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGTGCAC	Mararoa Downs15	GBS2055	B	5	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AACCGAT	Lincoln20	GBS2055	B	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGTTCTT	Reefton9	GBS2055	B	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAGGTCC	Ruakura61	GBS2055	B	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAACCTC	Reefton19	GBS2055	B	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCAGCT	Mararoa Downs15	GBS2055	B	15	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGAGTC	Greymouth25	GBS2055	B	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GACACAT	O2.5	GBS2055	B	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGTCATT	Mararoa Downs20	GBS2055	B	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ATTCTGC	Coromandel20	GBS2055	B	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCCTTAT	Fortrose4	GBS2055	D	1	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ATCGGTT	Wellington38	GBS2055	D	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TAGTGCC	Mossburn13	GBS2055	D	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGAACTA	Wellington34	GBS2055	D	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTAGTT	Fortrose16	GBS2055	D	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GTGCAGT	Mararoa Downs29	GBS2055	D	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGACTAC	Fortrose18	GBS2055	D	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CACTGCA	Ruakura45	GBS2055	D	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AAGGCTC	Coromandel35	GBS2055	D	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCGACTA	Mararoa Downs18	GBS2055	D	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCGTAT	Mararoa Downs26	GBS2055	D	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTACGCT	Mararoa Downs25	GBS2055	F	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGATTCT	Wellington43	GBS2055	F	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TCGCACT	O2.1	GBS2055	F	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CGCATTA	Wellington26	GBS2055	F	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GATCCGT	Mossburn41	GBS2055	F	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGCGGAA	Ruakura16	GBS2055	F	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACGCGTC	Mossburn27	GBS2055	F	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTGCCAA	Coromandel53	GBS2055	F	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTTGTAGA	Mossburn2	GBS2055	F	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GACCTTGT	Fortrose15	GBS2055	F	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCATAGT	Fortrose17	GBS2055	F	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGCCTGA	Greymouth15	GBS2055	F	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GATGCGGT	Taranaki34	GBS2055	H	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCACTCGA	O1.7	GBS2055	H	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGTGCGGA	Fortrose23	GBS2055	H	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCAAGTGA	O1.4	GBS2055	H	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AAGCATGA	Lincoln58	GBS2055	H	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGTCTGGA	Reefton11	GBS2055	H	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAAGAACT	Taranaki18	GBS2055	H	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCGTCTA	Mararoa Downs22	GBS2055	H	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AACGAATA	Taranaki15	GBS2055	H	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CGTAGTGT	Wellington10	GBS2055	H	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCTCGAT	Greymouth31	GBS2055	H	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGAACACT	O3.2	GBS2055	H	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CACCGACT	Coromandel37	GBS2055	J	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGGACTT	Coromandel12	GBS2055	J	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCTTAGGA	Ruakura2	GBS2055	J	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGTCGAGA	Taranaki17	GBS2055	J	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TAAGACAA	Fortrose25	GBS2055	J	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTGTGTTA	Lincoln56	GBS2055	J	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCCATATA	Greymouth2	GBS2055	J	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGTCGCA	Coromandel55	GBS2055	J	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGACAAGT	Reefton5	GBS2055	J	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCACTGT	Wellington13	GBS2055	J	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CAGGTGAA	Greymouth45	GBS2055	J	21	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGAATCAT	Ruakura23	GBS2055	J	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GTCTTCGA	Wellington29	GBS2055	L	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGTCAGCT	Fortrose34	GBS2055	L	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTATCGT	Lincoln3	GBS2055	L	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ATGGAGCA	O2.2	GBS2055	L	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTACCAGT	Lincoln85	GBS2055	L	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCTTGTGA	Taranaki36	GBS2055	L	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAGAACAGT	Fortrose2	GBS2055	L	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGTGTCGGT	Mararoa Downs16	GBS2055	L	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CACCATTGA	Reefton20	GBS2055	L	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGTCATGT	Ruakura31	GBS2055	L	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CGTGGAGGA	Lincoln59	GBS2055	L	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CATGGTGGT	Reefton21	GBS2055	L	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGAATACGT	Coromandel39	GBS2055	N	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCTACAGA	Ruakura95	GBS2055	N	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GCCACCTGA	Wellington11	GBS2055	N	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTCTCCAGT	Coromandel23	GBS2055	N	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGAGACAGT	Ruakura99	GBS2055	N	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TCTCTGTGA	Lincoln67	GBS2055	N	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGTGCGGAT	Reefton6	GBS2055	N	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AACAGAATA	Taranaki20	GBS2055	N	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCACACTGT	Taranaki49	GBS2055	N	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGTTGTCTA	Ruakura47	GBS2055	N	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGTTCTTA	Coromandel46	GBS2055	N	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AACGAACTA	O1.5	GBS2055	N	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAACCACGT	Reefton16	GBS2055	P	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACCAACGTA	Mossburn52	GBS2055	P	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTTGTGAAT	Mossburn25	GBS2055	P	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CTGTGGTGA	Wellington12	GBS2055	P	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GGAACAGTT	Mossburn26	GBS2055	P	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TTGGACATA	Greymouth52	GBS2055	P	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	ACGTTGGTT	Reefton12	GBS2055	P	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	TGAACTGGT	Mossburn49	GBS2055	P	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	CCTCCTAGA	Ruakura42	GBS2055	P	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	AGGCGGTAT	Coromandel26	GBS2055	P	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GAAGACTAA	Mossburn15	GBS2055	P	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHR3ANXX	5	GTGGCGTAT	Ruakura40	GBS2055	P	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHR3ANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGCCTGA	Greymouth15	GBS2055	F	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GATGCGGT	Taranaki34	GBS2055	H	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCACTCGA	O1.7	GBS2055	H	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGTGCGGA	Fortrose23	GBS2055	H	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCAAGTGA	O1.4	GBS2055	H	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AAGCATGA	Lincoln58	GBS2055	H	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGTCTGGA	Reefton11	GBS2055	H	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAAGAACT	Taranaki18	GBS2055	H	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCGTCTA	Mararoa Downs22	GBS2055	H	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AACGAATA	Taranaki15	GBS2055	H	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CGTAGTGT	Wellington10	GBS2055	H	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCTCGAT	Greymouth31	GBS2055	H	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGAACACT	O3.2	GBS2055	H	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CACCGACT	Coromandel37	GBS2055	J	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGGACTT	Coromandel12	GBS2055	J	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCTTAGGA	Ruakura2	GBS2055	J	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGTCGAGA	Taranaki17	GBS2055	J	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TAAGACAA	Fortrose25	GBS2055	J	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTGTGTTA	Lincoln56	GBS2055	J	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCCATATA	Greymouth2	GBS2055	J	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGTCGCA	Coromandel55	GBS2055	J	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGACAAGT	Reefton5	GBS2055	J	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCACTGT	Wellington13	GBS2055	J	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CAGGTGAA	Greymouth45	GBS2055	J	21	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGAATCAT	Ruakura23	GBS2055	J	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GTCTTCGA	Wellington29	GBS2055	L	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGTCAGCT	Fortrose34	GBS2055	L	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTACCAGT	Lincoln85	GBS2055	L	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AACAGTC	Reefton10	GBS2055	A	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCACAGT	Greymouth17	GBS2055	A	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGGACC	Coromandel18	GBS2055	A	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAACAAT	Greymouth45	GBS2055	A	8	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTACGC	Fortrose4	GBS2055	A	10	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTTAGA	Mossburn10	GBS2055	A	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AAGACCT	Lincoln50	GBS2055	A	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CACTAGC	Wellington35	GBS2055	A	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCTGAAT	Mararoa Downs3	GBS2055	A	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGACATA	Wellington3	GBS2055	A	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGACGA	O1.8	GBS2055	A	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCATGCC	Fortrose22	GBS2055	A	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAGAATC	Mararoa Downs17	GBS2055	C	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCTGAC	Ruakura32	GBS2055	C	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGGCTGA	O1.6	GBS2055	C	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAATTAC	Taranaki7	GBS2055	C	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCGCCA	Taranaki1	GBS2055	C	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GTCCGCA	Fortrose31	GBS2055	C	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TCTGACA	Lincoln98	GBS2055	C	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGTCAGC	Taranaki30	GBS2055	C	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTCAGAA	Coromandel45	GBS2055	C	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGTAGGC	Mararoa Downs19	GBS2055	C	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTAAGGC	Mossburn50	GBS2055	C	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACATGTT	Mararoa Downs30	GBS2055	C	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ATCGCGC	Fortrose4	GBS2055	E	2	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TAAGCAC	Greymouth50	GBS2055	E	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCCAATA	Taranaki29	GBS2055	E	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TCATGGA	Mararoa Downs28	GBS2055	E	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CGTAACC	Fortrose4	GBS2055	E	10	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ATGTATC	Wellington2	GBS2055	E	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GATATCT	Greymouth48	GBS2055	E	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGCGACT	Coromandel43	GBS2055	E	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCACTGA	Greymouth40	GBS2055	E	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TAACGAGA	GBSNEG2	GBS2055	E	20	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACTGGTGT	O1.9	GBS2055	E	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGAACAGA	Mossburn16	GBS2055	E	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAATGCGA	Coromandel30	GBS2055	G	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AACAGTGT	Lincoln40	GBS2055	G	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTGTAAGT	Greymouth51	GBS2055	G	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GTAGGCGT	Mossburn14	GBS2055	G	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGCGTGGA	Taranaki11	GBS2055	G	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCAACAGT	Wellington40	GBS2055	G	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTACGAA	Reefton15	GBS2055	G	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCTATGT	Mossburn11	GBS2055	G	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCTGTAGT	GBSNEG3	GBS2055	G	18	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CACCAGTA	Ruakura84	GBS2055	G	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGTTGCAA	Ruakura22	GBS2055	G	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ATCGTTGT	Lincoln28	GBS2055	G	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGTATCT	Mossburn9	GBS2055	I	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGAATCCA	Fortrose5	GBS2055	I	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CACTCGTT	Reefton25	GBS2055	I	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGCTTAT	Reefton7	GBS2055	I	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCCACACT	Coromandel47	GBS2055	I	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTTGCTA	Lincoln43	GBS2055	I	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGCCATT	Mararoa Downs23	GBS2055	I	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGAAGTCA	Fortrose12	GBS2055	I	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AAGACAAT	Mararoa Downs15	GBS2055	I	18	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCACGGTA	Greymouth16	GBS2055	I	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGTGACCA	Lincoln69	GBS2055	I	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAACTACA	Fortrose21	GBS2055	I	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCGGTAT	GBSNEG1	GBS2055	K	2	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGGTTCGA	Mararoa Downs21	GBS2055	K	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTTGGACT	Ruakura98	GBS2055	K	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAGCTCGA	Reefton13	GBS2055	K	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGTGTCGA	Taranaki14	GBS2055	K	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTACACGA	Greymouth45	GBS2055	K	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCGTTGGA	Greymouth43	GBS2055	K	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACGTGGTGT	Fortrose1	GBS2055	K	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TAACAGTGA	O2.8	GBS2055	K	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCCACAAGT	Lincoln1	GBS2055	K	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGTTGACGT	Greymouth21	GBS2055	K	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCTGGAGGT	O2.4	GBS2055	K	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGAACTAGA	Taranaki23	GBS2055	M	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTCAACGT	O1.2	GBS2055	M	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CAGGTGTGT	Wellington27	GBS2055	M	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGAAGTCGA	Lincoln12	GBS2055	M	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCTAAGGT	Greymouth45	GBS2055	M	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGTGCGTGT	Wellington20	GBS2055	M	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAACATGGA	Ruakura12	GBS2055	M	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GTGAGGCGA	Taranaki50	GBS2055	M	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CGGAGTGGT	Greymouth1	GBS2055	M	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAAGACATT	Mararoa Downs15	GBS2055	M	20	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGCTTCAA	Mararoa Downs10	GBS2055	M	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGTCGTGTA	Lincoln33	GBS2055	M	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CACCATGAT	Taranaki26	GBS2055	O	2	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGAACACAA	Coromandel15	GBS2055	O	4	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AACCTTCGA	Greymouth18	GBS2055	O	6	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGTCAGAA	Fortrose33	GBS2055	O	8	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AACACGCAT	Fortrose11	GBS2055	O	10	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCACAAGTA	O1.10	GBS2055	O	12	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CGTTGTAGA	Reefton17	GBS2055	O	14	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACACCAAGT	O2.3	GBS2055	O	16	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTTGGTTAA	Wellington19	GBS2055	O	18	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GACCAATAA	Greymouth27	GBS2055	O	20	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCTTAGTA	O3.1	GBS2055	O	22	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGGCGGATA	Mararoa Downs14	GBS2055	O	24	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCACGTA	Mossburn43	GBS2055	B	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGTCAC	GBSNEG4	GBS2055	B	3	727			MspI-ApeKI	Weevil	192		NEGATIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGTGCAC	Mararoa Downs15	GBS2055	B	5	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AACCGAT	Lincoln20	GBS2055	B	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGTTCTT	Reefton9	GBS2055	B	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAGGTCC	Ruakura61	GBS2055	B	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAACCTC	Reefton19	GBS2055	B	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCAGCT	Mararoa Downs15	GBS2055	B	15	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGAGTC	Greymouth25	GBS2055	B	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GACACAT	O2.5	GBS2055	B	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGTCATT	Mararoa Downs20	GBS2055	B	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ATTCTGC	Coromandel20	GBS2055	B	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCCTTAT	Fortrose4	GBS2055	D	1	727			MspI-ApeKI	Weevil	192		POSITIVE	/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ATCGGTT	Wellington38	GBS2055	D	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TAGTGCC	Mossburn13	GBS2055	D	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGAACTA	Wellington34	GBS2055	D	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTAGTT	Fortrose16	GBS2055	D	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GTGCAGT	Mararoa Downs29	GBS2055	D	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGACTAC	Fortrose18	GBS2055	D	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CACTGCA	Ruakura45	GBS2055	D	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AAGGCTC	Coromandel35	GBS2055	D	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCGACTA	Mararoa Downs18	GBS2055	D	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCGTAT	Mararoa Downs26	GBS2055	D	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CGTCGCA	Reefton8	GBS2055	D	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTACGCT	Mararoa Downs25	GBS2055	F	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGATTCT	Wellington43	GBS2055	F	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TCGCACT	O2.1	GBS2055	F	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CGCATTA	Wellington26	GBS2055	F	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GATCCGT	Mossburn41	GBS2055	F	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGCGGAA	Ruakura16	GBS2055	F	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACGCGTC	Mossburn27	GBS2055	F	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTGCCAA	Coromandel53	GBS2055	F	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTTGTAGA	Mossburn2	GBS2055	F	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GACCTTGT	Fortrose15	GBS2055	F	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCATAGT	Fortrose17	GBS2055	F	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTATCGT	Lincoln3	GBS2055	L	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ATGGAGCA	O2.2	GBS2055	L	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCTTGTGA	Taranaki36	GBS2055	L	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAGAACAGT	Fortrose2	GBS2055	L	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGTGTCGGT	Mararoa Downs16	GBS2055	L	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CACCATTGA	Reefton20	GBS2055	L	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGTCATGT	Ruakura31	GBS2055	L	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CGTGGAGGA	Lincoln59	GBS2055	L	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CATGGTGGT	Reefton21	GBS2055	L	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGAATACGT	Coromandel39	GBS2055	N	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCTACAGA	Ruakura95	GBS2055	N	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GCCACCTGA	Wellington11	GBS2055	N	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTCTCCAGT	Coromandel23	GBS2055	N	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGAGACAGT	Ruakura99	GBS2055	N	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TCTCTGTGA	Lincoln67	GBS2055	N	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGTGCGGAT	Reefton6	GBS2055	N	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AACAGAATA	Taranaki20	GBS2055	N	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCACACTGT	Taranaki49	GBS2055	N	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGTTGTCTA	Ruakura47	GBS2055	N	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGTTCTTA	Coromandel46	GBS2055	N	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AACGAACTA	O1.5	GBS2055	N	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAACCACGT	Reefton16	GBS2055	P	1	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACCAACGTA	Mossburn52	GBS2055	P	3	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTTGTGAAT	Mossburn25	GBS2055	P	5	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CTGTGGTGA	Wellington12	GBS2055	P	7	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GGAACAGTT	Mossburn26	GBS2055	P	9	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TTGGACATA	Greymouth52	GBS2055	P	11	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	ACGTTGGTT	Reefton12	GBS2055	P	13	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	TGAACTGGT	Mossburn49	GBS2055	P	15	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	CCTCCTAGA	Ruakura42	GBS2055	P	17	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	AGGCGGTAT	Coromandel26	GBS2055	P	19	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GAAGACTAA	Mossburn15	GBS2055	P	21	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
+CCHLMANXX	5	GTGGCGTAT	Ruakura40	GBS2055	P	23	727			MspI-ApeKI	Weevil	192			/dataset/hiseq/active/fastq-link-farm/SQ0727_CCHLMANXX_s_5_fastq.txt.gz
