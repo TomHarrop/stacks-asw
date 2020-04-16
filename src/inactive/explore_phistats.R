@@ -7,7 +7,6 @@ phistats_file <- "output/popgen/mapped/stacks_populations/populations.phistats.t
 phistats <- fread(phistats_file, skip = 11)
 
 fai_names <- c("Chr", "chr_length")
-
 fai <- fread(fai_file, select = 1:2, col.names = fai_names)
 
 n_to_label <- 20
@@ -84,22 +83,22 @@ phistats_with_len[, distance_from_prev := bp_coord - prev_loc]
 phistats_with_len[, summary(distance_from_prev)]
 
 
-plot_contig <- fai[3, V1]
-x_lim <- fai[V1 == plot_contig, c(0, V2)]
+plot_contig <- fai[3, Chr]
+x_lim <- fai[Chr == plot_contig, c(0, chr_length)]
 
-plot_dt <- phistats[plot_contig]
+plot_dt <- phistats[Chr == plot_contig]
 
 ggplot(plot_dt,
        aes(x = BP, y = phi_st)) +
   xlim(x_lim) +
   geom_path()
 
-phi_with_len <- merge(phistats, fai, by.x = "Chr", by.y = "V1")
-x <- phi_with_len[, .(mean(phi_st), .N), by = .(Chr, V2)]
-x[, distance_bw_markers := V2 / N]
+phi_with_len <- merge(phistats, fai, by = "Chr")
+x <- phi_with_len[, .(mean(phi_st), .N), by = .(Chr, chr_length)]
+x[, distance_bw_markers := chr_length / N]
 
 
-ggplot(x, aes(y = V1, x = V2)) +
+ggplot(x, aes(y = distance_bw_markers, x = Chr)) +
   geom_point()
 
 
