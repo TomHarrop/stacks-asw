@@ -228,7 +228,7 @@ for fc_lane in all_fc_lanes:
             '-f {input.read_file} '
             '-i gzfastq -y gzfastq '
             '-b {input.config_file} '
-            '-o output/demux '
+            '-o output/010_demux '
             '-c -q '
             # '-r --barcode_dist_1 1 '  # rescue barcodes
             '--barcode_dist_1 0 '       # don't allow bc mismatches
