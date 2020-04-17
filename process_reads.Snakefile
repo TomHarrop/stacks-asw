@@ -9,8 +9,13 @@ from pathlib import Path
 # FUNCTIONS #
 #############
 
+def resolve_demuxed_file(wildcards):
+    fc_name = fullname_to_fc_name[wildcards.sample_fullname]
+    fq_file = f'output/010_demux/{fc_name}/{wildcards.sample_fullname}.fq.gz'
+    return(fq_file)
+
+
 def resolve_read_file(wildcards):
-    print(wildcards.fc_lane)
     if wildcards.fc_lane in geo_fc_lanes:
         read_file = f'data/georeads/{wildcards.fc_lane}_fastq.gz'
         return {'read_file': read_file}
@@ -128,7 +133,7 @@ for key in geo_individual_to_sample_fullname:
     individual_to_sample_fullname[new_key] = geo_individual_to_sample_fullname[key]
 
 for key in para_individual_to_sample_fullname:
-    new_key = f'geo_{key}'
+    new_key = f'para_{key}'
     individual_to_sample_fullname[new_key] = para_individual_to_sample_fullname[key]
 
 all_individuals = sorted(set(individual_to_sample_fullname.keys()))
@@ -265,12 +270,6 @@ rule combine_reads:
         'cat {input} > {output}'
 
 
-def resolve_demuxed_file(wildcards):
-    print(wildcards)
-    fc_name = fullname_to_fc_name[wildcards.sample_fullname]
-    fq_file = f'output/010_demux/{fc_name}/{wildcards.sample_fullname}.fq.gz'
-    print(fq_file)
-    return(fq_file)
 
 # # 2b. filter and truncate demuxed reads
 rule trim_adaptors:
