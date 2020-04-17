@@ -9,6 +9,19 @@ from pathlib import Path
 # FUNCTIONS #
 #############
 
+def aggregate_fullnames(wildcards):
+    read_stats = []
+    gc_stats = []
+    fc = wildcards.fc_lane
+    co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
+    fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
+    fq_wc = glob_wildcards(fq_path).sample_fullname
+    return {'read_stats': expand('output/040_stats/reads/{individual}.txt',
+                                 individual=fq_wc),
+            'gc_stats': expand('output/040_stats/gc_hist/{individual}.txt',
+                               individual=fq_wc)}
+
+
 def resolve_read_file(wildcards):
     print(wildcards.fc_lane)
     if wildcards.fc_lane in geo_fc_lanes:
@@ -21,25 +34,6 @@ def resolve_read_file(wildcards):
         return {'read_file': read_file}
     else:
         raise ValueError(f'wtf {wildcards.fc_lane}')
-
-
-# def resolve_read_file(my_fc_lane):
-#     print(f'function caught my_fc_lane: {my_fc_lane}')
-#     if str(my_fc_lane) == '':
-#         return {my_read_file: ''}
-#     if my_fc_lane in geo_fc_lanes:
-#         my_read_file = f'data/georeads/{my_fc_lane}_fastq.gz'
-#         print(my_read_file)
-#         return {'read_file': my_read_file}
-#     elif my_fc_lane in para_fc_lanes:
-#         fc_split = my_fc_lane.split('_')
-#         my_read_file = next(Path('data/parareads/').glob(
-#             f'{fc_split[0]}*L*{fc_split[1]}*.fastq.gz'))
-#         print(my_read_file)
-#         return {'read_file': my_read_file}
-#     else:
-#         raise ValueError(f'wtf {my_fc_lane}')
-
 
 ###########
 # GLOBALS #
@@ -202,19 +196,6 @@ rule combine_fc_stats:
     script:
         'src/combine_individual_stats.R'
 
-
-def aggregate_fullnames(wildcards):
-    read_stats = []
-    gc_stats = []
-    fc = wildcards.fc_lane
-    co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
-    fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
-    fq_wc = glob_wildcards(fq_path).sample_fullname
-    return {'read_stats': expand('output/040_stats/reads/{individual}.txt',
-                                 individual=fq_wc),
-            'gc_stats': expand('output/040_stats/gc_hist/{individual}.txt',
-                               individual=fq_wc)}
-
 rule combine_individual_stats:
     input:
         aggregate_fullnames
@@ -349,39 +330,6 @@ checkpoint process_radtags:
         '--inline_null '
         '--renz_1 apeKI --renz_2 mspI '
         '&> {log}'
-
-# 2. for loop per fc_lane
-# for fc_lane in all_fc_lanes:
-#     print(fc_lane)
-#     rule:
-#         input:
-#             unpack(resolve_read_file),
-#             config_file = 'output/000_config/{0}.config'.format(fc_lane)
-#         output:
-#             expand(
-#                 'output/010_demux/{sample_fullname}.fq.gz',
-#                 sample_fullname=fc_name_to_sample_fullname[fc_lane])
-#         log:
-#             'output/logs/demux.{0}.log'.format(fc_lane)
-#         threads:
-#             1
-#         singularity:
-#             stacks_container
-#         shell:
-#             'process_radtags '
-#             '-f {input.read_file} '
-#             '-i gzfastq -y gzfastq '
-#             '-b {input.config_file} '
-#             '-o output/010_demux '
-#             '-c -q '
-#             # '-r --barcode_dist_1 1 '  # rescue barcodes
-#             '--barcode_dist_1 0 '       # don't allow bc mismatches
-#             # '-t 91 '                  # truncate output to 91 b
-#             '-w 0.1 '                   # window: approx. 9 bases
-#             '-s 15 '                    # minimum avg PHRED in window
-#             '--inline_null '
-#             '--renz_1 apeKI --renz_2 mspI '
-#             '&> {log}'
 
 # 1. extract per-flowcell/lane sample:barcode information
 rule write_config_files:
