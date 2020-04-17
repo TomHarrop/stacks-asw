@@ -1,21 +1,13 @@
 #!/usr/bin/env python3
 
-from pathlib import Path
 import multiprocessing
 import pandas
-import pickle
 import tempfile
 
 
 #############
 # FUNCTIONS #
 #############
-
-def lookup_indiv(pickle_file, individual):
-    with open(pickle_file, 'rb') as f:
-        individual_i = pickle.load(f)
-        sample_i = individual_i[individual]
-        return(sample_i)
 
 
 ###########
@@ -149,7 +141,6 @@ rule sort_sam:
 rule map_indiv_reads:
     input:
         fq = process_reads('output/030_combined/{individual}.fq.gz'),
-        pickle = process_reads('output/000_config/individual_i.p'),
         ref = 'output/005_ref/ref.fasta'
     output:
         pipe('output/tmp/{individual}.sam')
