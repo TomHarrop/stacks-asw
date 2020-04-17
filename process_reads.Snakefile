@@ -2,13 +2,51 @@
 
 import pandas
 import re
+from pathlib import Path
+
+
+#############
+# FUNCTIONS #
+#############
+
+def resolve_read_file(wildcards):
+    if wildcards.fc_lane in geo_fc_lanes:
+        return {'read_file':
+                f'data/georeads/{wildcards.fc_lane}_fastq.gz'}
+    elif wildcards.fc_lane in para_fc_lanes:
+        fc_split = wildcards.fc_lane.split('_')
+        return {'read_file':
+                next(Path('data/parareads/').glob(
+                    f'{fc_split[0]}*L*{fc_split[1]}*.fastq.gz'))}
+    else:
+        raise ValueError(f'wtf {wildcards.fc_lane}')
+
+
+# def resolve_read_file(my_fc_lane):
+#     print(f'function caught my_fc_lane: {my_fc_lane}')
+#     if str(my_fc_lane) == '':
+#         return {my_read_file: ''}
+#     if my_fc_lane in geo_fc_lanes:
+#         my_read_file = f'data/georeads/{my_fc_lane}_fastq.gz'
+#         print(my_read_file)
+#         return {'read_file': my_read_file}
+#     elif my_fc_lane in para_fc_lanes:
+#         fc_split = my_fc_lane.split('_')
+#         my_read_file = next(Path('data/parareads/').glob(
+#             f'{fc_split[0]}*L*{fc_split[1]}*.fastq.gz'))
+#         print(my_read_file)
+#         return {'read_file': my_read_file}
+#     else:
+#         raise ValueError(f'wtf {my_fc_lane}')
+
 
 ###########
 # GLOBALS #
 ###########
 
 # files and folders
-key_file = 'data/reads/SQ0727.txt'
+geo_key_file = 'data/georeads/SQ0727.txt'
+para_key_file = 'data/para_key_data.csv'
 
 # containers
 bbduk_container = 'shub://TomHarrop/seq-utils:bbmap_38.76'
@@ -20,42 +58,99 @@ stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 # SETUP #
 #########
 
+# geo samples
+
 # read key file
-key_data = pandas.read_csv(key_file, delimiter='\t')
+geo_key_data = pandas.read_csv(geo_key_file, delimiter='\t')
 
 # remove spaces from mararoa-downs
-key_data['sample'] = key_data['sample'].str.replace('\s', '-', regex=True)
-key_data['sample'] = key_data['sample'].str.replace('.', '-', regex=False)
+geo_key_data['sample'] = geo_key_data[
+    'sample'].str.replace('\s', '-', regex=True)
+geo_key_data['sample'] = geo_key_data[
+    'sample'].str.replace('.', '-', regex=False)
 
 # add details for expected output
-key_data['fc_lane'] = key_data[[
+geo_key_data['fc_lane'] = geo_key_data[[
     'flowcell', 'lane']].astype(str).apply('_'.join, axis=1)
-key_data['sample_fullname'] = key_data[[
+geo_key_data['sample_fullname'] = geo_key_data[[
     'sample',
     'flowcell',
     'lane',
     'row',
     'column']].astype(str).apply('_'.join, axis=1)
 
-all_fc_lanes = sorted(set(key_data['fc_lane']))
-all_fullnames = sorted(set(key_data['sample_fullname']))
-all_individuals = sorted(set(key_data['sample']))
+geo_fc_lanes = sorted(set(geo_key_data['fc_lane']))
+geo_fullnames = sorted(set(geo_key_data['sample_fullname']))
+geo_individuals = sorted(set(geo_key_data['sample']))
 
 # get a dict of fc to sample name
-col_to_fcl = key_data.to_dict()['fc_lane']
-col_to_sn = key_data.to_dict()['sample_fullname']
+col_to_fcl = geo_key_data.to_dict()['fc_lane']
+col_to_sn = geo_key_data.to_dict()['sample_fullname']
 
-fc_name_to_sample_fullname = dict((k, []) for k in all_fc_lanes)
-
+geo_fc_name_to_sample_fullname = dict((k, []) for k in geo_fc_lanes)
 for key in col_to_sn:
-    fc_name_to_sample_fullname[col_to_fcl[key]].append(col_to_sn[key])
+    geo_fc_name_to_sample_fullname[col_to_fcl[key]].append(col_to_sn[key])
 
 # get a dict of individual to sample_fullname
-individual_to_sample_fullname = dict((k, []) for k in all_individuals)
-for key in individual_to_sample_fullname:
-    individual_to_sample_fullname[key] = sorted(
-        set([x for x in all_fullnames
+geo_individual_to_sample_fullname = dict((k, []) for k in geo_individuals)
+for key in geo_individual_to_sample_fullname:
+    geo_individual_to_sample_fullname[key] = sorted(
+        set([x for x in geo_fullnames
              if re.sub('_.*', '', x) == key]))
+
+# para samples
+
+# read key file
+para_key_data = pandas.read_csv(para_key_file, delimiter=',')
+
+# add details for expected output
+para_key_data['sample'] = para_key_data['sample_name']
+para_key_data['fc_lane'] = para_key_data[[
+    'key', 'lane']].astype(str).apply('_'.join, axis=1)
+para_key_data['sample_fullname'] = para_key_data[[
+    'sample',
+    'key',
+    'lane']].astype(str).apply('_'.join, axis=1)
+
+para_fc_lanes = sorted(set(para_key_data['fc_lane']))
+para_fullnames = sorted(set(para_key_data['sample_fullname']))
+para_individuals = sorted(set(para_key_data['sample']))
+
+# get a dict of fc to sample name
+pcol_to_fcl = para_key_data.to_dict()['fc_lane']
+pcol_to_sn = para_key_data.to_dict()['sample_fullname']
+
+para_fc_name_to_sample_fullname = dict((k, []) for k in para_fc_lanes)
+for key in pcol_to_sn:
+    para_fc_name_to_sample_fullname[pcol_to_fcl[key]].append(pcol_to_sn[key])
+
+# get a dict of individual to sample_fullname
+para_individual_to_sample_fullname = dict((k, []) for k in para_individuals)
+for key in para_individual_to_sample_fullname:
+    para_individual_to_sample_fullname[key] = sorted(
+        set([x for x in para_fullnames
+             if key in x]))
+
+# all indivs
+all_fc_lanes = sorted(set(para_fc_lanes + geo_fc_lanes))
+fc_name_to_sample_fullname = {}
+for key in geo_fc_name_to_sample_fullname:
+    fc_name_to_sample_fullname[key] = geo_fc_name_to_sample_fullname[key]
+
+for key in para_fc_name_to_sample_fullname:
+    fc_name_to_sample_fullname[key] = para_fc_name_to_sample_fullname[key]
+
+individual_to_sample_fullname = {}
+for key in geo_individual_to_sample_fullname:
+    new_key = f'geo_{key}'
+    individual_to_sample_fullname[new_key] = geo_individual_to_sample_fullname[key]
+
+for key in para_individual_to_sample_fullname:
+    new_key = f'geo_{key}'
+    individual_to_sample_fullname[new_key] = para_individual_to_sample_fullname[key]
+
+all_individuals = sorted(set(individual_to_sample_fullname.keys()))
+
 
 #########
 # RULES #
@@ -63,20 +158,7 @@ for key in individual_to_sample_fullname:
 
 rule target:
     input:
-        'output/000_config/filtered_population_map.txt',
-        'output/000_config/individual_i.p'
-
-
-# 5. make a dictionary of sample:i for cstacks
-rule enumerate_filtered_samples:
-    input:
-        key_file = key_file
-    output:
-        pickle = 'output/000_config/individual_i.p'
-    singularity:
-        pandas_container
-    script:
-        'src/enumerate_filtered_samples.py'
+        'output/000_config/filtered_population_map.txt'
 
 # 4. filter the population map
 rule filter_samples:
@@ -95,12 +177,28 @@ rule filter_samples:
         'src/filter_population_map.R'
 
 # 4. run reformat.sh to count reads and get a gc histogram
+def aggregate_fullnames(wildcards):
+    read_stats = []
+    gc_stats = []
+    for fc in all_fc_lanes:
+        co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
+        fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
+        fq_wc = glob_wildcards(fq_path).sample_fullname
+        fc_fq = expand(fq_path, sample_fullname=fq_wc)
+        for individual in fq_wc:
+            read_stats.append(f'output/040_stats/reads/{individual}.txt')
+            gc_stats.append(f'output/040_stats/gc_hist/{individual}.txt')
+    return {'read_stats': read_stats,
+            'gc_stats': gc_stats}
+
+
 rule combine_individual_stats:
     input:
-        read_stats = expand('output/040_stats/reads/{individual}.txt',
-                            individual=all_individuals),
-        gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
-                          individual=all_individuals)
+        # read_stats = expand('output/040_stats/reads/{individual}.txt',
+        #                     individual=all_individuals),
+        # gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
+        #                   individual=all_individuals)
+        unpack(aggregate_fullnames)
     output:
         read_stats = 'output/040_stats/reads.csv',
         gc_stats = 'output/040_stats/gc_stats.csv',
@@ -149,7 +247,7 @@ rule combine_reads:
 # # 2b. filter and truncate demuxed reads
 rule trim_adaptors:
     input:
-        'output/010_demux/{sample_fullname}.fq.gz'
+        'output/010_demux/{fc_lane}/{sample_fullname}.fq.gz'
     output:
         kept = 'output/020_filtered/kept/{sample_fullname}.fq.gz',
         discarded = 'output/020_filtered/discarded/{sample_fullname}.fq.gz',
@@ -159,7 +257,7 @@ rule trim_adaptors:
         gc_hist = 'output/020_filtered/gc_hist/{sample_fullname}.txt',
         lhist = 'output/020_filtered/lhist/{sample_fullname}.txt'
     params:
-        adaptors = 'data/adaptors/bbduk_adaptors_plus_AgR_common.fa'
+        adaptors = 'data/bbduk_adaptors_plus_AgR_common.fa'
     singularity:
         bbduk_container
     log:
@@ -202,42 +300,74 @@ rule trim_adaptors:
         'ziplevel=9 '
         '2> {log.truncate}'
 
+
 # 2. for loop per fc_lane
-for fc_lane in all_fc_lanes:
-    rule:
-        input:
-            read_file = 'data/reads/{0}_fastq.gz'.format(fc_lane),
-            config_file = 'output/000_config/{0}.config'.format(fc_lane)
-        output:
-            expand(
-                'output/010_demux/{sample_fullname}.fq.gz',
-                sample_fullname=fc_name_to_sample_fullname[fc_lane])
-        log:
-            'output/logs/demux.{0}.log'.format(fc_lane)
-        threads:
-            1
-        singularity:
-            stacks_container
-        shell:
-            'process_radtags '
-            '-f {input.read_file} '
-            '-i gzfastq -y gzfastq '
-            '-b {input.config_file} '
-            '-o output/010_demux '
-            '-c -q '
-            # '-r --barcode_dist_1 1 '  # rescue barcodes
-            '--barcode_dist_1 0 '       # don't allow bc mismatches
-            # '-t 91 '                  # truncate output to 91 b
-            '-w 0.1 '                   # window: approx. 9 bases
-            '-s 15 '                    # minimum avg PHRED in window
-            '--inline_null '
-            '--renz_1 apeKI --renz_2 mspI '
-            '&> {log}'
+checkpoint process_radtags:
+    input:
+        unpack(resolve_read_file),
+        config_file = 'output/000_config/{fc_lane}.config'
+    output:
+        fq = directory('output/010_demux/{fc_lane}')
+    log:
+        'output/logs/demux.{fc_lane}.log'
+    threads:
+        1
+    singularity:
+        stacks_container
+    shell:
+        'process_radtags '
+        '-f {input.read_file} '
+        '-i gzfastq -y gzfastq '
+        '-b {input.config_file} '
+        '-o {output.fq} '
+        '-c -q '
+        # '-r --barcode_dist_1 1 '  # rescue barcodes
+        '--barcode_dist_1 0 '       # don't allow bc mismatches
+        # '-t 91 '                  # truncate output to 91 b
+        '-w 0.1 '                   # window: approx. 9 bases
+        '-s 15 '                    # minimum avg PHRED in window
+        '--inline_null '
+        '--renz_1 apeKI --renz_2 mspI '
+        '&> {log}'
+
+# 2. for loop per fc_lane
+# for fc_lane in all_fc_lanes:
+#     print(fc_lane)
+#     rule:
+#         input:
+#             unpack(resolve_read_file),
+#             config_file = 'output/000_config/{0}.config'.format(fc_lane)
+#         output:
+#             expand(
+#                 'output/010_demux/{sample_fullname}.fq.gz',
+#                 sample_fullname=fc_name_to_sample_fullname[fc_lane])
+#         log:
+#             'output/logs/demux.{0}.log'.format(fc_lane)
+#         threads:
+#             1
+#         singularity:
+#             stacks_container
+#         shell:
+#             'process_radtags '
+#             '-f {input.read_file} '
+#             '-i gzfastq -y gzfastq '
+#             '-b {input.config_file} '
+#             '-o output/010_demux '
+#             '-c -q '
+#             # '-r --barcode_dist_1 1 '  # rescue barcodes
+#             '--barcode_dist_1 0 '       # don't allow bc mismatches
+#             # '-t 91 '                  # truncate output to 91 b
+#             '-w 0.1 '                   # window: approx. 9 bases
+#             '-s 15 '                    # minimum avg PHRED in window
+#             '--inline_null '
+#             '--renz_1 apeKI --renz_2 mspI '
+#             '&> {log}'
 
 # 1. extract per-flowcell/lane sample:barcode information
 rule write_config_files:
     input:
-        key_file = key_file
+        geo_key_file = geo_key_file,
+        para_key_file = para_key_file
     output:
         expand('output/000_config/{fc_lane}.config',
                fc_lane=all_fc_lanes),
