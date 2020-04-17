@@ -15,11 +15,11 @@ def aggregate_fullnames(wildcards):
     fc = wildcards.fc_lane
     co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
-    fq_wc = glob_wildcards(fq_path).sample_fullname
-    return ({'read_stats': expand('output/040_stats/reads/{individual}.txt',
-                                  individual=fq_wc),
-            'gc_stats': expand('output/040_stats/gc_hist/{individual}.txt',
-                               individual=fq_wc)})
+    fq_wc = glob_wildcards(fq_path).sample_fullname 
+    return ({read_stats: expand('output/040_stats/reads/{individual}.txt',
+                                individual=fq_wc),
+            gc_stats: expand('output/040_stats/gc_hist/{individual}.txt',
+                             individual=fq_wc)})
 
 
 def resolve_read_file(wildcards):
