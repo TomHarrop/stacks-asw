@@ -10,14 +10,15 @@ from pathlib import Path
 #############
 
 def resolve_read_file(wildcards):
+    print(wildcards.fc_lane)
     if wildcards.fc_lane in geo_fc_lanes:
-        return {'read_file':
-                f'data/georeads/{wildcards.fc_lane}_fastq.gz'}
+        read_file = f'data/georeads/{wildcards.fc_lane}_fastq.gz'
+        return {'read_file': read_file}
     elif wildcards.fc_lane in para_fc_lanes:
         fc_split = wildcards.fc_lane.split('_')
-        return {'read_file':
-                next(Path('data/parareads/').glob(
-                    f'{fc_split[0]}*L*{fc_split[1]}*.fastq.gz'))}
+        read_file = next(Path('data/parareads/').glob(
+            f'{fc_split[0]}*L*{fc_split[1]}*.fastq.gz')).as_posix()
+        return {'read_file': read_file}
     else:
         raise ValueError(f'wtf {wildcards.fc_lane}')
 
@@ -156,6 +157,9 @@ all_individuals = sorted(set(individual_to_sample_fullname.keys()))
 # RULES #
 #########
 
+wildcard_constraints:
+    fc_lane = '|'.join(all_fc_lanes)
+
 rule target:
     input:
         'output/000_config/filtered_population_map.txt'
@@ -177,34 +181,49 @@ rule filter_samples:
         'src/filter_population_map.R'
 
 # 4. run reformat.sh to count reads and get a gc histogram
-def aggregate_fullnames(wildcards):
-    read_stats = []
-    gc_stats = []
-    for fc in all_fc_lanes:
-        co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
-        fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
-        fq_wc = glob_wildcards(fq_path).sample_fullname
-        fc_fq = expand(fq_path, sample_fullname=fq_wc)
-        for individual in fq_wc:
-            read_stats.append(f'output/040_stats/reads/{individual}.txt')
-            gc_stats.append(f'output/040_stats/gc_hist/{individual}.txt')
-    return {'read_stats': read_stats,
-            'gc_stats': gc_stats}
-
-
-rule combine_individual_stats:
+rule combine_fc_stats:
     input:
-        # read_stats = expand('output/040_stats/reads/{individual}.txt',
-        #                     individual=all_individuals),
-        # gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
-        #                   individual=all_individuals)
-        aggregate_fullnames
+        read_stats = expand('output/040_stats/{fc_lane}.reads.csv',
+                            fc_lane=all_fc_lanes),
+        gc_stats = expand('output/040_stats/{fc_lane}.gc_stats.csv',
+                          fc_lane=all_fc_lanes),
+        gc_hist = expand('output/040_stats/{fc_lane}.gc_hist.csv',
+                         fc_lane=all_fc_lanes)
     output:
         read_stats = 'output/040_stats/reads.csv',
         gc_stats = 'output/040_stats/gc_stats.csv',
         gc_hist = 'output/040_stats/gc_hist.csv'
     log:
-        'output/logs/combine_individual_stats.log'
+        'output/logs/combine_fc_stats.log'
+    threads:
+        1
+    singularity:
+        r_container
+    script:
+        'src/combine_individual_stats.R'
+
+
+def aggregate_fullnames(wildcards):
+    read_stats = []
+    gc_stats = []
+    fc = wildcards.fc_lane
+    co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
+    fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
+    fq_wc = glob_wildcards(fq_path).sample_fullname
+    return {'read_stats': expand('output/040_stats/reads/{individual}.txt',
+                                 individual=fq_wc),
+            'gc_stats': expand('output/040_stats/gc_hist/{individual}.txt',
+                               individual=fq_wc)}
+
+rule combine_individual_stats:
+    input:
+        aggregate_fullnames
+    output:
+        read_stats = 'output/040_stats/{fc_lane}.reads.csv',
+        gc_stats = 'output/040_stats/{fc_lane}.gc_stats.csv',
+        gc_hist = 'output/040_stats/{fc_lane}.gc_hist.csv'
+    log:
+        'output/logs/combine_individual_stats.{fc_lane}.log'
     threads:
         1
     singularity:
@@ -381,4 +400,3 @@ rule write_config_files:
         r_container
     script:
         'src/write_config_files.R'
-
