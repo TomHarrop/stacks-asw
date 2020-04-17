@@ -359,7 +359,7 @@ checkpoint process_radtags:
         '--inline_null '
         '--renz_1 apeKI --renz_2 mspI '
         '&> {log} '
-        '|| true'                   # DOESN'T EXIT CLEANLY, WHYYYYY?
+        # '|| true'                   # DOESN'T EXIT CLEANLY, WHYYYYY?
 
 # 1. extract per-flowcell/lane sample:barcode information
 rule write_config_files:
