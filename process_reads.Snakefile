@@ -201,7 +201,6 @@ rule combine_fc_stats:
 
 def aggregate_fullnames(wildcards):
     fc = wildcards.fc_lane
-    print(fc)
     co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
     fc_fullnames = glob_wildcards(fq_path).sample_fullname
@@ -210,12 +209,9 @@ def aggregate_fullnames(wildcards):
                         individual=fc_indivs)
     gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
                       individual=fc_indivs)
-    print(read_stats)
-    print(gc_stats)
     my_dict = {}
     my_dict['read_stats'] = read_stats
     my_dict['gc_stats'] = gc_stats
-    print(my_dict)
     return(my_dict)
 
 
@@ -270,8 +266,11 @@ rule combine_reads:
 
 
 def resolve_demuxed_file(wildcards):
+    print(wildcards)
     fc_name = fullname_to_fc_name[wildcards.sample_fullname]
-    return(f'output/010_demux/{fc_name}/{wildcards.sample_fullname}.fq.gz')
+    fq_file = f'output/010_demux/{fc_name}/{wildcards.sample_fullname}.fq.gz'
+    print(fq_file)
+    return(fq_file)
 
 # # 2b. filter and truncate demuxed reads
 rule trim_adaptors:
