@@ -9,8 +9,8 @@ from pathlib import Path
 # FUNCTIONS #
 #############
 
-def aggregate_fullnames(wildcards):
-    fc = wildcards.fc_lane
+def aggregate_fullnames(fc):
+    # fc = wildcards.fc_lane
     co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
     fq_wc = glob_wildcards(fq_path).sample_fullname
@@ -27,18 +27,18 @@ def aggregate_fullnames(wildcards):
     return(my_dict)
 
 
-def resolve_read_file(my_fc_lane):
-    print(my_fc_lane)
-    if my_fc_lane in geo_fc_lanes:
-        read_file = f'data/georeads/{my_fc_lane}_fastq.gz'
+def resolve_read_file(wildcards):
+    print(wildcards.fc_lane)
+    if wildcards.fc_lane in geo_fc_lanes:
+        read_file = f'data/georeads/{wildcards.fc_lane}_fastq.gz'
         return {'read_file': read_file}
-    elif my_fc_lane in para_fc_lanes:
-        fc_split = my_fc_lane.split('_')
+    elif wildcards.fc_lane in para_fc_lanes:
+        fc_split = wildcards.fc_lane.split('_')
         read_file = next(Path('data/parareads/').glob(
             f'{fc_split[0]}*L*{fc_split[1]}*.fastq.gz')).as_posix()
         return {'read_file': read_file}
     else:
-        raise ValueError(f'wtf {my_fc_lane}')
+        raise ValueError(f'wtf {wildcards.fc_lane}')
 
 ###########
 # GLOBALS #
