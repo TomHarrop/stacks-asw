@@ -10,12 +10,10 @@ from pathlib import Path
 #############
 
 def aggregate_fullnames(wildcards):
-    read_stats = []
-    gc_stats = []
     fc = wildcards.fc_lane
     co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
-    fq_wc = glob_wildcards(fq_path).sample_fullname 
+    fq_wc = glob_wildcards(fq_path).sample_fullname
     read_stats = expand('output/040_stats/reads/{individual}.txt',
                         individual=fq_wc)
     gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
@@ -205,7 +203,7 @@ rule combine_fc_stats:
 
 rule combine_individual_stats:
     input:
-        unpack(aggregate_fullnames)
+        aggregate_fullnames
     output:
         read_stats = 'output/040_stats/{fc_lane}.reads.csv',
         gc_stats = 'output/040_stats/{fc_lane}.gc_stats.csv',
