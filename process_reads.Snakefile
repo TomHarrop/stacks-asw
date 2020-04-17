@@ -158,7 +158,8 @@ all_individuals = sorted(set(individual_to_sample_fullname.keys()))
 #########
 
 wildcard_constraints:
-    fc_lane = '|'.join(all_fc_lanes)
+    fc_lane = '|'.join(all_fc_lanes),
+    individual = '|'.join(all_individuals)
 
 rule target:
     input:
