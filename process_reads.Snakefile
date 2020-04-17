@@ -25,6 +25,7 @@ def aggregate_fullnames(wildcards):
     my_dict = {}
     my_dict['read_stats'] = read_stats
     my_dict['gc_stats'] = gc_stats
+    print(my_dict)
     return(my_dict)
 
 
