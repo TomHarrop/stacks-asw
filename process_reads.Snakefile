@@ -11,6 +11,7 @@ from pathlib import Path
 
 def aggregate_fullnames(fc):
     # fc = wildcards.fc_lane
+    print(fc)
     co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
     fq_wc = glob_wildcards(fq_path).sample_fullname
