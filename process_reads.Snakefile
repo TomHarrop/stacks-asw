@@ -315,6 +315,7 @@ checkpoint process_radtags:
     singularity:
         stacks_container
     shell:
+        'mkdir -p {output.fq} ; '
         'process_radtags '
         '-f {input.read_file} '
         '-i gzfastq -y gzfastq '
