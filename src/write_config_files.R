@@ -89,6 +89,7 @@ popmap[, population := paste(tolower(gsub("[^[:alpha:]]+", "", sample)),
 
 # write popmap
 fwrite(unique(popmap[!grepl("NEG", sample), .(sample, population)]),
+       paste0(outdir, "/population_map.txt"),
        sep = "\t",
        col.names = FALSE)
 
