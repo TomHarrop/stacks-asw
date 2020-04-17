@@ -203,7 +203,7 @@ rule combine_fc_stats:
 
 rule combine_individual_stats:
     input:
-        **aggregate_fullnames(wildcards)
+        **aggregate_fullnames(f'{fc_lane}')
     output:
         read_stats = 'output/040_stats/{fc_lane}.reads.csv',
         gc_stats = 'output/040_stats/{fc_lane}.gc_stats.csv',
