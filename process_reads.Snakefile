@@ -132,7 +132,7 @@ para_individual_to_sample_fullname = dict((k, []) for k in para_individuals)
 for key in para_individual_to_sample_fullname:
     para_individual_to_sample_fullname[key] = sorted(
         set([x for x in para_fullnames
-             if key == x]))
+             if x.startswith(key + '_')]))
 
 # all indivs
 all_fc_lanes = sorted(set(para_fc_lanes + geo_fc_lanes))
