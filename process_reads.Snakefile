@@ -9,6 +9,22 @@ from pathlib import Path
 # FUNCTIONS #
 #############
 
+def aggregate_fullnames(wildcards):
+    fc = wildcards.fc_lane
+    co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
+    fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
+    fc_fullnames = glob_wildcards(fq_path).sample_fullname
+    fc_indivs = sorted(set(fullname_to_indiv[x] for x in fc_fullnames))
+    read_stats = expand('output/040_stats/reads/{individual}.txt',
+                        individual=fc_indivs)
+    gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
+                      individual=fc_indivs)
+    my_dict = {}
+    my_dict['read_stats'] = read_stats
+    my_dict['gc_stats'] = gc_stats
+    return(my_dict)
+
+
 def resolve_demuxed_file(wildcards):
     fc_name = fullname_to_fc_name[wildcards.sample_fullname]
     fq_file = f'output/010_demux/{fc_name}/{wildcards.sample_fullname}.fq.gz'
@@ -202,25 +218,6 @@ rule combine_fc_stats:
     script:
         'src/combine_individual_stats.R'
 
-
-
-def aggregate_fullnames(wildcards):
-    fc = wildcards.fc_lane
-    co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
-    fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
-    fc_fullnames = glob_wildcards(fq_path).sample_fullname
-    fc_indivs = sorted(set(fullname_to_indiv[x] for x in fc_fullnames))
-    read_stats = expand('output/040_stats/reads/{individual}.txt',
-                        individual=fc_indivs)
-    gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
-                      individual=fc_indivs)
-    my_dict = {}
-    my_dict['read_stats'] = read_stats
-    my_dict['gc_stats'] = gc_stats
-    return(my_dict)
-
-
-
 rule combine_individual_stats:
     input:
         unpack(aggregate_fullnames)
@@ -268,8 +265,6 @@ rule combine_reads:
         'output/030_combined/{individual}.fq.gz'
     shell:
         'cat {input} > {output}'
-
-
 
 # # 2b. filter and truncate demuxed reads
 rule trim_adaptors:
