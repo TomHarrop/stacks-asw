@@ -329,7 +329,8 @@ checkpoint process_radtags:
         '-s 15 '                    # minimum avg PHRED in window
         '--inline_null '
         '--renz_1 apeKI --renz_2 mspI '
-        '&> {log}'
+        '&> {log} '
+        '|| true'                   # DOESN'T EXIT CLEANLY, WHYYYYY?
 
 # 1. extract per-flowcell/lane sample:barcode information
 rule write_config_files:
