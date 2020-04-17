@@ -197,7 +197,7 @@ def aggregate_fullnames(wildcards):
     co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
     fc_fullnames = glob_wildcards(fq_path).sample_fullname
-    fc_indivs = sorted(set(fullname_to_indiv[x] for x in fc_fullnames)
+    fc_indivs = sorted(set(fullname_to_indiv[x] for x in fc_fullnames))
     read_stats = expand('output/040_stats/reads/{individual}.txt',
                         individual=fc_indivs)
     gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
