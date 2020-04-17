@@ -9,25 +9,6 @@ from pathlib import Path
 # FUNCTIONS #
 #############
 
-def aggregate_fullnames(wildcards):
-    fc = wildcards.fc_lane
-    print(fc)
-    co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
-    fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
-    fq_wc = glob_wildcards(fq_path).sample_fullname
-    read_stats = expand('output/040_stats/reads/{individual}.txt',
-                        individual=fq_wc)
-    gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
-                      individual=fq_wc)
-    print(read_stats)
-    print(gc_stats)
-    my_dict = {}
-    my_dict['read_stats'] = read_stats
-    my_dict['gc_stats'] = gc_stats
-    print(my_dict)
-    return(my_dict)
-
-
 def resolve_read_file(wildcards):
     print(wildcards.fc_lane)
     if wildcards.fc_lane in geo_fc_lanes:
@@ -152,6 +133,11 @@ for key in para_individual_to_sample_fullname:
 
 all_individuals = sorted(set(individual_to_sample_fullname.keys()))
 
+# get the individual by the fullname
+fullname_to_indiv = {}
+for key in individual_to_sample_fullname:
+    for fullname in individual_to_sample_fullname[key]:
+        fullname_to_indiv[fullname] = key
 
 #########
 # RULES #
@@ -202,6 +188,29 @@ rule combine_fc_stats:
         r_container
     script:
         'src/combine_individual_stats.R'
+
+
+
+def aggregate_fullnames(wildcards):
+    fc = wildcards.fc_lane
+    print(fc)
+    co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
+    fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
+    fc_fullnames = glob_wildcards(fq_path).sample_fullname
+    fc_indivs = sorted(set(fullname_to_indiv[x] for x in fc_fullnames)
+    read_stats = expand('output/040_stats/reads/{individual}.txt',
+                        individual=fc_indivs)
+    gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
+                      individual=fc_indivs)
+    print(read_stats)
+    print(gc_stats)
+    my_dict = {}
+    my_dict['read_stats'] = read_stats
+    my_dict['gc_stats'] = gc_stats
+    print(my_dict)
+    return(my_dict)
+
+
 
 rule combine_individual_stats:
     input:
