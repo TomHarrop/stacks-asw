@@ -198,7 +198,7 @@ rule combine_individual_stats:
         #                     individual=all_individuals),
         # gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
         #                   individual=all_individuals)
-        unpack(aggregate_fullnames)
+        aggregate_fullnames
     output:
         read_stats = 'output/040_stats/reads.csv',
         gc_stats = 'output/040_stats/gc_stats.csv',
