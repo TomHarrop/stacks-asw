@@ -139,6 +139,14 @@ for key in individual_to_sample_fullname:
     for fullname in individual_to_sample_fullname[key]:
         fullname_to_indiv[fullname] = key
 
+
+# get the fc by the fullname
+fullname_to_fc_name = {}
+for key in fc_name_to_sample_fullname:
+    for fullname in fc_name_to_sample_fullname[key]:
+        fullname_to_fc_name[fullname] = key
+
+
 #########
 # RULES #
 #########
@@ -260,10 +268,16 @@ rule combine_reads:
     shell:
         'cat {input} > {output}'
 
+
+def resolve_demuxed_file(wildcards):
+    fc_name = fullname_to_fc_name[wildcards.sample_fullname]
+    return(f'output/010_demux/{fc_name}/{wildcards.sample_fullname}.fq.gz')
+
 # # 2b. filter and truncate demuxed reads
 rule trim_adaptors:
     input:
-        'output/010_demux/{fc_lane}/{sample_fullname}.fq.gz'
+        # 'output/010_demux/{fc_lane}/{sample_fullname}.fq.gz'
+        resolve_demuxed_file
     output:
         kept = 'output/020_filtered/kept/{sample_fullname}.fq.gz',
         discarded = 'output/020_filtered/discarded/{sample_fullname}.fq.gz',
