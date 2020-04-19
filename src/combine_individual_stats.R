@@ -1,9 +1,9 @@
 #!/usr/bin/env Rscript
 
 # set log
-# log <- file(snakemake@log[[1]], open = "wt")
-# sink(log, type = "message")
-# sink(log, type = "output", append = TRUE)
+log <- file(snakemake$log[[1]], open = "wt")
+sink(log, type = "message")
+sink(log, type = "output", append = TRUE)
 
 library(data.table)
 

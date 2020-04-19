@@ -10,31 +10,11 @@ from pathlib import Path
 #############
 
 def aggregate_fullnames(wildcards):
-    # we're not going to use wildcards, we're going to get a
-    # list of all files
-    # but we need to run `checkpoints` for snakemake's benefit
+    # we're not going to use wildcards, we're going to use the list of all
+    # files. But we need to run `checkpoints` for snakemake's benefit
     for fc in all_fc_lanes:
         # check which fq files resulted from demuxing the fc_lane
         co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
-    # get the fullname from the fq file
-    # fc_fullnames = all_
-    # for each fullname, look up the indiv in the key data
-    # fc_indivs = []
-    # for my_fullname in fc_fullnames:
-    #     if my_fullname in geo_fullnames:
-    #         my_key_file = geo_key_data
-    #     elif my_fullname in para_fullnames:
-    #         my_key_file = para_key_data
-    #     else:
-    #         raise ValueError(f'wtf {my_fullname}')
-    #     my_mask = my_key_file['sample_fullname'] == my_fullname
-    #     my_df = my_key_file[my_mask]
-    #     my_indivs = sorted(set(my_df['sample'].values))
-    #     for indiv in my_indivs:
-    #         fc_indivs.append(indiv)
-    # # some indivs will be hit by >1 fullname
-    # unique_indivs = sorted(set(fc_indivs))
-    # generate the read and gc stat file paths
     read_stats = snakemake.io.expand(
         'output/040_stats/reads/{individual}.txt',
         individual=all_individuals)
