@@ -10,36 +10,37 @@ from pathlib import Path
 #############
 
 def aggregate_fullnames(wildcards):
-    # we want to know which indivs are in this fc_lane
-    fc = wildcards.fc_lane
-    # check which fq files resulted from demuxing the fc_lane
-    co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
-    fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
+    # we're not going to use wildcards, we're going to get a
+    # list of all files
+    # but we need to run `checkpoints` for snakemake's benefit
+    for fc in all_fc_lanes:
+        # check which fq files resulted from demuxing the fc_lane
+        co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     # get the fullname from the fq file
-    fc_fullnames = glob_wildcards(fq_path).sample_fullname
+    # fc_fullnames = all_
     # for each fullname, look up the indiv in the key data
-    fc_indivs = []
-    for my_fullname in fc_fullnames:
-        if my_fullname in geo_fullnames:
-            my_key_file = geo_key_data
-        elif my_fullname in para_fullnames:
-            my_key_file = para_key_data
-        else:
-            raise ValueError(f'wtf {my_fullname}')
-        my_mask = my_key_file['sample_fullname'] == my_fullname
-        my_df = my_key_file[my_mask]
-        my_indivs = sorted(set(my_df['sample'].values))
-        for indiv in my_indivs:
-            fc_indivs.append(indiv)
-    # some indivs will be hit by >1 fullname
-    unique_indivs = sorted(set(fc_indivs))
+    # fc_indivs = []
+    # for my_fullname in fc_fullnames:
+    #     if my_fullname in geo_fullnames:
+    #         my_key_file = geo_key_data
+    #     elif my_fullname in para_fullnames:
+    #         my_key_file = para_key_data
+    #     else:
+    #         raise ValueError(f'wtf {my_fullname}')
+    #     my_mask = my_key_file['sample_fullname'] == my_fullname
+    #     my_df = my_key_file[my_mask]
+    #     my_indivs = sorted(set(my_df['sample'].values))
+    #     for indiv in my_indivs:
+    #         fc_indivs.append(indiv)
+    # # some indivs will be hit by >1 fullname
+    # unique_indivs = sorted(set(fc_indivs))
     # generate the read and gc stat file paths
     read_stats = snakemake.io.expand(
         'output/040_stats/reads/{individual}.txt',
-        individual=unique_indivs)
+        individual=all_individuals)
     gc_stats = snakemake.io.expand(
         'output/040_stats/gc_hist/{individual}.txt',
-        individual=unique_indivs)
+        individual=all_individuals)
     # return as a dict
     my_dict = {}
     my_dict['read_stats'] = read_stats
