@@ -1,9 +1,11 @@
 #!/usr/bin/env Rscript
 
+print(snakemake)
+
 # set log
-# log <- file(snakemake@log[[1]], open = "wt")
-# sink(log, type = "message")
-# sink(log, append = TRUE, type = "output")
+log <- file(snakemake@log[[1]], open = "wt")
+sink(log, type = "message")
+sink(log, append = TRUE, type = "output")
 
 library(data.table)
 
@@ -14,7 +16,7 @@ library(data.table)
 
 
 GetGcStats <- function(gc_file) {
-    my_gc_stats <- fread(paste('grep "^#"', gc_file),
+    my_gc_stats <- fread(cmd = paste('grep "^#"', gc_file),
                          col.names = c("variable", "value"),
                          nrows = 4)
     my_gc_stats[, variable := sub("#", "", variable)]
@@ -24,7 +26,7 @@ GetGcStats <- function(gc_file) {
 
 
 GetReadCounts <- function(read_file) {
-    my_stats <- fread(paste('grep "Input:"', read_file),
+    my_stats <- fread(cmd = paste('grep "Input:"', read_file),
                       header = FALSE,
                       col.names = c("V1", "reads", "bases"))
     return(my_stats[, .(reads = as.numeric(gsub("[^[:digit:]]", "", reads)))])
@@ -43,10 +45,10 @@ gc_stats_file <- snakemake@output[["gc_stats"]]
 gc_hist_file <- snakemake@output[["gc_hist"]]
 
 # dev
-# reads_files <- list.files("output/individual_stats/reads",
+# reads_files <- list.files("output/040_stats/reads",
 #                           pattern = ".txt",
 #                           full.names = TRUE)
-# gc_files <- list.files("output/individual_stats/gc_hist",
+# gc_files <- list.files("output/040_stats/gc_hist",
 #                        pattern = ".txt",
 #                        full.names = TRUE)
 
@@ -66,7 +68,7 @@ gc_stats <- rbindlist(gc_stats_list, idcol = "individual")
 
 # gc hists
 gc_hist_list <- lapply(gc_files, function(x)
-    fread(paste('grep -v "#"', x),
+    fread(cmd = paste('grep -v "#"', x),
           col.names = c("GC", "Count")))
 gc_hists <- rbindlist(gc_hist_list, idcol = "individual")
 
@@ -77,5 +79,3 @@ fwrite(gc_hists, gc_hist_file)
 
 # log
 sessionInfo()
-
-
