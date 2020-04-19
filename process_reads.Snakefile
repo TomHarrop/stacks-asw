@@ -14,11 +14,24 @@ def aggregate_fullnames(wildcards):
     co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
     fc_fullnames = glob_wildcards(fq_path).sample_fullname
-    fc_indivs = sorted(set(fullname_to_indiv[x] for x in fc_fullnames))
-    read_stats = expand('output/040_stats/reads/{individual}.txt',
-                        individual=fc_indivs)
-    gc_stats = expand('output/040_stats/gc_hist/{individual}.txt',
-                      individual=fc_indivs)
+    fc_indivs = []
+    for my_fullname in fc_fullnames:
+        if my_fullname in geo_fullnames:
+            my_key_file = geo_key_data
+        elif my_fullname in para_fullnames:
+            my_key_file = para_key_data
+        else:
+            raise ValueError(f'wtf {my_fullname}')
+        my_mask = my_key_file['sample_fullname'] == my_fullname
+        my_df = my_key_file[my_mask]
+        my_indivs = sorted(set(my_df['sample'].values))
+        fc_indivs.append(x for x in my_indivs)
+    read_stats = snakemake.io.expand(
+        'output/040_stats/reads/{individual}.txt',
+        individual=fc_indivs)
+    gc_stats = snakemake.io.expand(
+        'output/040_stats/gc_hist/{individual}.txt',
+        individual=fc_indivs)
     my_dict = {}
     my_dict['read_stats'] = read_stats
     my_dict['gc_stats'] = gc_stats
