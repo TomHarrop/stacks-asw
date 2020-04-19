@@ -25,7 +25,8 @@ def aggregate_fullnames(wildcards):
         my_mask = my_key_file['sample_fullname'] == my_fullname
         my_df = my_key_file[my_mask]
         my_indivs = sorted(set(my_df['sample'].values))
-        fc_indivs.append(my_indivs)
+        for indiv in my_indivs:
+            fc_indivs.append(indiv)
     print(fc_indivs)
     read_stats = snakemake.io.expand(
         'output/040_stats/reads/{individual}.txt',
