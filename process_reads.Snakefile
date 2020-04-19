@@ -119,6 +119,8 @@ geo_key_data['sample'] = geo_key_data[
     'sample'].str.replace('\s', '-', regex=True)
 geo_key_data['sample'] = geo_key_data[
     'sample'].str.replace('.', '-', regex=False)
+geo_key_data['sample'] = [
+    f'geo_{x}' for x in geo_key_data['sample'].values]
 
 # add details for expected output
 geo_key_data['fc_lane'] = geo_key_data[[
@@ -147,6 +149,8 @@ para_key_data['sample_fullname'] = para_key_data[[
     'sample',
     'key',
     'lane']].astype(str).apply('_'.join, axis=1)
+para_key_data['sample'] = [
+    f'para_{x}' for x in geo_key_data['sample'].values]
 
 para_fc_lanes = sorted(set(para_key_data['fc_lane']))
 para_fullnames = sorted(set(para_key_data['sample_fullname']))
