@@ -221,8 +221,8 @@ rule combine_individual_stats:
         read_stats = 'output/040_stats/reads.csv',
         gc_stats = 'output/040_stats/gc_stats.csv',
         gc_hist = 'output/040_stats/gc_hist.csv'
-    # log:
-    #     'output/logs/combine_individual_stats.log'
+    log:
+        'output/logs/combine_individual_stats.log'
     threads:
         1
     singularity:
