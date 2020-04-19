@@ -119,7 +119,7 @@ geo_key_data['sample'] = geo_key_data[
     'sample'].str.replace('\s', '-', regex=True)
 geo_key_data['sample'] = geo_key_data[
     'sample'].str.replace('.', '-', regex=False)
-para_key_data['sample_name'] = para_key_data['sample']
+geo_key_data['sample_name'] = geo_key_data['sample']
 
 geo_key_data['sample'] = [
     f'geo_{x}' for x in geo_key_data['sample'].values]
