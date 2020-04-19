@@ -25,10 +25,36 @@ def aggregate_fullnames(wildcards):
     return(my_dict)
 
 
+def get_fq_files_for_indiv(wildcards):
+    my_indiv = wildcards.individual
+    if my_indiv in geo_individuals:
+        my_key_file = geo_key_data
+    elif my_indiv in para_individuals:
+        my_key_file = para_key_data
+    else:
+        raise ValueError(f'wtf {my_indiv}')
+    my_mask = my_key_file['sample'] == my_indiv
+    my_df = my_key_file[my_mask]
+    my_fullnames = sorted(set(my_df['sample_fullname']))
+    my_fqs = snakemake.io.expand(
+            'output/020_filtered/kept/{sample_fullname}.fq.gz',
+            sample_fullname=my_fullnames)
+    return(my_fqs)
+
+
 def resolve_demuxed_file(wildcards):
-    fc_name = fullname_to_fc_name[wildcards.sample_fullname]
-    fq_file = f'output/010_demux/{fc_name}/{wildcards.sample_fullname}.fq.gz'
-    return(fq_file)
+    my_fullname = wildcards.sample_fullname
+    if my_fullname in geo_fullnames:
+        my_key_file = geo_key_data
+    elif my_fullname in para_fullnames:
+        my_key_file = para_key_data
+    else:
+        raise ValueError(f'wtf {my_fullname}')
+    my_mask = my_key_file['sample_fullname'] == my_fullname
+    my_df = my_key_file[my_mask]
+    my_fc = sorted(set(my_df['fc_lane'].values))[0]
+    my_fq = f'output/010_demux/{my_fc}/{my_fullname}.fq.gz'
+    return(my_fq)
 
 
 def resolve_read_file(wildcards):
@@ -66,7 +92,7 @@ stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 # read key file
 geo_key_data = pandas.read_csv(geo_key_file, delimiter='\t')
 
-# remove spaces from mararoa-downs
+# remove spaces from mararoa-downs and periods from Ophir
 geo_key_data['sample'] = geo_key_data[
     'sample'].str.replace('\s', '-', regex=True)
 geo_key_data['sample'] = geo_key_data[
@@ -86,20 +112,45 @@ geo_fc_lanes = sorted(set(geo_key_data['fc_lane']))
 geo_fullnames = sorted(set(geo_key_data['sample_fullname']))
 geo_individuals = sorted(set(geo_key_data['sample']))
 
-# get a dict of fc to sample name
-col_to_fcl = geo_key_data.to_dict()['fc_lane']
-col_to_sn = geo_key_data.to_dict()['sample_fullname']
+# e.g. flowcell lookup
+my_mask = geo_key_data['flowcell'] == 'CCHR3ANXX'
+my_df = geo_key_data[my_mask]
+sorted(set(my_df['sample_fullname'].values))
 
-geo_fc_name_to_sample_fullname = dict((k, []) for k in geo_fc_lanes)
-for key in col_to_sn:
-    geo_fc_name_to_sample_fullname[col_to_fcl[key]].append(col_to_sn[key])
+# e.g. fullname_to_fc_name lookup
+my_fullname = 'Wellington29_CCHR3ANXX_4_L_1'
+my_mask = geo_key_data['sample_fullname'] == my_fullname
+my_df = geo_key_data[my_mask]
+my_fc = sorted(set(my_df['fc_lane'].values))[0]
+# return this
+f'output/010_demux/{my_fc}/{my_fullname}.fq.gz'
 
-# get a dict of individual to sample_fullname
-geo_individual_to_sample_fullname = dict((k, []) for k in geo_individuals)
-for key in geo_individual_to_sample_fullname:
-    geo_individual_to_sample_fullname[key] = sorted(
-        set([x for x in geo_fullnames
-             if re.sub('_.*', '', x) == key]))
+# e.g. individual_to_sample_fullname lookup
+my_indiv = 'Reefton10'
+my_mask = geo_key_data['sample'] == my_indiv
+my_df = geo_key_data[my_mask]
+my_fullnames = sorted(set(my_df['sample_fullname']))
+
+
+my_indiv = 'O1-10'
+my_mask = geo_key_data['sample'] == my_indiv
+my_df = geo_key_data[my_mask]
+my_fullnames = sorted(set(my_df['sample_fullname']))
+
+# # get a dict of fc to sample name
+# col_to_fcl = geo_key_data.to_dict()['fc_lane']
+# col_to_sn = geo_key_data.to_dict()['sample_fullname']
+
+# geo_fc_name_to_sample_fullname = dict((k, []) for k in geo_fc_lanes)
+# for key in col_to_sn:
+#     geo_fc_name_to_sample_fullname[col_to_fcl[key]].append(col_to_sn[key])
+
+# # get a dict of individual to sample_fullname
+# geo_individual_to_sample_fullname = dict((k, []) for k in geo_individuals)
+# for key in geo_individual_to_sample_fullname:
+#     geo_individual_to_sample_fullname[key] = sorted(
+#         set([x for x in geo_fullnames
+#              if re.sub('_.*', '', x) == key]))
 
 # para samples
 
@@ -119,53 +170,67 @@ para_fc_lanes = sorted(set(para_key_data['fc_lane']))
 para_fullnames = sorted(set(para_key_data['sample_fullname']))
 para_individuals = sorted(set(para_key_data['sample']))
 
-# get a dict of fc to sample name
-pcol_to_fcl = para_key_data.to_dict()['fc_lane']
-pcol_to_sn = para_key_data.to_dict()['sample_fullname']
+# test para lookups
+# e.g. flowcell lookup
+my_mask = para_key_data['fc_lane'] == 'SQ0591_3'
+my_df = para_key_data[my_mask]
+sorted(set(my_df['sample_fullname'].values))
 
-para_fc_name_to_sample_fullname = dict((k, []) for k in para_fc_lanes)
-for key in pcol_to_sn:
-    para_fc_name_to_sample_fullname[pcol_to_fcl[key]].append(pcol_to_sn[key])
+# e.g. fullname_to_fc_name lookup
+my_fullname = 'I23_SQ0591_3'
+my_mask = para_key_data['sample_fullname'] == my_fullname
+my_df = para_key_data[my_mask]
+my_fc = sorted(set(my_df['fc_lane'].values))[0]
+# return this
+f'output/010_demux/{my_fc}/{my_fullname}.fq.gz'
 
-# get a dict of individual to sample_fullname
-para_individual_to_sample_fullname = dict((k, []) for k in para_individuals)
-for key in para_individual_to_sample_fullname:
-    para_individual_to_sample_fullname[key] = sorted(
-        set([x for x in para_fullnames
-             if x.startswith(key + '_')]))
+# e.g. individual_to_sample_fullname lookup
+my_indiv = 'I23'
+my_mask = para_key_data['sample'] == my_indiv
+my_df = para_key_data[my_mask]
+my_fullnames = sorted(set(my_df['sample_fullname']))
 
-# all indivs
-all_fc_lanes = sorted(set(para_fc_lanes + geo_fc_lanes))
-fc_name_to_sample_fullname = {}
-for key in geo_fc_name_to_sample_fullname:
-    fc_name_to_sample_fullname[key] = geo_fc_name_to_sample_fullname[key]
-
-for key in para_fc_name_to_sample_fullname:
-    fc_name_to_sample_fullname[key] = para_fc_name_to_sample_fullname[key]
-
-individual_to_sample_fullname = {}
-for key in geo_individual_to_sample_fullname:
-    new_key = f'geo_{key}'
-    individual_to_sample_fullname[new_key] = geo_individual_to_sample_fullname[key]
-
-for key in para_individual_to_sample_fullname:
-    new_key = f'para_{key}'
-    individual_to_sample_fullname[new_key] = para_individual_to_sample_fullname[key]
-
-all_individuals = sorted(set(individual_to_sample_fullname.keys()))
-
-# get the individual by the fullname
-fullname_to_indiv = {}
-for key in individual_to_sample_fullname:
-    for fullname in individual_to_sample_fullname[key]:
-        fullname_to_indiv[fullname] = key
+my_indiv = 'O1-10'
+my_mask = para_key_data['sample'] == my_indiv
+my_df = para_key_data[my_mask]
+my_fullnames = sorted(set(my_df['sample_fullname']))
 
 
-# get the fc by the fullname
-fullname_to_fc_name = {}
-for key in fc_name_to_sample_fullname:
-    for fullname in fc_name_to_sample_fullname[key]:
-        fullname_to_fc_name[fullname] = key
+# # get a dict of fc to sample name
+# pcol_to_fcl = para_key_data.to_dict()['fc_lane']
+# pcol_to_sn = para_key_data.to_dict()['sample_fullname']
+
+# para_fc_name_to_sample_fullname = dict((k, []) for k in para_fc_lanes)
+# for key in pcol_to_sn:
+#     para_fc_name_to_sample_fullname[pcol_to_fcl[key]].append(pcol_to_sn[key])
+
+# # get a dict of individual to sample_fullname
+# para_individual_to_sample_fullname = dict((k, []) for k in para_individuals)
+# for key in para_individual_to_sample_fullname:
+#     para_individual_to_sample_fullname[key] = sorted(
+#         set([x for x in para_fullnames
+#              if x.startswith(key + '_')]))
+
+# # all indivs
+# all_fc_lanes = sorted(set(para_fc_lanes + geo_fc_lanes))
+# fc_name_to_sample_fullname = {}
+# for key in geo_fc_name_to_sample_fullname:
+#     fc_name_to_sample_fullname[key] = geo_fc_name_to_sample_fullname[key]
+
+# for key in para_fc_name_to_sample_fullname:
+#     fc_name_to_sample_fullname[key] = para_fc_name_to_sample_fullname[key]
+
+# individual_to_sample_fullname = {}
+# for key in geo_individual_to_sample_fullname:
+#     new_key = f'geo_{key}'
+#     individual_to_sample_fullname[new_key] = geo_individual_to_sample_fullname[key]
+
+# for key in para_individual_to_sample_fullname:
+#     new_key = f'para_{key}'
+#     individual_to_sample_fullname[new_key] = para_individual_to_sample_fullname[key]
+
+all_individuals = sorted(set(geo_individuals + para_individuals))
+all_fc_lanes = sorted(set(geo_fc_lanes + para_fc_lanes))
 
 
 #########
@@ -258,9 +323,7 @@ rule count_reads:
 # 3 combine reads per-individual
 rule combine_reads:
     input:
-        lambda wildcards: expand(
-            'output/020_filtered/kept/{sample_fullname}.fq.gz',
-            sample_fullname=individual_to_sample_fullname[wildcards.individual])
+        get_fq_files_for_indiv
     output:
         'output/030_combined/{individual}.fq.gz'
     shell:
@@ -269,7 +332,6 @@ rule combine_reads:
 # # 2b. filter and truncate demuxed reads
 rule trim_adaptors:
     input:
-        # 'output/010_demux/{fc_lane}/{sample_fullname}.fq.gz'
         resolve_demuxed_file
     output:
         kept = 'output/020_filtered/kept/{sample_fullname}.fq.gz',
