@@ -119,6 +119,8 @@ geo_key_data['sample'] = geo_key_data[
     'sample'].str.replace('\s', '-', regex=True)
 geo_key_data['sample'] = geo_key_data[
     'sample'].str.replace('.', '-', regex=False)
+para_key_data['sample_name'] = para_key_data['sample']
+
 geo_key_data['sample'] = [
     f'geo_{x}' for x in geo_key_data['sample'].values]
 
@@ -126,7 +128,7 @@ geo_key_data['sample'] = [
 geo_key_data['fc_lane'] = geo_key_data[[
     'flowcell', 'lane']].astype(str).apply('_'.join, axis=1)
 geo_key_data['sample_fullname'] = geo_key_data[[
-    'sample',
+    'sample_name',
     'flowcell',
     'lane',
     'row',
