@@ -10,10 +10,14 @@ from pathlib import Path
 #############
 
 def aggregate_fullnames(wildcards):
+    # we want to know which indivs are in this fc_lane
     fc = wildcards.fc_lane
+    # check which fq files resulted from demuxing the fc_lane
     co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
     fq_path = Path(co, '{sample_fullname}.fq.gz').as_posix()
+    # get the fullname from the fq file
     fc_fullnames = glob_wildcards(fq_path).sample_fullname
+    # for each fullname, look up the indiv in the key data
     fc_indivs = []
     for my_fullname in fc_fullnames:
         if my_fullname in geo_fullnames:
@@ -27,13 +31,16 @@ def aggregate_fullnames(wildcards):
         my_indivs = sorted(set(my_df['sample'].values))
         for indiv in my_indivs:
             fc_indivs.append(indiv)
-    print(fc_indivs)
+    # some indivs will be hit by >1 fullname
+    unique_indivs = sorted(set(fc_indivs))
+    # generate the read and gc stat file paths
     read_stats = snakemake.io.expand(
         'output/040_stats/reads/{individual}.txt',
-        individual=fc_indivs)
+        individual=unique_indivs)
     gc_stats = snakemake.io.expand(
         'output/040_stats/gc_hist/{individual}.txt',
-        individual=fc_indivs)
+        individual=unique_indivs)
+    # return as a dict
     my_dict = {}
     my_dict['read_stats'] = read_stats
     my_dict['gc_stats'] = gc_stats
