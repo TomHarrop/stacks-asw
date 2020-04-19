@@ -39,6 +39,8 @@ reads_files <- sapply(snakemake@input[["read_stats"]],
                       normalizePath)
 gc_files <- sapply(snakemake@input[["gc_stats"]],
                    normalizePath)
+print(reads_files)
+print(gc_files)
 
 read_stats_file <- snakemake@output[["read_stats"]]
 gc_stats_file <- snakemake@output[["gc_stats"]]
