@@ -150,7 +150,7 @@ para_key_data['sample_fullname'] = para_key_data[[
     'key',
     'lane']].astype(str).apply('_'.join, axis=1)
 para_key_data['sample'] = [
-    f'para_{x}' for x in geo_key_data['sample'].values]
+    f'para_{x}' for x in para_key_data['sample'].values]
 
 para_fc_lanes = sorted(set(para_key_data['fc_lane']))
 para_fullnames = sorted(set(para_key_data['sample_fullname']))
