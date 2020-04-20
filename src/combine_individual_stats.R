@@ -35,8 +35,8 @@ GetReadCounts <- function(read_file) {
 # GLOBALS #
 ###########
 
-reads_files <- sapply(snakemake@input[["read_stats"]])
-gc_files <- sapply(snakemake@input[["gc_stats"]])
+reads_files <- snakemake@input[["read_stats"]]
+gc_files <- snakemake@input[["gc_stats"]]
 
 read_stats_file <- snakemake@output[["read_stats"]]
 gc_stats_file <- snakemake@output[["gc_stats"]]
