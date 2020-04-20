@@ -1,100 +1,172 @@
 #!/usr/bin/env python3
 
 import pandas
-import pickle
 import re
+from pathlib import Path
+
 
 #############
 # FUNCTIONS #
 #############
 
+def aggregate_fullnames(wildcards):
+    # we're not going to use wildcards, we're going to use the list of all
+    # files. But we need to run `checkpoints` for snakemake's benefit
+    for fc in all_fc_lanes:
+        # check which fq files resulted from demuxing the fc_lane
+        co = checkpoints.process_radtags.get(fc_lane=fc).output['fq']
+    read_stats = snakemake.io.expand(
+        'output/040_stats/reads/{individual}.txt',
+        individual=all_individuals)
+    gc_stats = snakemake.io.expand(
+        'output/040_stats/gc_hist/{individual}.txt',
+        individual=all_individuals)
+    # return as a dict
+    my_dict = {}
+    my_dict['read_stats'] = read_stats
+    my_dict['gc_stats'] = gc_stats
+    return(my_dict)
+
+
+def get_fq_files_for_indiv(wildcards):
+    my_indiv = wildcards.individual
+    if my_indiv in geo_individuals:
+        my_key_file = geo_key_data
+    elif my_indiv in para_individuals:
+        my_key_file = para_key_data
+    else:
+        raise ValueError(f'wtf {my_indiv}')
+    my_mask = my_key_file['sample'] == my_indiv
+    my_df = my_key_file[my_mask]
+    my_fullnames = sorted(set(my_df['sample_fullname']))
+    my_fqs = snakemake.io.expand(
+            'output/020_filtered/kept/{sample_fullname}.fq.gz',
+            sample_fullname=my_fullnames)
+    return(my_fqs)
+
+
+def resolve_demuxed_file(wildcards):
+    my_fullname = wildcards.sample_fullname
+    if my_fullname in geo_fullnames:
+        my_key_file = geo_key_data
+    elif my_fullname in para_fullnames:
+        my_key_file = para_key_data
+    else:
+        raise ValueError(f'wtf {my_fullname}')
+    my_mask = my_key_file['sample_fullname'] == my_fullname
+    my_df = my_key_file[my_mask]
+    my_fc = sorted(set(my_df['fc_lane'].values))[0]
+    my_fq = f'output/010_demux/{my_fc}/{my_fullname}.fq.gz'
+    return(my_fq)
+
+
+def resolve_read_file(wildcards):
+    if wildcards.fc_lane in geo_fc_lanes:
+        read_file = f'data/georeads/{wildcards.fc_lane}_fastq.gz'
+        return {'read_file': read_file}
+    elif wildcards.fc_lane in para_fc_lanes:
+        fc_split = wildcards.fc_lane.split('_')
+        read_file = next(Path('data/parareads/').glob(
+            f'{fc_split[0]}*L*{fc_split[1]}*.fastq.gz')).as_posix()
+        return {'read_file': read_file}
+    else:
+        raise ValueError(f'wtf {wildcards.fc_lane}')
 
 ###########
 # GLOBALS #
 ###########
 
 # files and folders
-key_file = 'data/reads/SQ0727.txt'
+geo_key_file = 'data/georeads/SQ0727.txt'
+para_key_file = 'data/para_key_data.csv'
 
 # containers
-stacks_container = ('shub://TomHarrop/variant-utils:stacks_2.53')
 bbduk_container = 'shub://TomHarrop/seq-utils:bbmap_38.76'
+pandas_container = 'shub://TomHarrop/py-containers:pandas_0.25.3'
 r_container = 'shub://TomHarrop/r-containers:r_3.6.1'
+stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 
 #########
 # SETUP #
 #########
 
-# read key file
-key_data = pandas.read_csv(key_file, delimiter='\t')
+# geo samples
 
-# remove spaces from mararoa-downs
-key_data['sample'] = key_data['sample'].str.replace('\s', '-', regex=True)
-key_data['sample'] = key_data['sample'].str.replace('.', '-', regex=False)
+# read key file
+geo_key_data = pandas.read_csv(geo_key_file, delimiter='\t')
+
+# remove spaces from mararoa-downs and periods from Ophir
+geo_key_data['sample'] = geo_key_data[
+    'sample'].str.replace('\s', '-', regex=True)
+geo_key_data['sample'] = geo_key_data[
+    'sample'].str.replace('.', '-', regex=False)
+geo_key_data['sample_name'] = geo_key_data['sample']
+
+geo_key_data['sample'] = [
+    f'geo_{x}' for x in geo_key_data['sample'].values]
 
 # add details for expected output
-key_data['fc_lane'] = key_data[[
+geo_key_data['fc_lane'] = geo_key_data[[
     'flowcell', 'lane']].astype(str).apply('_'.join, axis=1)
-key_data['sample_fullname'] = key_data[[
-    'sample',
+geo_key_data['sample_fullname'] = geo_key_data[[
+    'sample_name',
     'flowcell',
     'lane',
     'row',
     'column']].astype(str).apply('_'.join, axis=1)
 
-all_fc_lanes = sorted(set(key_data['fc_lane']))
-all_fullnames = sorted(set(key_data['sample_fullname']))
-all_individuals = sorted(set(key_data['sample']))
+geo_fc_lanes = sorted(set(geo_key_data['fc_lane']))
+geo_fullnames = sorted(set(geo_key_data['sample_fullname']))
+geo_individuals = sorted(set(geo_key_data['sample']))
 
-# get a dict of fc to sample name
-col_to_fcl = key_data.to_dict()['fc_lane']
-col_to_sn = key_data.to_dict()['sample_fullname']
+# para samples
 
-fc_name_to_sample_fullname = dict((k, []) for k in all_fc_lanes)
+# read key file
+para_key_data = pandas.read_csv(para_key_file, delimiter=',')
 
-for key in col_to_sn:
-    fc_name_to_sample_fullname[col_to_fcl[key]].append(col_to_sn[key])
+# add details for expected output
+para_key_data['sample'] = para_key_data['sample_name']
+para_key_data['fc_lane'] = para_key_data[[
+    'key', 'lane']].astype(str).apply('_'.join, axis=1)
+para_key_data['sample_fullname'] = para_key_data[[
+    'sample',
+    'key',
+    'lane']].astype(str).apply('_'.join, axis=1)
+para_key_data['sample'] = [
+    f'para_{x}' for x in para_key_data['sample'].values]
 
-# get a dict of individual to sample_fullname
-individual_to_sample_fullname = dict((k, []) for k in all_individuals)
-for key in individual_to_sample_fullname:
-    individual_to_sample_fullname[key] = sorted(
-        set([x for x in all_fullnames
-             if re.sub('_.*', '', x) == key]))
+para_fc_lanes = sorted(set(para_key_data['fc_lane']))
+para_fullnames = sorted(set(para_key_data['sample_fullname']))
+para_individuals = sorted(set(para_key_data['sample']))
+
+# whole dataset
+all_individuals = sorted(set(geo_individuals + para_individuals))
+all_fc_lanes = sorted(set(geo_fc_lanes + para_fc_lanes))
+
 
 #########
 # RULES #
 #########
 
+wildcard_constraints:
+    fc_lane = '|'.join(all_fc_lanes),
+    individual = '|'.join(all_individuals)
+
 rule target:
     input:
-        'output/stacks_config/filtered_population_map.txt',
-        'output/stacks_config/individual_i.p'
+        expand('output/010_demux/{fc_lane}',
+               fc_lane=all_fc_lanes),
+        'output/000_config/filtered_population_map.txt'
 
-
-# 5. make a dictionary of sample:i for cstacks
-rule enumerate_filtered_samples:
-    input:
-        key_file
-    output:
-        pickle = 'output/stacks_config/individual_i.p'
-    run:
-        # count the individuals
-        my_individuals = enumerate(all_individuals)
-        individual_i = {y: x for x, y in my_individuals}
-        # pickle the individual_i dict for other rules to use
-        with open(output.pickle, 'wb+') as f:
-            pickle.dump(individual_i, f)
-
-# 4. filter the population map
+# filter the population map
 rule filter_samples:
     input:
-        popmap = 'output/stacks_config/population_map.txt',
-        read_stats = 'output/combined_stats/reads.csv',
-        gc_stats = 'output/combined_stats/gc_stats.csv'
+        popmap = 'output/000_config/population_map.txt',
+        read_stats = 'output/040_stats/reads.csv',
+        gc_stats = 'output/040_stats/gc_stats.csv'
     output:
-        map = 'output/stacks_config/filtered_population_map.txt',
-        plot = 'output/combined_stats/read_count_histogram.pdf'
+        map = 'output/000_config/filtered_population_map.txt',
+        plot = 'output/040_stats/read_count_histogram.pdf'
     log:
         'output/logs/filter_samples.log'
     singularity:
@@ -102,17 +174,14 @@ rule filter_samples:
     script:
         'src/filter_population_map.R'
 
-# 4. run reformat.sh to count reads and get a gc histogram
+# count reads and get a gc histogram
 rule combine_individual_stats:
     input:
-        read_stats = expand('output/individual_stats/reads/{individual}.txt',
-                            individual=all_individuals),
-        gc_stats = expand('output/individual_stats/gc_hist/{individual}.txt',
-                          individual=all_individuals)
+        unpack(aggregate_fullnames)
     output:
-        read_stats = 'output/combined_stats/reads.csv',
-        gc_stats = 'output/combined_stats/gc_stats.csv',
-        gc_hist = 'output/combined_stats/gc_hist.csv'
+        read_stats = 'output/040_stats/reads.csv',
+        gc_stats = 'output/040_stats/gc_stats.csv',
+        gc_hist = 'output/040_stats/gc_hist.csv'
     log:
         'output/logs/combine_individual_stats.log'
     threads:
@@ -124,10 +193,10 @@ rule combine_individual_stats:
 
 rule count_reads:
     input:
-        'output/combined/{individual}.fq.gz'
+        'output/030_combined/{individual}.fq.gz'
     output:
-        reads = 'output/individual_stats/reads/{individual}.txt',
-        gc = 'output/individual_stats/gc_hist/{individual}.txt'
+        reads = 'output/040_stats/reads/{individual}.txt',
+        gc = 'output/040_stats/gc_hist/{individual}.txt'
     threads:
         1
     priority:
@@ -143,37 +212,35 @@ rule count_reads:
         'gcbins=auto '
         '2> {output.reads}'
 
-# 3 combine reads per-individual
+# combine reads per-individual
 rule combine_reads:
     input:
-        lambda wildcards: expand(
-            'output/filtering/kept/{sample_fullname}.fq.gz',
-            sample_fullname=individual_to_sample_fullname[wildcards.individual])
+        get_fq_files_for_indiv
     output:
-        'output/combined/{individual}.fq.gz'
+        'output/030_combined/{individual}.fq.gz'
     shell:
         'cat {input} > {output}'
 
-# # 2b. filter and truncate demuxed reads
+# filter and truncate demuxed reads
 rule trim_adaptors:
     input:
-        'output/demux/{sample_fullname}.fq.gz'
+        resolve_demuxed_file
     output:
-        kept = 'output/filtering/kept/{sample_fullname}.fq.gz',
-        discarded = 'output/filtering/discarded/{sample_fullname}.fq.gz',
-        adaptor_stats = 'output/filtering/adaptor_stats/{sample_fullname}.txt',
-        truncate_stats = ('output/filtering/truncate_stats/'
+        kept = 'output/020_filtered/kept/{sample_fullname}.fq.gz',
+        discarded = 'output/020_filtered/discarded/{sample_fullname}.fq.gz',
+        adaptor_stats = 'output/020_filtered/adaptor_stats/{sample_fullname}.txt',
+        truncate_stats = ('output/020_filtered/truncate_stats/'
                           '{sample_fullname}.txt'),
-        gc_hist = 'output/filtering/gc_hist/{sample_fullname}.txt',
-        lhist = 'output/filtering/lhist/{sample_fullname}.txt'
+        gc_hist = 'output/020_filtered/gc_hist/{sample_fullname}.txt',
+        lhist = 'output/020_filtered/lhist/{sample_fullname}.txt'
     params:
-        adaptors = 'data/adaptors/bbduk_adaptors_plus_AgR_common.fa'
+        adaptors = 'data/bbduk_adaptors_plus_AgR_common.fa'
     singularity:
         bbduk_container
     log:
-        adaptors = 'output/logs/filtering/{sample_fullname}_adaptors.txt',
-        truncate = 'output/logs/filtering/{sample_fullname}_truncate.txt',
-        lhist = 'output/logs/filtering/{sample_fullname}_lhist.txt'
+        adaptors = 'output/logs/trim_adaptors.{sample_fullname}.adaptors.txt',
+        truncate = 'output/logs/trim_adaptors.{sample_fullname}.truncate.txt',
+        lhist = 'output/logs/trim_adaptors.{sample_fullname}.lhist.txt'
     threads:
         1
     shell:
@@ -210,52 +277,54 @@ rule trim_adaptors:
         'ziplevel=9 '
         '2> {log.truncate}'
 
-# 2. for loop per fc_lane
-for fc_lane in all_fc_lanes:
-    rule:
-        input:
-            read_file = 'data/reads/{0}_fastq.gz'.format(fc_lane),
-            config_file = 'output/stacks_config/{0}.config'.format(fc_lane)
-        output:
-            expand(
-                'output/demux/{sample_fullname}.fq.gz',
-                sample_fullname=fc_name_to_sample_fullname[fc_lane])
-        log:
-            'output/logs/demux/{0}.log'.format(fc_lane)
-        threads:
-            1
-        singularity:
-            stacks_container
-        shell:
-            'process_radtags '
-            '-f {input.read_file} '
-            '-i gzfastq -y gzfastq '
-            '-b {input.config_file} '
-            '-o output/demux '
-            '-c -q '
-            # '-r --barcode_dist_1 1 '  # rescue barcodes
-            '--barcode_dist_1 0 '       # don't allow bc mismatches
-            # '-t 91 '                  # truncate output to 91 b
-            '-w 0.1 '                   # window: approx. 9 bases
-            '-s 15 '                    # minimum avg PHRED in window
-            '--inline_null '
-            '--renz_1 apeKI --renz_2 mspI '
-            '&> {log}'
 
-# 1. extract per-flowcell/lane sample:barcode information
+# demux each fc_lane
+checkpoint process_radtags:
+    input:
+        unpack(resolve_read_file),
+        config_file = 'output/000_config/{fc_lane}.config'
+    output:
+        fq = directory('output/010_demux/{fc_lane}')
+    log:
+        'output/logs/demux.{fc_lane}.log'
+    threads:
+        1
+    priority:
+        100
+    singularity:
+        stacks_container
+    shell:
+        'mkdir -p {output.fq} ; '
+        'process_radtags '
+        '-f {input.read_file} '
+        '-i gzfastq -y gzfastq '
+        '-b {input.config_file} '
+        '-o {output.fq} '
+        '-c -q '
+        # '-r --barcode_dist_1 1 '  # rescue barcodes
+        '--barcode_dist_1 0 '       # don't allow bc mismatches
+        # '-t 91 '                  # truncate output to 91 b
+        '-w 0.1 '                   # window: approx. 9 bases
+        '-s 15 '                    # minimum avg PHRED in window
+        '--inline_null '
+        '--renz_1 apeKI --renz_2 mspI '
+        '&> {log} '
+        # '|| true'                   # DOESN'T EXIT CLEANLY, WHYYYYY?
+
+# extract per-flowcell/lane sample:barcode information
 rule write_config_files:
     input:
-        key_file = key_file
+        geo_key_file = geo_key_file,
+        para_key_file = para_key_file
     output:
-        expand('output/stacks_config/{fc_lane}.config',
+        expand('output/000_config/{fc_lane}.config',
                fc_lane=all_fc_lanes),
-        population_map = 'output/stacks_config/population_map.txt'
+        population_map = 'output/000_config/population_map.txt'
     params:
-        outdir = 'output/stacks_config'
+        outdir = 'output/000_config'
     log:
         'output/logs/write_config_files.log'
     singularity:
         r_container
     script:
         'src/write_config_files.R'
-

@@ -1,57 +1,32 @@
 #!/usr/bin/env python3
 
-import pandas
-import pickle
 import multiprocessing
-from pathlib import Path
+import pandas
+import tempfile
 
 
 #############
 # FUNCTIONS #
 #############
 
-def lookup_indiv(pickle_file, individual):
-    with open(pickle_file, 'rb') as f:
-        individual_i = pickle.load(f)
-        sample_i = individual_i[individual]
-        return(sample_i)
-
-
-def stacks_mapping_resovler(wildcards):
-    if wildcards.mapped == 'mapped':
-        return {
-            'catalog': 'output/map_to_genome/catalog.fa.gz',
-            'calls': 'output/map_to_genome/catalog.calls'
-        }
-    elif wildcards.mapped == 'denovo':
-        return {
-            'catalog': 'output/stacks_denovo/catalog.fa.gz',
-            'calls': 'output/stacks_denovo/catalog.calls'
-        }
-    else:
-        raise ValueError("WTF {wildcards.mapped}")
-
 
 ###########
 # GLOBALS #
 ###########
 
-reads_dir = 'data/raw_reads'
-
-filtered_popmap = 'output/stacks_config/filtered_population_map.txt'
+filtered_popmap = 'output/000_config/filtered_population_map.txt'
+ref = 'data/draft_genome.fasta'
 
 # containers
-stacks_container = ('shub://TomHarrop/variant-utils:stacks_2.3e')
-stacks2beta_container = ('shub://TomHarrop/singularity-containers:stacks_2.0beta9'
-                         '@bb2f9183318871f6228b51104056a2d0')
-r_container = 'shub://TomHarrop/singularity-containers:r_3.5.0'
 bwa_container = 'shub://TomHarrop/singularity-containers:bwa_0.7.17'
-samtools = 'shub://TomHarrop/singularity-containers:samtools_1.9'
-vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
+samtools = 'shub://TomHarrop/align-utils:samtools_1.9'
+stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 
 #########
 # SETUP #
 #########
+
+all_cpus = int(workflow.cores)
 
 # read popmap
 try:
@@ -61,39 +36,37 @@ try:
                              names=['individual', 'population'])
     all_indivs = sorted(set(popmap['individual']))
 except FileNotFoundError:
-    print("ERROR. {filtered_popmap} not found.")
-    print("       Run process_reads.Snakefile")
+    print(f'ERROR. {filtered_popmap} not found.')
+    print('       Run process_reads.Snakefile')
     raise FileNotFoundError
 
 #########
 # RULES #
 #########
 
-rule target:
-    input:
-        expand('output/stacks_populations/{mapped}/r0/populations.snps.vcf',
-               mapped=['mapped', 'denovo']),
-        'output/combined_stats/individual_covstats_combined.csv'
-
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
+    configfile: 'config.yaml'
 
-# # 12. filter the final catalog by r
-# make a denovo and mapped version
+rule target:
+    input:
+        'output/050_stacks/populations/populations.snps.vcf'
+
+# run populations once to generate stats for filtering
 rule populations:
     input:
-        unpack(stacks_mapping_resovler),
+        'output/050_stacks/catalog.fa.gz',
+        'output/050_stacks/catalog.calls',
         map = filtered_popmap
     output:
-        'output/stacks_populations/{mapped}/r0/populations.snps.vcf'
+        'output/050_stacks/populations/populations.snps.vcf'
     params:
-        stacks_dir = lambda wildcards, input:
-            Path(input.catalog).parent,
-        outdir = 'output/stacks_populations/{mapped}/r0'
+        stacks_dir = 'output/050_stacks',
+        outdir = 'output/050_stacks/populations'
     log:
-        'output/logs/populations.{mapped}.r0.log'
+        'output/logs/populations.log'
     singularity:
-        stacks2beta_container
+        stacks_container
     shell:
         'populations '
         '-P {params.stacks_dir} '
@@ -103,83 +76,98 @@ rule populations:
         '--genepop --vcf '
         '&> {log}'
 
-# 11b map the catalog to the draft genome
-rule integrate_alignments:
+# generate catalog
+rule gstacks:
     input:
-        fa = 'output/stacks_denovo/catalog.fa.gz',
-        bam = 'output/map_to_genome/aln.bam',
+        bam_files = expand(
+            'output/050_stacks/bamfiles/{individual}.bam',
+            individual=all_indivs),
+        popmap = filtered_popmap
     output:
-        catalog = 'output/map_to_genome/catalog.fa.gz',
-        tsv = 'output/map_to_genome/locus_coordinates.tsv',
-        calls = 'output/map_to_genome/catalog.calls'
+        'output/050_stacks/catalog.fa.gz',
+        'output/050_stacks/catalog.calls'
     params:
-        stacks_dir = 'output/stacks_denovo',
-        out_dir = 'output/map_to_genome'
-    log:
-        'output/logs/integrate_alignments.log'
-    singularity:
-        stacks_container
-    shell:
-        'stacks-integrate-alignments '
-        '-P {params.stacks_dir} '
-        '-B {input.bam} '
-        '-O {params.out_dir} '
-        '&> {log}' 
-
-rule sam_to_bam:
-    input:
-        aln = 'output/map_to_genome/aln.sam'
-    output:
-        bam = 'output/map_to_genome/aln.bam',
+        stacks_i = 'output/050_stacks/bamfiles',
+        stacks_o = 'output/050_stacks'
     threads:
-        1
+        all_cpus
     log:
-        'output/logs/sam_to_bam.log'
+        'output/logs/gstacks.log'
     singularity:
         stacks_container
     shell:
-        'samtools view '
-        '--threads {threads} '
-        '-O BAM '
-        '-bh '
-        '{input.aln} '
-        '> {output.bam} '
+        'gstacks '
+        '-I {params.stacks_i} '
+        '-O {params.stacks_o} '
+        '-M {input.popmap} '
+        '-t {threads} '
+        '--details '
+        '&> {log}'
+
+# process the bamfiles
+rule markdup:
+    input:
+        'output/tmp/{individual}.sorted.bam'
+    output:
+        'output/050_stacks/bamfiles/{individual}.bam'
+    log:
+        'output/logs/markdup.{individual}.log'
+    singularity:
+        samtools
+    shell:
+        'samtools markdup '
+        '-@ {all_cpus} '
+        '-s '
+        '{input} '
+        '{output} '
         '2> {log}'
 
-
-rule map_stacks_catalog:
+rule sort_sam:
     input:
-        fa = 'output/stacks_denovo/catalog.fa.gz',
-        index = expand('output/map_to_genome/draft_genome.fasta.{suffix}',
-                       suffix=['amb', 'ann', 'bwt', 'pac', 'sa'])
-
+        'output/tmp/{individual}.sam'
     output:
-        temp('output/map_to_genome/aln.sam')
-    params:
-        prefix = 'output/map_to_genome/draft_genome.fasta',
-    threads:
-        multiprocessing.cpu_count()
+        pipe('output/tmp/{individual}.sorted.bam')
     log:
-        'output/logs/map_stacks_catalog.log'
+        'output/logs/sort_sam.{individual}.log'
+    singularity:
+        samtools
+    shell:
+        'samtools sort '
+        '-O BAM '
+        '--threads {all_cpus} '
+        '{input} '
+        '> {output} '
+        '2> {log}'
+
+# map demuxed reads per sample
+rule map_indiv_reads:
+    input:
+        fq = process_reads('output/030_combined/{individual}.fq.gz'),
+        ref = 'output/005_ref/ref.fasta'
+    output:
+        pipe('output/tmp/{individual}.sam')
+    log:
+        'output/logs/map_indiv_reads.{individual}.log'
+    threads:
+        min(12, all_cpus) - 2
     singularity:
         bwa_container
     shell:
         'bwa mem '
         '-t {threads} '
-        '{params.prefix} '
-        '{input.fa} '
-        '> {output} '
+        '{input.ref} '
+        '{input.fq} '
+        '>> {output} '
         '2> {log}'
 
-
+# set up genome for mapping
 rule bwa_index:
     input:
-        'data/draft_genome.fasta'
+        ref = ref
     output:
-        expand('output/map_to_genome/draft_genome.fasta.{suffix}',
-               suffix=['amb', 'ann', 'bwt', 'pac', 'sa'])
-    params:
-        prefix = 'output/map_to_genome/draft_genome.fasta'
+        expand('output/005_ref/ref.fasta.{suffix}',
+               suffix=['amb', 'ann', 'bwt', 'pac', 'sa']),
+        ref = 'output/005_ref/ref.fasta'
     threads:
         1
     log:
@@ -187,175 +175,11 @@ rule bwa_index:
     singularity:
         bwa_container
     shell:
+        'cp {input.ref} {output.ref} ; '
         'bwa index '
-        '-p {params.prefix} '
-        '{input} '
+        '-p {output.ref} '
+        '{output.ref} '
         '2> {log}'
-
-
-# # 11. generate final catalog
-rule gstacks:
-    input:
-        expand('output/stacks_denovo/{individual}.matches.bam',
-               individual=all_indivs),
-        map = filtered_popmap
-    output:
-        'output/stacks_denovo/catalog.fa.gz',
-        'output/stacks_denovo/catalog.calls'
-    params:
-        stacks_dir = 'output/stacks_denovo'
-    threads:
-        75
-    log:
-        'output/logs/gstacks.log'
-    singularity:
-        stacks_container
-    shell:
-        'gstacks '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-t {threads} '
-        '&> {log}'
-
-# # 10. convert matches to BAM
-rule tsv2bam:
-    input:
-        expand('output/stacks_denovo/{individual}.matches.tsv.gz',
-               individual=all_indivs),
-        map = filtered_popmap
-    output:
-        expand('output/stacks_denovo/{individual}.matches.bam',
-               individual=all_indivs)
-    params:
-        stacks_dir = 'output/stacks_denovo'
-    threads:
-        75
-    log:
-        'output/logs/tsv2bam.log'
-    singularity:
-        stacks_container
-    shell:
-        'tsv2bam '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-t {threads} '
-        '&> {log}'
-
-# # 9. match individuals to the catalog
-rule sstacks:
-    input:
-        'output/stacks_denovo/catalog.tags.tsv.gz',
-        map = filtered_popmap
-    output:
-        expand('output/stacks_denovo/{individual}.matches.tsv.gz',
-               individual=all_indivs)
-    params:
-        stacks_dir = 'output/stacks_denovo'
-    threads:
-        75
-    log:
-        'output/logs/sstacks.log'
-    singularity:
-        stacks_container
-    shell:
-        'sstacks '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-p {threads} '
-        '&> {log}'
-
-# # 8. generate the catalog (takes ~ 1 week)
-rule cstacks:
-    input:
-        expand('output/stacks_denovo/{individual}.alleles.tsv.gz',
-               individual=all_indivs),
-        expand('output/stacks_denovo/{individual}.snps.tsv.gz',
-               individual=all_indivs),
-        expand('output/stacks_denovo/{individual}.tags.tsv.gz',
-               individual=all_indivs),
-        map = filtered_popmap
-    output:
-        'output/stacks_denovo/catalog.tags.tsv.gz',
-        'output/stacks_denovo/catalog.snps.tsv.gz',
-        'output/stacks_denovo/catalog.alleles.tsv.gz'
-    params:
-        stacks_dir = 'output/stacks_denovo',
-        n = '4'
-    threads:
-        75
-    log:
-        'output/logs/cstacks.log'
-    singularity:
-        stacks_container
-    shell:
-        'cstacks '
-        '-p {threads} '
-        '-P {params.stacks_dir} '
-        '-M {input.map} '
-        '-n {params.n} '
-        '&> {log}'
-
-# 7d. combine individual coverage stats
-rule individual_covstats_combined:
-    input:
-        expand('output/individual_covstats/{individual}.csv',
-               individual=all_indivs)
-    output:
-        combined = 'output/combined_stats/individual_covstats_combined.csv'
-    priority:
-        1
-    singularity:
-        r_container
-    script:
-        'src/combine_csvs.R'
-
-# # 7c. calculate coverage stats per individual
-rule individual_covstats:
-    input:
-        tags_file = 'output/stacks_denovo/{individual}.tags.tsv.gz'
-    output:
-        covstats = 'output/individual_covstats/{individual}.csv'
-    log:
-        log = 'output/logs/individual_covstats/{individual}.log'
-    threads:
-        1
-    singularity:
-        r_container
-    script:
-        'src/calculate_mean_coverage.R'
-
-# 7. assemble loci for individuals that passed the filter
-rule ustacks:
-    input:
-        fq = process_reads('output/combined/{individual}.fq.gz'),
-        pickle = process_reads('output/stacks_config/individual_i.p')
-    params:
-        wd = 'output/stacks_denovo',
-        i = lambda wildcards, input:
-            lookup_indiv(input.pickle, wildcards.individual),
-        m = '3',
-        M = '3'
-    output:
-        'output/stacks_denovo/{individual}.alleles.tsv.gz',
-        'output/stacks_denovo/{individual}.snps.tsv.gz',
-        'output/stacks_denovo/{individual}.tags.tsv.gz'
-    threads:
-        1
-    log:
-        'output/logs/ustacks_{individual}.log'
-    singularity:
-        stacks_container
-    shell:
-        'ustacks '
-        '-p {threads} '
-        '-t gzfastq '
-        '-f {input.fq} '
-        '-o {params.wd} '
-        '-i {params.i} '
-        '-m {params.m} '
-        '-M {params.M} '
-        '&> {log}'
-
 
 # generic rule for indexing vcf
 rule sort_vcf:
@@ -364,9 +188,13 @@ rule sort_vcf:
     output:
         pipe('output/{folder}/{file}_sorted.vcf')
     singularity:
-        vcftools_container
+        samtools
     shell:
-        'vcf-sort {input} >> {output} 2> /dev/null'
+        'bcftools sort '
+        '--temp-dir ' + tempfile.mkdtemp() + ' '
+        '{input} '
+        '>> {output} '
+        '2> {log}'
 
 rule index_vcf:
     input:
@@ -384,4 +212,3 @@ rule index_vcf:
         'bgzip -c {input} > {output.gz} 2> {log} '
         '; '
         'tabix -p vcf {output.gz} 2>> {log}'
-

@@ -23,8 +23,7 @@ pca_plot_file <- snakemake@output[["pca_plot"]]
 dapc_xv_file <- snakemake@output[["dapc_xv"]]
 
 # DEV
-# vcf_file <- "output/popgen/mapped/stacks_populations/populations.snps.vcf"
-
+# vcf_file <- "output/070_populations/ns/populations.snps.vcf"
 
 # roughly north to south?
 pop_order <- c(
@@ -36,7 +35,7 @@ pop_order <- c(
     "Greymouth",
     "Lincoln",
     "O",
-    "MararoaDowns",
+    "Mararoa",
     "Mossburn",
     "Fortrose")
 
@@ -55,8 +54,12 @@ snps_imputed <- new("genlight",
                     na_means,
                     ploidy = 2)
 
-pop(snps_imputed) <- factor(gsub("[^[:alpha:]]+", "", snps_imputed$ind.names),
-                            levels = pop_order)
+pops <- gsub("^[[:alpha:]]+_([[:alpha:]]+).*", "\\1", snps_imputed$ind.names)
+if (all(pops %in% pop_order)) {
+    pop(snps_imputed) <- factor(pops, levels = pop_order)
+} else {
+    pop(snps_imputed) <- pops
+}
 
 # run the pca
 pca <- glPca(snps_imputed, nf = Inf)
@@ -75,13 +78,21 @@ pca_long <- melt(pca_dt,
                  id.vars = "individual",
                  variable.name = "component",
                  value.name = "score")
-pca_long[, population := gsub("[^[:alpha:]]+", "", individual)]
+
+
+pca_long[, population := gsub("^[[:alpha:]]+_([[:alpha:]]+).*", "\\1", individual)]
 
 pca_pd <- merge(pca_long,
                 data.table(component = paste0("PC", 1:length(pct_var)),
                            pct_var = pct_var),
                 all.y = FALSE)
-pca_pd[, population := factor(population, levels = pop_order)]
+
+if (all(pops %in% pop_order)) {
+    pca_pd[, population := factor(population, levels = pop_order)]
+} else {
+    pca_pd[, population := factor(population, levels = unique(population))]
+}
+
 pca_pd[, facet_label := paste0(component, " (", round(pct_var, 1), "%)")]
 
 # plot the pca
@@ -135,13 +146,20 @@ dapc_long <- melt(dapc_dt,
                   id.vars = "individual",
                   variable.name = "component",
                   value.name = "score")
-dapc_long[, population := gsub("[^[:alpha:]]+", "", individual)]
+
+dapc_long[, population := gsub("^[[:alpha:]]+_([[:alpha:]]+).*", "\\1", individual)]
 
 dapc_pd <- merge(dapc_long,
                  data.table(component = paste0("LD", 1:length(dapc_var)),
                             dapc_var = dapc_var),
                  all.y = FALSE)
-dapc_pd[, population := factor(population, levels = pop_order)]
+
+if (all(pops %in% pop_order)) {
+    dapc_pd[, population := factor(population, levels = pop_order)]
+} else {
+    dapc_pd[, population := factor(population, levels = unique(population))]
+}
+
 dapc_pd[, facet_label := paste0(component, " (", round(dapc_var, 1), "%)")]
 
 # plot the dapc
