@@ -26,7 +26,7 @@ stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 # SETUP #
 #########
 
-all_cpus = multiprocessing.cpu_count()
+all_cpus = workflow.cores
 
 # read popmap
 try:
