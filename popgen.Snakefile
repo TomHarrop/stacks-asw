@@ -47,12 +47,12 @@ subworkflow process_reads:
 
 rule target:
     input:
-        # expand('output/060_populations/{popset}/populations.snps.vcf',
-        #        popset=['geo', 'ns', 'para']),
+        expand('output/060_populations/{popset}/populations.snps.vcf',
+               popset=['geo', 'ns', 'para']),
         expand('output/070_populations/{popset}/dapc.pdf',
-               popset=['geo', 'ns', 'para']),
+               popset=['geo', 'para']),
         expand('output/070_populations/{popset}/fst_plot.pdf',
-               popset=['geo', 'ns', 'para']),
+               popset=['geo', 'para']),
 
 rule dapc:
     input:
