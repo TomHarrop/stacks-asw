@@ -230,7 +230,7 @@ rule add_vcf_header:
         'sed -e \'/#CHROM/,$d\' {input.vcf} > {output} ; '
         'awk \'{{printf("##contig=<ID=%s,length=%d>\\n",$1,$2);}}\' '
         '{input.fai} >> {output}  ; '
-        'sed -n -e \'/#CHROM/,$p\' {input.vcf} > {output}'
+        'sed -n -e \'/#CHROM/,$p\' {input.vcf} >> {output}'
 
 rule index_genome:
     input:
