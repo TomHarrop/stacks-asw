@@ -19,7 +19,7 @@ ref = 'data/draft_genome.fasta'
 
 # containers
 bwa_container = 'shub://TomHarrop/singularity-containers:bwa_0.7.17'
-samtools = 'shub://TomHarrop/TomHarrop/align-utils:samtools_1.9'
+samtools = 'shub://TomHarrop/align-utils:samtools_1.9'
 stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 
 #########
