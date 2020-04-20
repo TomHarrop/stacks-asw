@@ -97,7 +97,7 @@ rule populations:
     params:
         stacks_dir = lambda wildcards, input:
             Path(input.catalog).parent,
-        outdir = 'output/060_populations/{popset}',
+        outdir = 'output/070_populations/{popset}',
         smoothe = (
             '--fst-correction '
             '--smooth '
