@@ -47,7 +47,7 @@ subworkflow process_reads:
 
 rule target:
     input:
-        expand('output/060_populations/{popset}/populations.snps.vcf',
+        expand('output/070_populations/{popset}/populations.snps.vcf',
                popset=['geo', 'ns', 'para']),
         expand('output/070_populations/{popset}/dapc.pdf',
                popset=['geo', 'para']),
