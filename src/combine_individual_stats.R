@@ -1,9 +1,9 @@
 #!/usr/bin/env Rscript
 
 # set log
-# log <- file(snakemake@log[[1]], open = "wt")
-# sink(log, type = "message")
-# sink(log, type = "output", append = TRUE)
+log <- file(snakemake@log[[1]], open = "wt")
+sink(log, type = "message")
+sink(log, type = "output", append = TRUE)
 
 library(data.table)
 
@@ -35,12 +35,8 @@ GetReadCounts <- function(read_file) {
 # GLOBALS #
 ###########
 
-reads_files <- sapply(snakemake@input[["read_stats"]],
-                      normalizePath)
-gc_files <- sapply(snakemake@input[["gc_stats"]],
-                   normalizePath)
-print(reads_files)
-print(gc_files)
+reads_files <- sapply(snakemake@input[["read_stats"]])
+gc_files <- sapply(snakemake@input[["gc_stats"]])
 
 read_stats_file <- snakemake@output[["read_stats"]]
 gc_stats_file <- snakemake@output[["gc_stats"]]
