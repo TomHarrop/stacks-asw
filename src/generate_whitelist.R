@@ -75,7 +75,7 @@ geo_popmap[, population := sub("geo_", "", population)]
 geo_popmap[population %in% n_pops, group := "North"]
 geo_popmap[population %in% s_pops, group := "South"]
 
-ns_popmap := geo_popmap[, .(individual, population = group)]
+ns_popmap <- geo_popmap[, .(individual, population = group)]
 
 para_popmap <- para_data[
   , .(individual = paste("para", Individual, sep = "_"),
