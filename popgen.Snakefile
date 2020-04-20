@@ -47,19 +47,20 @@ subworkflow process_reads:
 
 rule target:
     input:
-        expand('output/060_populations/{popset}/populations.snps.vcf',
-               popset=['geo', 'ns', 'para'])
-        # 'output/060_popgen/dapc.pdf',
-        # 'output/060_popgen/stacks_populations/populations.snps.vcf',
-        # 'output/060_popgen/fst_plot.pdf'
+        # expand('output/060_populations/{popset}/populations.snps.vcf',
+        #        popset=['geo', 'ns', 'para']),
+        expand('output/070_populations/{popset}/dapc.pdf',
+               popset=['geo', 'ns', 'para']),
+        expand('output/070_populations/{popset}/fst_plot.pdf',
+               popset=['geo', 'ns', 'para']),
 
 rule dapc:
     input:
-        'output/060_popgen/stacks_populations/populations.snps.vcf'
+        'output/070_populations/{popset}/populations.snps.vcf'
     output:
-        dapc_plot = 'output/060_popgen/dapc.pdf',
-        pca_plot = 'output/060_popgen/pca.pdf',
-        dapc_xv = 'output/060_popgen/dapc_xv.Rds'
+        dapc_plot = 'output/070_populations/{popset}/dapc.pdf',
+        pca_plot = 'output/070_populations/{popset}/pca.pdf',
+        dapc_xv = 'output/070_populations/{popset}/dapc_xv.Rds'
     threads:
         1
     log:
@@ -71,12 +72,12 @@ rule dapc:
 
 rule plot_fst:
     input:
-        fst = ('output/060_popgen/stacks_populations/'
+        fst = ('output/070_populations/{popset}/'
                'populations.fst_summary.tsv')
     output:
-        plot = 'output/060_popgen/fst_plot.pdf'
+        plot = 'output/070_populations/{popset}/fst_plot.pdf'
     log:
-        'output/logs/plot_fst.log'
+        'output/logs/plot_fst.{popset}.log'
     singularity:
         r_container
     script:
@@ -88,11 +89,11 @@ rule populations:
         calls = stacks('output/050_stacks/catalog.calls'),
         map = process_reads(
             'output/000_config/filtered_population_map.txt'),
-        popmap = 'output/060_populations/{popset}/popmap.txt',
+        popmap = 'output/070_populations/{popset}/popmap.txt',
         whitelist = 'output/060_popgen/whitelist.txt'
     output:
-        'output/060_populations/{popset}/populations.snps.vcf',
-        'output/060_populations/{popset}/populations.fst_summary.tsv'
+        'output/070_populations/{popset}/populations.snps.vcf',
+        'output/070_populations/{popset}/populations.fst_summary.tsv'
     params:
         stacks_dir = lambda wildcards, input:
             Path(input.catalog).parent,
@@ -131,9 +132,9 @@ rule generate_whitelist:
         imiss_rate = 0.2
     output:
         whitelist = 'output/060_popgen/whitelist.txt',
-        geo = 'output/060_populations/geo/popmap.txt',
-        ns = 'output/060_populations/ns/popmap.txt',
-        para = 'output/060_populations/para/popmap.txt'
+        geo = 'output/070_populations/geo/popmap.txt',
+        ns = 'output/070_populations/ns/popmap.txt',
+        para = 'output/070_populations/para/popmap.txt'
     log:
         'output/logs/generate_whitelist.log'
     singularity:
