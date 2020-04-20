@@ -46,6 +46,7 @@ except FileNotFoundError:
 
 subworkflow process_reads:
     snakefile: 'process_reads.Snakefile'
+    configfile: 'config.yaml'
 
 rule target:
     input:
@@ -147,7 +148,7 @@ rule map_indiv_reads:
     log:
         'output/logs/map_indiv_reads.{individual}.log'
     threads:
-        all_cpus - 2
+        min(12, all_cpus) - 2
     singularity:
         bwa_container
     shell:
