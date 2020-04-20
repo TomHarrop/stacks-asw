@@ -52,7 +52,7 @@ rule target:
     input:
         'output/050_stacks/populations/populations.snps.vcf'
 
-# 8 run populations once to generate stats for filtering
+# run populations once to generate stats for filtering
 rule populations:
     input:
         'output/050_stacks/catalog.fa.gz',
@@ -76,7 +76,7 @@ rule populations:
         '--genepop --vcf '
         '&> {log}'
 
-# 7 run gstacks
+# generate catalog
 rule gstacks:
     input:
         bam_files = expand(
@@ -104,7 +104,7 @@ rule gstacks:
         '--details '
         '&> {log}'
 
-# 6 map the reads to the draft genome
+# process the bamfiles
 rule markdup:
     input:
         'output/tmp/{individual}.sorted.bam'
@@ -139,6 +139,7 @@ rule sort_sam:
         '> {output} '
         '2> {log}'
 
+# map demuxed reads per sample
 rule map_indiv_reads:
     input:
         fq = process_reads('output/030_combined/{individual}.fq.gz'),
@@ -159,6 +160,7 @@ rule map_indiv_reads:
         '>> {output} '
         '2> {log}'
 
+# set up genome for mapping
 rule bwa_index:
     input:
         ref = ref

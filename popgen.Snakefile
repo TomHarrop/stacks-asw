@@ -158,6 +158,7 @@ rule stats_postfilter:
         '--out stats_locusfilter '
         '2> {log}'
 
+# filter the populations VCF
 rule locusfilter:
     input:
         vcf = 'output/060_popgen/populations.vcf.gz',
@@ -205,7 +206,7 @@ rule sort_vcf:      # segfaults on some computers
     input:
         'output/tmp/populations_header.vcf'
     output:
-        temp('output/tmp/populations_sorted.vcf')
+        Pipe('output/tmp/populations_sorted.vcf')
     log:
         'output/logs/sort_vcf.log'
     singularity:
@@ -222,14 +223,14 @@ rule add_vcf_header:
         vcf = stacks('output/050_stacks/populations/populations.snps.vcf'),
         fai = 'output/005_ref/ref.fasta.fai'
     output:
-        temp('output/tmp/populations_header.vcf')
+        Pipe('output/tmp/populations_header.vcf')
     singularity:
         samtools
     shell:
         'sed -e \'/#CHROM/,$d\' {input.vcf} > {output} ; '
         'awk \'{{printf("##contig=<ID=%s,length=%d>\\n",$1,$2);}}\' '
         '{input.fai} >> {output}  ; '
-        'sed -n -e \'/#CHROM/,$p\' {input.vcf} >> {output}'
+        'sed -n -e \'/#CHROM/,$p\' {input.vcf} > {output}'
 
 rule index_genome:
     input:

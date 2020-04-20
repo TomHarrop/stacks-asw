@@ -158,7 +158,7 @@ rule target:
                fc_lane=all_fc_lanes),
         'output/000_config/filtered_population_map.txt'
 
-# 4. filter the population map
+# filter the population map
 rule filter_samples:
     input:
         popmap = 'output/000_config/population_map.txt',
@@ -174,28 +174,7 @@ rule filter_samples:
     script:
         'src/filter_population_map.R'
 
-# 4. run reformat.sh to count reads and get a gc histogram
-# rule combine_fc_stats:
-#     input:
-#         read_stats = expand('output/040_stats/{fc_lane}.reads.csv',
-#                             fc_lane=all_fc_lanes),
-#         gc_stats = expand('output/040_stats/{fc_lane}.gc_stats.csv',
-#                           fc_lane=all_fc_lanes),
-#         gc_hist = expand('output/040_stats/{fc_lane}.gc_hist.csv',
-#                          fc_lane=all_fc_lanes)
-#     output:
-#         read_stats = 'output/040_stats/reads.csv',
-#         gc_stats = 'output/040_stats/gc_stats.csv',
-#         gc_hist = 'output/040_stats/gc_hist.csv'
-#     log:
-#         'output/logs/combine_fc_stats.log'
-#     threads:
-#         1
-#     singularity:
-#         r_container
-#     script:
-#         'src/combine_individual_stats.R'
-
+# count reads and get a gc histogram
 rule combine_individual_stats:
     input:
         unpack(aggregate_fullnames)
@@ -233,7 +212,7 @@ rule count_reads:
         'gcbins=auto '
         '2> {output.reads}'
 
-# 3 combine reads per-individual
+# combine reads per-individual
 rule combine_reads:
     input:
         get_fq_files_for_indiv
@@ -242,7 +221,7 @@ rule combine_reads:
     shell:
         'cat {input} > {output}'
 
-# # 2b. filter and truncate demuxed reads
+# filter and truncate demuxed reads
 rule trim_adaptors:
     input:
         resolve_demuxed_file
@@ -299,7 +278,7 @@ rule trim_adaptors:
         '2> {log.truncate}'
 
 
-# 2. for loop per fc_lane
+# demux each fc_lane
 checkpoint process_radtags:
     input:
         unpack(resolve_read_file),
@@ -332,7 +311,7 @@ checkpoint process_radtags:
         '&> {log} '
         # '|| true'                   # DOESN'T EXIT CLEANLY, WHYYYYY?
 
-# 1. extract per-flowcell/lane sample:barcode information
+# extract per-flowcell/lane sample:barcode information
 rule write_config_files:
     input:
         geo_key_file = geo_key_file,
