@@ -154,6 +154,8 @@ wildcard_constraints:
 
 rule target:
     input:
+        expand('output/010_demux/{fc_lane}',
+               fc_lane=all_fc_lanes),
         'output/000_config/filtered_population_map.txt'
 
 # 4. filter the population map
@@ -308,6 +310,8 @@ checkpoint process_radtags:
         'output/logs/demux.{fc_lane}.log'
     threads:
         1
+    priority:
+        100
     singularity:
         stacks_container
     shell:
