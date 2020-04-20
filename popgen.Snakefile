@@ -47,9 +47,11 @@ subworkflow process_reads:
 
 rule target:
     input:
-        'output/060_popgen/dapc.pdf',
-        'output/060_popgen/stacks_populations/populations.snps.vcf',
-        'output/060_popgen/fst_plot.pdf'
+        expand('output/060_populations/{popset}/populations.snps.vcf',
+               popset=['geo', 'ns', 'para'])
+        # 'output/060_popgen/dapc.pdf',
+        # 'output/060_popgen/stacks_populations/populations.snps.vcf',
+        # 'output/060_popgen/fst_plot.pdf'
 
 rule dapc:
     input:
@@ -86,15 +88,15 @@ rule populations:
         calls = stacks('output/050_stacks/catalog.calls'),
         map = process_reads(
             'output/000_config/filtered_population_map.txt'),
-        popmap = 'output/060_popgen/popmap.txt',
+        popmap = 'output/060_populations/{popset}/popmap.txt',
         whitelist = 'output/060_popgen/whitelist.txt'
     output:
-        'output/060_popgen/stacks_populations/populations.snps.vcf',
-        'output/060_popgen/stacks_populations/populations.fst_summary.tsv'
+        'output/060_populations/{popset}/populations.snps.vcf',
+        'output/060_populations/{popset}/populations.fst_summary.tsv'
     params:
         stacks_dir = lambda wildcards, input:
             Path(input.catalog).parent,
-        outdir = 'output/060_popgen/stacks_populations',
+        outdir = 'output/060_populations/{popset}',
         smoothe = (
             '--fst-correction '
             '--smooth '
@@ -103,7 +105,7 @@ rule populations:
             # '--bootstrap-wl ' + input.whitelist + ' '
             '--bootstrap-reps 1000 ')
     log:
-        'output/logs/popgen_stacks_populations.log'
+        'output/logs/popgen_stacks_populations.{popset}.log'
     singularity:
         stacks_container
     shell:
@@ -123,12 +125,15 @@ rule generate_whitelist:
     input:
         vcf = 'output/060_popgen/populations_filtered.vcf',
         imiss = 'output/060_popgen/stats_locusfilter.imiss',
-        fai = 'output/005_ref/ref.fasta.fai'
+        fai = 'output/005_ref/ref.fasta.fai',
+        para_data = 'data/para_sample_info.tsv'
     params:
         imiss_rate = 0.2
     output:
         whitelist = 'output/060_popgen/whitelist.txt',
-        popmap = 'output/060_popgen/popmap.txt'
+        geo = 'output/060_populations/geo/popmap.txt',
+        ns = 'output/060_populations/ns/popmap.txt',
+        para = 'output/060_populations/para/popmap.txt'
     log:
         'output/logs/generate_whitelist.log'
     singularity:
