@@ -64,7 +64,7 @@ rule dapc:
     threads:
         1
     log:
-        'output/logs/dapc.log'
+        'output/logs/dapc.{popset}.log'
     singularity:
         bioc_container
     script:
