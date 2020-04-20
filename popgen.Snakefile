@@ -206,7 +206,7 @@ rule sort_vcf:      # segfaults on some computers
     input:
         'output/tmp/populations_header.vcf'
     output:
-        pipe('output/tmp/populations_sorted.vcf')
+        temp('output/tmp/populations_sorted.vcf')
     log:
         'output/logs/sort_vcf.log'
     singularity:
@@ -223,7 +223,7 @@ rule add_vcf_header:
         vcf = stacks('output/050_stacks/populations/populations.snps.vcf'),
         fai = 'output/005_ref/ref.fasta.fai'
     output:
-        pipe('output/tmp/populations_header.vcf')
+        temp('output/tmp/populations_header.vcf')
     singularity:
         samtools
     shell:
