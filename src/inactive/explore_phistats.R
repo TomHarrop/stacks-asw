@@ -1,8 +1,8 @@
 library(data.table)
 library(ggplot2)
 
-fai_file <- "output/map_to_genome/draft_genome.fasta.fai"
-phistats_file <- "output/popgen/mapped/stacks_populations/populations.phistats.tsv"
+fai_file <- "output/005_ref/ref.fasta.fai"
+phistats_file <- "output/070_populations/geo/populations.phistats.tsv"
 
 phistats <- fread(phistats_file, skip = 11)
 
@@ -37,7 +37,7 @@ phistats_with_len[outlier == TRUE, point_colour := Chr]
 phistats_with_len[is.na(outlier), point_colour := NA]
 
 # order the contigs
-phistats_with_len[
+# phistats_with_len[
   , point_colour := factor(point_colour,
            levels = unique(gtools::mixedsort(point_colour, na.last = TRUE)))]
 

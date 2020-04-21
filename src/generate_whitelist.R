@@ -44,7 +44,7 @@ para_data <- fread(para_data_file)
 # get the long boiz
 fai_names <- c("Chr", "chr_length")
 fai <- fread(fai_file, select = 1:2, col.names = fai_names)
-keep_chr <- fai[chr_length > 1e5, Chr]
+keep_chr <- fai[chr_length > 1e4, Chr]
 
 # subset by snps on those chr
 snp_set <- snp_data[seqnames(rowRanges(snp_data)) %in% keep_chr, ]
