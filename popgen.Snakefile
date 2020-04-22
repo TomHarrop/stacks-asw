@@ -104,7 +104,7 @@ rule populations:
             '--sigma 150000 '
             '--bootstrap '
             # '--bootstrap-wl ' + input.whitelist + ' '
-            '--bootstrap-reps 1000 ')
+            '--bootstrap-reps 10000 ')
     log:
         'output/logs/popgen_stacks_populations.{popset}.log'
     singularity:
@@ -117,9 +117,9 @@ rule populations:
         '-W {input.whitelist} '
         '-r 0 '
         '--vcf '
-        # '--hwe '
+        '--hwe '
         '--fstats '
-        # '{params.smoothe} '
+        '{params.smoothe} '
         '&> {log}'
 
 rule generate_whitelist:
