@@ -89,7 +89,7 @@ rule bayescan:
         '-pr_odds 500 '
         '-out_pilot '
         '-out_freq '
-        '2> {log}'
+        '&> {log}'
 
 
 rule convert_to_geste:
@@ -109,7 +109,7 @@ rule convert_to_geste:
         '-outputfile {output.geste} '
         '-outputformat GESTE_BAYE_SCAN '
         '-spid {input.spid} '
-        '2> {log}'
+        '&> {log}'
 
 rule write_spid:
     input:
