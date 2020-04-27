@@ -94,7 +94,7 @@ rule bayescan:
 
 rule convert_to_geste:
     input:
-        spid = 'data/blank_spid.spid',
+        spid = 'output/080_bayescan/{popset}/spid.spid',
         vcf = 'output/080_bayescan/{popset}/populations.vcf'
     output:
         geste = 'output/080_bayescan/{popset}/populations.geste'
