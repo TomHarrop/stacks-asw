@@ -16,8 +16,11 @@ def resolve_path(path):
 # GLOBALS #
 ###########
 
+bayescan = 'shub://MarissaLL/singularity-containers:bayescan_2.1'
 bioc_container = ('shub://TomHarrop/r-containers:bioconductor_3.10'
                   '@22b77812ec8211c7bbe29c9bbfc6dfba6a833982')
+biopython = 'shub://TomHarrop/singularity-containers:biopython_1.73'
+pgdspider = 'shub://MarissaLL/singularity-containers:pgdspider_2.1.1.5'
 r_container = 'shub://TomHarrop/singularity-containers:r_3.6.0'
 samtools = 'shub://TomHarrop/align-utils:samtools_1.9'
 stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
@@ -53,7 +56,98 @@ rule target:
                popset=['geo', 'para']),
         expand('output/070_populations/{popset}/fst_plot.pdf',
                popset=['geo', 'para']),
+        expand('output/080_bayescan/{popset}/bs/populations_fst.txt',
+               popset=['geo', 'ns', 'para']),
 
+
+# bayescan
+rule bayescan:
+    input:
+        geste = 'output/080_bayescan/{popset}/populations.geste'
+    output:
+        'output/080_bayescan/{popset}/bs/populations_fst.txt'
+    params:
+        outdir = 'output/080_bayescan/{popset}/bs',
+        o = 'populations'
+    log:
+        'output/logs/bayescan.{popset}.log'
+    threads:
+        workflow.cores // 3
+    singularity:
+        bayescan
+    shell:
+        'bayescan_2.1 '
+        '{input.geste} '
+        '-threads {threads} '
+        '-od {params.outdir} '
+        '-o {params.o} '
+        '-pilot 5000 '
+        '-nbp 20 '
+        '-burn 15000 '
+        '-n 30000 '
+        '-thin 10 '
+        '-pr_odds 500 '
+        '-out_pilot '
+        '-out_freq '
+        '2> {log}'
+
+
+rule convert_to_geste:
+    input:
+        spid = 'data/blank_spid.spid',
+        vcf = 'output/080_bayescan/{popset}/populations.vcf'
+    output:
+        geste = 'output/080_bayescan/{popset}/populations.geste'
+    log:
+        'output/logs/convert_to_geste.{popset}.log'
+    singularity:
+        pgdspider
+    shell:
+        'java -jar /opt/pgdspider/PGDSpider2-cli.jar '
+        '-inputfile {input.vcf} '
+        '-inputformat VCF '
+        '-outputfile {output.geste} '
+        '-outputformat GESTE_BAYE_SCAN '
+        '-spid {input.spid} '
+        '2> {log}'
+
+rule write_spid:
+    input:
+        spid = 'data/blank_spid.spid',
+        popmap = 'output/070_populations/{popset}/popmap.txt'
+    output:
+        spid = 'output/080_bayescan/{popset}/spid.spid'
+    params:
+        popmap = lambda wildcards, input: resolve_path(input.popmap)
+    singularity:
+        biopython
+    script:
+        'src/write_spid.py'
+
+rule filter_bayescan_vcf:
+    input:
+        vcf = 'output/060_popgen/populations.vcf.gz',
+        tbi = 'output/060_popgen/populations.vcf.gz.tbi',
+        popmap = 'output/070_populations/{popset}/popmap.txt'
+    output:
+        'output/080_bayescan/{popset}/populations.vcf'
+    params:
+        min_maf = 0.05,
+        f_missing = 0.2
+    log:
+        'output/logs/filter_bayescan_vcf.{popset}.log'
+    singularity:
+        samtools
+    shell:
+        'bcftools view '
+        '--min-af {params.min_maf}:nonmajor '
+        '--exclude "F_MISSING>{params.f_missing}" '
+        '-S <( cut -f1 {input.popmap} ) '
+        '{input.vcf} '
+        '> {output} '
+        '2> {log}'
+
+# plots
 rule dapc:
     input:
         'output/070_populations/{popset}/populations.snps.vcf'
