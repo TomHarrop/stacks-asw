@@ -95,7 +95,7 @@ rule bayescan:
 rule convert_to_geste:
     input:
         spid = 'output/080_bayescan/{popset}/spid.spid',
-        vcf = 'output/080_bayescan/{popset}/populations.vcf'
+        vcf = 'output/060_popgen/populations.{popset}.vcf'
     output:
         geste = 'output/080_bayescan/{popset}/populations.geste'
     log:
@@ -124,33 +124,10 @@ rule write_spid:
     script:
         'src/write_spid.py'
 
-rule filter_bayescan_vcf:
-    input:
-        vcf = 'output/060_popgen/populations.vcf.gz',
-        tbi = 'output/060_popgen/populations.vcf.gz.tbi',
-        popmap = 'output/070_populations/{popset}/popmap.txt'
-    output:
-        'output/080_bayescan/{popset}/populations.vcf'
-    params:
-        min_maf = 0.05,
-        f_missing = 0.2
-    log:
-        'output/logs/filter_bayescan_vcf.{popset}.log'
-    singularity:
-        samtools
-    shell:
-        'bcftools view '
-        '--min-af {params.min_maf}:nonmajor '
-        '--exclude "F_MISSING>{params.f_missing}" '
-        '-S <( cut -f1 {input.popmap} ) '
-        '{input.vcf} '
-        '> {output} '
-        '2> {log}'
-
 # plots
 rule dapc:
     input:
-        'output/070_populations/{popset}/populations.snps.vcf'
+        'output/060_popgen/populations.{popset}.vcf'
     output:
         dapc_plot = 'output/070_populations/{popset}/dapc.pdf',
         pca_plot = 'output/070_populations/{popset}/pca.pdf',
@@ -216,6 +193,33 @@ rule populations:
         '{params.smoothe} '
         '&> {log}'
 
+# populations is filtering out some of the SNPs that I want for bayescan /
+# plots, use bcftools filter to make a VCF for that
+rule filter_populations_vcf:
+    input:
+        vcf = 'output/060_popgen/populations.vcf.gz',
+        tbi = 'output/060_popgen/populations.vcf.gz.tbi',
+        popmap = 'output/070_populations/{popset}/popmap.txt'
+    output:
+        'output/060_popgen/populations.{popset}.vcf'
+    params:
+        min_maf = 0.05,
+        f_missing = 0.2
+    log:
+        'output/logs/filter_populations_vcf.{popset}.log'
+    singularity:
+        samtools
+    shell:
+        'bcftools view '
+        '--min-af {params.min_maf}:nonmajor '
+        '--exclude "F_MISSING>{params.f_missing}" '
+        '-S <( cut -f1 {input.popmap} ) '
+        '{input.vcf} '
+        '> {output} '
+        '2> {log}'
+
+
+# use the locusfilter VCF to calculate per-indiv missingness
 rule generate_whitelist:
     input:
         vcf = 'output/060_popgen/populations_filtered.vcf',
@@ -236,7 +240,7 @@ rule generate_whitelist:
     script:
         'src/generate_whitelist.R'
 
-# stats for filtering
+# stats for per-individual missingness filtering
 rule stats_postfilter:
     input:
         vcf = 'output/060_popgen/populations_filtered.vcf'

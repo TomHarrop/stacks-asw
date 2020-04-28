@@ -2,9 +2,9 @@ library(data.table)
 library(ggplot2)
 
 fai_file <- "output/005_ref/ref.fasta.fai"
-phistats_file <- "output/070_populations/geo/populations.phistats.tsv"
+phistats_file <- "output/070_populations/ns/populations.phistats.tsv"
 
-phistats <- fread(phistats_file, skip = 11)
+phistats <- fread(phistats_file, skip = 3)
 
 fai_names <- c("Chr", "chr_length")
 fai <- fread(fai_file, select = 1:2, col.names = fai_names)
@@ -37,7 +37,7 @@ phistats_with_len[outlier == TRUE, point_colour := Chr]
 phistats_with_len[is.na(outlier), point_colour := NA]
 
 # order the contigs
-# phistats_with_len[
+phistats_with_len[
   , point_colour := factor(point_colour,
            levels = unique(gtools::mixedsort(point_colour, na.last = TRUE)))]
 
