@@ -218,7 +218,7 @@ rule list_pruned_snps:
         '--double-id '
         '--allow-extra-chr '
         '--set-missing-var-ids @:# '
-        '--indep_pairwise {params.indep} '
+        '--indep-pairwise {params.indep} '
         '--out {wildcards.popset} '
         '&> {log}'
 
