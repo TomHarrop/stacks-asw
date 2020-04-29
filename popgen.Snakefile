@@ -54,28 +54,30 @@ rule target:
     input:
         # expand('output/070_populations/{popset}/populations.snps.vcf',
         #        popset=['geo', 'ns', 'para']),
-        # expand('output/070_populations/{popset}/dapc.pdf',
-        #        popset=['geo', 'para']),
+        expand('output/060_popgen/dapc.{popset}.{pruned}.pdf',
+               popset=['geo', 'para'],
+               pruned=['all', 'pruned']),
         # expand('output/070_populations/{popset}/fst_plot.pdf',
         #        popset=['geo', 'para']),
-        # expand('output/080_bayescan/{popset}/bs/populations_fst.txt',
-        #        popset=['geo', 'ns', 'para']),
+        expand('output/080_bayescan/{popset}.{pruned}/bs/populations_fst.txt',
+               popset=['geo', 'ns', 'para'],
+               pruned=['all', 'pruned']),
         expand('output/060_popgen/populations.{popset}.pruned.vcf',
                popset=['geo', 'ns', 'para'])
 
 # bayescan
 rule bayescan:
     input:
-        geste = 'output/080_bayescan/{popset}/populations.geste'
+        geste = 'output/080_bayescan/{popset}.{pruned}/populations.geste'
     output:
-        'output/080_bayescan/{popset}/bs/populations_fst.txt'
+        'output/080_bayescan/{popset}.{pruned}/bs/populations_fst.txt'
     params:
-        outdir = 'output/080_bayescan/{popset}/bs',
+        outdir = 'output/080_bayescan/{popset}.{pruned}/bs',
         o = 'populations'
     log:
-        'output/logs/bayescan.{popset}.log'
+        'output/logs/bayescan.{popset}.{pruned}.log'
     threads:
-        workflow.cores // 3
+        21
     singularity:
         bayescan
     shell:
@@ -97,16 +99,20 @@ rule bayescan:
 
 rule convert_to_geste:
     input:
-        spid = 'output/080_bayescan/{popset}/spid.spid',
-        vcf = 'output/060_popgen/populations.{popset}.vcf'
+        spid = 'output/080_bayescan/{popset}.spid',
+        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf'
     output:
-        geste = 'output/080_bayescan/{popset}/populations.geste'
+        geste = 'output/080_bayescan/{popset}.{pruned}/populations.geste'
     log:
-        'output/logs/convert_to_geste.{popset}.log'
+        'output/logs/convert_to_geste.{popset}.{pruned}.log'
+    threads:
+        21
     singularity:
         pgdspider
     shell:
-        'java -jar /opt/pgdspider/PGDSpider2-cli.jar '
+        'java -jar '
+        '-XX:ParallelGCThreads={threads} '
+        '/opt/pgdspider/PGDSpider2-cli.jar '
         '-inputfile {input.vcf} '
         '-inputformat VCF '
         '-outputfile {output.geste} '
@@ -119,7 +125,7 @@ rule write_spid:
         spid = 'data/blank_spid.spid',
         popmap = 'output/070_populations/{popset}/popmap.txt'
     output:
-        spid = 'output/080_bayescan/{popset}/spid.spid'
+        spid = 'output/080_bayescan/{popset}.spid'
     params:
         popmap = lambda wildcards, input: resolve_path(input.popmap)
     singularity:
@@ -130,15 +136,15 @@ rule write_spid:
 # plots
 rule dapc:
     input:
-        'output/060_popgen/populations.{popset}.vcf'
+        'output/060_popgen/populations.{popset}.{pruned}.vcf'
     output:
-        dapc_plot = 'output/070_populations/{popset}/dapc.pdf',
-        pca_plot = 'output/070_populations/{popset}/pca.pdf',
-        dapc_xv = 'output/070_populations/{popset}/dapc_xv.Rds'
+        dapc_plot = 'output/060_popgen/dapc.{popset}.{pruned}.pdf',
+        pca_plot = 'output/060_popgen/pca.{popset}.{pruned}.pdf',
+        dapc_xv = 'output/060_popgen/dapc_xv.{popset}.{pruned}.Rds'
     threads:
         1
     log:
-        'output/logs/dapc.{popset}.log'
+        'output/logs/dapc.{popset}.{pruned}.log'
     singularity:
         bioc_container
     script:
@@ -157,6 +163,7 @@ rule plot_fst:
     script:
         'src/plot_fst.R'
 
+# get population stats from stacks
 rule populations:
     input:
         catalog = stacks('output/050_stacks/catalog.fa.gz'),
