@@ -60,7 +60,7 @@ rule target:
         #        popset=['geo', 'para']),
         # expand('output/080_bayescan/{popset}/bs/populations_fst.txt',
         #        popset=['geo', 'ns', 'para']),
-        expand('output/060_popgen/{popset}.prune.in',
+        expand('output/060_popgen/populations.{popset}.pruned.vcf',
                popset=['geo', 'ns', 'para'])
 
 # bayescan
@@ -196,11 +196,29 @@ rule populations:
         '{params.smoothe} '
         '&> {log}'
 
+# prune the vcfs
+rule prune_vcf:
+    input:
+        vcf = 'output/060_popgen/populations.{popset}.all.vcf',
+        prune = 'output/060_popgen/{popset}.prune.in'
+    output:
+        vcf = 'output/060_popgen/populations.{popset}.pruned.vcf'
+    log:
+        'output/logs/prune_vcf.{popset}.log'
+    singularity:
+        samtools
+    shell:
+        'bcftools view '
+        '-i \'ID=@{input.prune}\' '
+        '{input.vcf} '
+        '> {output.vcf} '
+        '2> {log}'
+
 
 # get a set of LD-free SNPs
 rule list_pruned_snps:
     input:
-        vcf = 'output/060_popgen/populations.{popset}.vcf'
+        vcf = 'output/060_popgen/populations.{popset}.all.vcf'
     output:
         'output/060_popgen/{popset}.prune.in'
     params:
@@ -230,7 +248,7 @@ rule filter_populations_vcf:
         tbi = 'output/060_popgen/populations.vcf.gz.tbi',
         popmap = 'output/070_populations/{popset}/popmap.txt'
     output:
-        'output/060_popgen/populations.{popset}.vcf'
+        'output/060_popgen/populations.{popset}.all.vcf'
     params:
         min_maf = 0.05,
         f_missing = 0.2
