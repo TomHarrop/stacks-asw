@@ -1,7 +1,7 @@
 ## stacks-asw
 
-Most of this code was written by @marissall to analyse the [asw-para-matched](https://github.com/MarissaLL/asw-para-matched) dataset.
-I've taken code from that repo and applied it to the geographical survey dataset with @marissall's help.
+Most of this code was written by [@marissall](https://github.com/MarissaLL) to analyse the [asw-para-matched](https://github.com/MarissaLL/asw-para-matched) dataset.
+I've taken code from that repo and applied it to the geographical survey dataset with [@marissall](https://github.com/MarissaLL)'s help.
 
 ### Process reads
 
