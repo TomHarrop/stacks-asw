@@ -21,10 +21,12 @@ bioc_container = ('shub://TomHarrop/r-containers:bioconductor_3.10'
                   '@22b77812ec8211c7bbe29c9bbfc6dfba6a833982')
 biopython = 'shub://TomHarrop/singularity-containers:biopython_1.73'
 pgdspider = 'shub://MarissaLL/singularity-containers:pgdspider_2.1.1.5'
+plink = 'shub://MarissaLL/singularity-containers:plink_1.9'
 r_container = 'shub://TomHarrop/singularity-containers:r_3.6.0'
 samtools = 'shub://TomHarrop/align-utils:samtools_1.9'
 stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
+
 
 # dict of extensions and arguments for vcftools
 ext_to_arg = {
@@ -50,15 +52,16 @@ subworkflow process_reads:
 
 rule target:
     input:
-        expand('output/070_populations/{popset}/populations.snps.vcf',
-               popset=['geo', 'ns', 'para']),
-        expand('output/070_populations/{popset}/dapc.pdf',
-               popset=['geo', 'para']),
-        expand('output/070_populations/{popset}/fst_plot.pdf',
-               popset=['geo', 'para']),
-        expand('output/080_bayescan/{popset}/bs/populations_fst.txt',
-               popset=['geo', 'ns', 'para']),
-
+        # expand('output/070_populations/{popset}/populations.snps.vcf',
+        #        popset=['geo', 'ns', 'para']),
+        # expand('output/070_populations/{popset}/dapc.pdf',
+        #        popset=['geo', 'para']),
+        # expand('output/070_populations/{popset}/fst_plot.pdf',
+        #        popset=['geo', 'para']),
+        # expand('output/080_bayescan/{popset}/bs/populations_fst.txt',
+        #        popset=['geo', 'ns', 'para']),
+        expand('output/060_popgen/{popset}.prune.in',
+               popset=['geo', 'ns', 'para'])
 
 # bayescan
 rule bayescan:
@@ -191,6 +194,32 @@ rule populations:
         '--hwe '
         '--fstats '
         '{params.smoothe} '
+        '&> {log}'
+
+
+# get a set of LD-free SNPs
+rule list_pruned_snps:
+    input:
+        vcf = 'output/060_popgen/populations.{popset}.vcf'
+    output:
+        'output/060_popgen/{popset}.prune.in'
+    params:
+        vcf = lambda wildcards, input: resolve_path(input.vcf),
+        wd = 'output/060_popgen',
+        indep = '50 10 0.1'     # 50 kb window, 10 SNPs, r2 < 0.1
+    log:
+        resolve_path('output/logs/list_pruned_snps.{popset}.log')
+    singularity:
+        plink
+    shell:
+        'cd {params.wd} || exit 1 ; '
+        'plink '
+        '--vcf {params.vcf} '
+        '--double-id '
+        '--allow-extra-chr '
+        '--set-missing-var-ids @:# '
+        '--indep_pairwise {params.indep} '
+        '--out {wildcards.popset} '
         '&> {log}'
 
 # populations is filtering out some of the SNPs that I want for bayescan /
