@@ -108,7 +108,7 @@ rule bayescan:
         '-out_pilot '
         '-out_freq '
         '&> {log} '
-        '|| true'       # nasty. but I need to see why bayescan is failing
+        # '|| true'       # nasty. but I need to see why bayescan is failing
 
 
 rule convert_to_geste:
