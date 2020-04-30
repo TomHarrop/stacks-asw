@@ -55,15 +55,13 @@ rule target:
         # expand('output/070_populations/{popset}/populations.snps.vcf',
         #        popset=['geo', 'ns', 'para']),
         expand('output/060_popgen/dapc.{popset}.{pruned}.pdf',
-               popset=['geo', 'para'],
+               popset=['geo', 'para', 'rlpara'],
                pruned=['all', 'pruned']),
         # expand('output/070_populations/{popset}/fst_plot.pdf',
         #        popset=['geo', 'para']),
         expand('output/080_bayescan/{popset}.{pruned}/bayescan_qvals.pdf',
-               popset=['geo', 'ns', 'para'],
-               pruned=['all', 'pruned']),
-        expand('output/060_popgen/populations.{popset}.pruned.vcf',
-               popset=['geo', 'ns', 'para'])
+               popset=['geo', 'ns', 'para', 'rlpara'],
+               pruned=['all', 'pruned'])
 
 # bayescan
 rule plot_bayescan:
@@ -286,6 +284,19 @@ rule filter_populations_vcf:
         '> {output} '
         '2> {log}'
 
+# make a separate popmap for lincoln-ruakura para-nonpara
+rule generate_rlpara_popmap:
+    input:
+        'output/070_populations/para/popmap.txt'
+    output:
+        'output/070_populations/rlpara/popmap.txt'
+    singularity:
+        samtools
+    shell:
+        'grep -v "_poa" {input} '
+        '| grep -v "invermay" '
+        'cut -f1,3 '
+        '>{output}'
 
 # use the locusfilter VCF to calculate per-indiv missingness
 rule generate_whitelist:
