@@ -78,7 +78,7 @@ rule get_best_proj:
     log:
         'output/logs/get_best_proj.{popset}.{pruned}.log'
     singularity:
-        r_container
+        bioc_container
     script:
         'src/get_best_proj.R'
 
