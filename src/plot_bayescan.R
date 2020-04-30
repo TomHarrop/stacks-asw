@@ -91,7 +91,7 @@ gp <- ggplot(bs_coords,
                                    hjust = 1,
                                    vjust = 1),
         axis.ticks.x = element_blank(),
-        axis.ticks.length.x = unit(0, "mm"),
+        axis.ticks.length = unit(0, "mm"),
         panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank()) +
   xlab(NULL) + ylab(expression(-log[10](italic(Q)))) +
