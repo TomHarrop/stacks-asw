@@ -55,7 +55,7 @@ rule target:
         # expand('output/070_populations/{popset}/populations.snps.vcf',
         #        popset=['geo', 'ns', 'para']),
         expand('output/060_popgen/dapc.{popset}.{pruned}.pdf',
-               popset=['geo', 'para', 'rlpara', 'lpara', 'rpara'],
+               popset=['geo', 'para', 'rlpara'],
                pruned=['all', 'pruned']),
         # expand('output/070_populations/{popset}/fst_plot.pdf',
         #        popset=['geo', 'para']),
