@@ -64,7 +64,7 @@ rule target:
         expand('output/080_bayescan/{popset}.{pruned}/bayescan_qvals.pdf',
                popset=['geo', 'ns', 'para', 'rlpara', 'lpara', 'rpara'],
                pruned=['all', 'pruned']),
-        expand(('output/090_demographics/{popset}.{pruned}/sfs'
+        expand(('output/090_demographics/{popset}.{pruned}/sfs/'
                 'fastsimcoal2/populations_MSFS.obs'),
                popset=['ns'],
                pruned=['all', 'pruned'])
@@ -77,7 +77,7 @@ rule generate_sfs:
         popmap = 'output/070_populations/{popset}/popmap.txt',
         proj = 'output/090_demographics/{popset}.{pruned}/proj.txt'
     output:
-        ('output/090_demographics/{popset}.{pruned}/sfs'
+        ('output/090_demographics/{popset}.{pruned}/sfs/'
          'fastsimcoal2/populations_MSFS.obs')
     params:
         wd = 'output/090_demographics/{popset}.{pruned}/sfs'
@@ -90,6 +90,7 @@ rule generate_sfs:
         '-i {input.vcf} '
         '-p {input.popmap} '
         '-o {params.wd} '
+        '-f '
         '--proj "$(cat {input.proj})" '
         '&> {log}'
 
