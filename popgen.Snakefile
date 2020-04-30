@@ -16,8 +16,7 @@ def resolve_path(path):
 # GLOBALS #
 ###########
 
-#bayescan = 'shub://MarissaLL/singularity-containers:bayescan_2.1'
-bayescan = 'docker://gfanz/bayescan:2.1-916fec8d'
+bayescan = 'shub://TomHarrop/variant-utils:bayescan_2.1'
 bioc_container = ('shub://TomHarrop/r-containers:bioconductor_3.10'
                   '@22b77812ec8211c7bbe29c9bbfc6dfba6a833982')
 biopython = 'shub://TomHarrop/singularity-containers:biopython_1.73'
@@ -85,7 +84,7 @@ rule bayescan:
     output:
         'output/080_bayescan/{popset}.{pruned}/bs/populations_fst.txt'
     params:
-        outdir = 'output/080_bayescan/{popset}.{pruned}/bs',
+        outdir = 'output/0800_bayescan/{popset}.{pruned}/bs',
         o = 'populations'
     log:
         'output/logs/bayescan.{popset}.{pruned}.log'
@@ -94,8 +93,7 @@ rule bayescan:
     singularity:
         bayescan
     shell:
-#        'bayescan_2.1 '
-        '/opt/bayescan2.1/bayescan '
+        'bayescan_2.1 '
         '{input.geste} '
         '-threads {threads} '
         '-od {params.outdir} '
