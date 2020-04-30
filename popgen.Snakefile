@@ -64,12 +64,24 @@ rule target:
         expand('output/080_bayescan/{popset}.{pruned}/bayescan_qvals.pdf',
                popset=['geo', 'ns', 'para', 'rlpara', 'lpara', 'rpara'],
                pruned=['all', 'pruned']),
-        expand('output/090_demographics/{popset}.{pruned}/preview.txt',
+        expand('output/090_demographics/{popset}.{pruned}/proj.txt',
                popset=['ns'],
                pruned=['all', 'pruned'])
 
 
 # run fastsimcoal2 on the north-south populations
+rule get_best_proj:
+    input:
+        preview = 'output/090_demographics/{popset}.{pruned}/preview.txt'
+    output:
+        proj = 'output/090_demographics/{popset}.{pruned}/proj.txt'
+    log:
+        'output/logs/get_best_proj.{popset}.{pruned}.log'
+    singularity:
+        r_container
+    script:
+        'src/get_best_proj.R'
+
 rule preview_projection:
     input:
         vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf',
