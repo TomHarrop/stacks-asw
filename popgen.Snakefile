@@ -106,7 +106,8 @@ rule bayescan:
         '-pr_odds 500 '
         '-out_pilot '
         '-out_freq '
-        '&> {log}'
+        '&> {log} '
+        '|| true'
 
 
 rule convert_to_geste:
