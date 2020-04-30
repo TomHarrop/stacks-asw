@@ -295,7 +295,7 @@ rule generate_rlpara_popmap:
     shell:
         'grep -v "_poa" {input} '
         '| grep -v "invermay" '
-        'cut -f1,3 '
+        '| cut -f1,3 '
         '>{output}'
 
 # use the locusfilter VCF to calculate per-indiv missingness
