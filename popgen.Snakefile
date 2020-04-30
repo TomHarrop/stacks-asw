@@ -90,7 +90,7 @@ rule generate_sfs:
         '-i {input.vcf} '
         '-p {input.popmap} '
         '-o {params.wd} '
-        '--proj <( {input.proj} ) '
+        '--proj "$(cat {input.proj})" '
         '&> {log}'
 
 rule get_best_proj:
