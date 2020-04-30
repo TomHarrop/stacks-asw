@@ -59,13 +59,27 @@ rule target:
                pruned=['all', 'pruned']),
         # expand('output/070_populations/{popset}/fst_plot.pdf',
         #        popset=['geo', 'para']),
-        expand('output/080_bayescan/{popset}.{pruned}/bs/populations_fst.txt',
+        expand('output/080_bayescan/{popset}.{pruned}/bayescan_qvals.pdf',
                popset=['geo', 'ns', 'para'],
                pruned=['all', 'pruned']),
         expand('output/060_popgen/populations.{popset}.pruned.vcf',
                popset=['geo', 'ns', 'para'])
 
 # bayescan
+rule plot_bayescan:
+    input:
+        fst = 'output/080_bayescan/{popset}.{pruned}/bs/populations_fst.txt',
+        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf',
+        fai = 'output/005_ref/ref.fasta.fai'
+    output:
+        pdf = 'output/080_bayescan/{popset}.{pruned}/bayescan_qvals.pdf'
+    log:
+        'output/logs/plot_bayescan.{popset}.{pruned}.log'
+    singularity:
+        r_container
+    script:
+        'src/plot_bayescan.R'
+
 rule bayescan:
     input:
         geste = 'output/080_bayescan/{popset}.{pruned}/populations.geste'
