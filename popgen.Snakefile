@@ -21,7 +21,7 @@ bayescan = 'shub://TomHarrop/variant-utils:bayescan_2.1'
 bioc_container = ('shub://TomHarrop/r-containers:bioconductor_3.10'
                   '@22b77812ec8211c7bbe29c9bbfc6dfba6a833982')
 biopython = 'shub://TomHarrop/singularity-containers:biopython_1.73'
-easySFS = 'shub://TomHarrop/variant-utils:easysfs_c2b26c5'
+easysfs = 'shub://TomHarrop/variant-utils:easysfs_c2b26c5'
 pgdspider = 'shub://MarissaLL/singularity-containers:pgdspider_2.1.1.5'
 plink = 'shub://MarissaLL/singularity-containers:plink_1.9'
 r_container = 'shub://TomHarrop/singularity-containers:r_3.6.0'
@@ -63,16 +63,30 @@ rule target:
         #        popset=['geo', 'para']),
         expand('output/080_bayescan/{popset}.{pruned}/bayescan_qvals.pdf',
                popset=['geo', 'ns', 'para', 'rlpara', 'lpara', 'rpara'],
+               pruned=['all', 'pruned']),
+        expand('output/090_demographics/{popset}.{pruned}/preview.txt',
+               popset=['ns'],
                pruned=['all', 'pruned'])
 
 
 # run fastsimcoal2 on the north-south populations
 rule preview_projection:
     input:
-        vcf = 'output/060_popgen/populations.ns.{pruned}.vcf',
-        popmap = 'output/070_populations/ns/popmap.txt'
-
-
+        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf',
+        popmap = 'output/070_populations/{popset}/popmap.txt'
+    output:
+        'output/090_demographics/{popset}.{pruned}/preview.txt'
+    log:
+        'output/logs/preview_projection.{popset}.{pruned}.log'
+    singularity:
+        easysfs
+    shell:
+        'easySFS.py '
+        '-i {input.vcf} '
+        '-p {input.popmap} '
+        '--preview '
+        '> {output} '
+        '2> {log}'
 
 # bayescan
 rule plot_bayescan:
