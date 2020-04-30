@@ -55,12 +55,12 @@ rule target:
         # expand('output/070_populations/{popset}/populations.snps.vcf',
         #        popset=['geo', 'ns', 'para']),
         expand('output/060_popgen/dapc.{popset}.{pruned}.pdf',
-               popset=['geo', 'para', 'rlpara'],
+               popset=['geo', 'para', 'rlpara', 'lpara', 'rpara'],
                pruned=['all', 'pruned']),
         # expand('output/070_populations/{popset}/fst_plot.pdf',
         #        popset=['geo', 'para']),
         expand('output/080_bayescan/{popset}.{pruned}/bayescan_qvals.pdf',
-               popset=['geo', 'ns', 'para', 'rlpara'],
+               popset=['geo', 'ns', 'para', 'rlpara', 'lpara', 'rpara'],
                pruned=['all', 'pruned'])
 
 # bayescan
@@ -284,7 +284,19 @@ rule filter_populations_vcf:
         '> {output} '
         '2> {log}'
 
-# make a separate popmap for lincoln-ruakura para-nonpara
+# make separate popmaps for lincoln-ruakura para-nonpara comparisons
+rule generate_rl_popmap:
+    input:
+        'output/070_populations/rlpara/popmap.txt'
+    output:
+        l = 'output/070_populations/lpara/popmap.txt',
+        r = 'output/070_populations/rpara/popmap.txt'
+    singularity:
+        samtools
+    shell:
+        'grep "para_R" {input} > {output.r} ; '
+        'grep "para_L" {input} > {output.l}'
+
 rule generate_rlpara_popmap:
     input:
         'output/070_populations/para/popmap.txt'
