@@ -8,6 +8,18 @@ import tempfile
 # FUNCTIONS #
 #############
 
+def aggregate_pops(wildcards):
+    # get 'output/100_ehh/{popset}_pops'
+    co = checkpoints.get_pop_indivs.get(
+        popset=wildcards.popset).output[0]
+    pop_path = Path(co, '{pop}.txt').as_posix()
+    pops = glob_wildcards(pop_path).pop
+    vcf_path = ('output/100_ehh/'
+                f'{wildcards.popset}.{wildcards.pruned}/'
+                f'{{pop}}.{wildcards.contig}.phased.vcf.gz')
+    return expand(vcf_path, pop=pops)
+
+
 def resolve_path(path):
     return(Path(path).resolve().as_posix())
 
@@ -39,6 +51,14 @@ ext_to_arg = {
     'imiss': 'missing-indv',
     'lmiss': 'missing-site'}
 
+# not complete, just testing
+bayescan_sig_contigs = [
+    "contig_23638",
+    "contig_40523",
+    "contig_12006",
+    "contig_205",
+    "contig_19450",
+    "contig_39072"]
 
 #########
 # RULES #
@@ -67,21 +87,13 @@ rule target:
         expand(('output/090_demographics/{popset}.{pruned}/sfs/'
                 'fastsimcoal2/populations_MSFS.obs'),
                popset=['ns'],
-               pruned=['all', 'pruned'])
-
+               pruned=['all', 'pruned']),
+        expand('output/100_ehh/{popset}.{pruned}/{contig}.flag',
+               popset=['ns'],
+               pruned=['all', 'pruned'],
+               contig=bayescan_sig_contigs)
 
 # run ehh on north-south populations
-def aggregate_pops(wildcards):
-    # get 'output/100_ehh/{popset}_pops'
-    co = checkpoints.get_pop_indivs.get(
-        popset=wildcards.popset).output[0]
-    pop_path = Path(co, '{pop}.txt').as_posix()
-    pops = glob_wildcards(pop_path).pop
-    vcf_path = ('output/100_ehh/'
-                f'{wildcards.popset}.{wildcards.pruned}/'
-                f'{{pop}}.{wildcards.contig}.phased.vcf.gz')
-    return expand(vcf_path, pop=pops)
-
 # temporary, work out aggregate
 # e.g. output/100_ehh/ns.pruned/contig_3920.flag
 rule shapeit_target:
