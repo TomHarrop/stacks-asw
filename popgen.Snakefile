@@ -70,6 +70,34 @@ rule target:
                pruned=['all', 'pruned'])
 
 
+# run ehh on north-south populations
+rule pop_vcf:
+    input:
+        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf',
+        popmap = 'output/100_ehh/{popset}_pops/{pop}.txt'
+    output:
+        'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.vcf'
+    log:
+        'output/logs/pop_vcf.{popset}.{pruned}.{pop}.{contig}.log'
+    singularity:
+        samtools
+    shell:
+        'bcftools view '
+        '--regions {wildcards.contig} '
+        '-S {input.popmap}'
+
+checkpoint get_pop_indivs:
+    input:
+        popmap = 'output/070_populations/{popset}/popmap.txt',
+    output:
+        outdir = directory('output/100_ehh/{popset}_pops')
+    log:
+        'output/logs/get_pop_indivs.{popset}.log'
+    singularity:
+        r_container
+    script:
+        'src/get_pop_indivs.R'
+
 # run fastsimcoal2 on the north-south populations
 rule generate_sfs:
     input:
@@ -150,7 +178,7 @@ rule bayescan:
     log:
         'output/logs/bayescan.{popset}.{pruned}.log'
     threads:
-        21
+        workflow.cores
     singularity:
         bayescan
     shell:
