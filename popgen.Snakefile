@@ -28,7 +28,7 @@ r_container = 'shub://TomHarrop/singularity-containers:r_3.6.0'
 samtools = 'shub://TomHarrop/align-utils:samtools_1.9'
 stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
-
+shapeit = 'shub://TomHarrop/variant-utils:shapeit_v2.r904'
 
 # dict of extensions and arguments for vcftools
 ext_to_arg = {
@@ -71,6 +71,55 @@ rule target:
 
 
 # run ehh on north-south populations
+def aggregate_pops(wildcards):
+    # get 'output/100_ehh/{popset}_pops'
+    co = checkpoints.get_pop_indivs.get(
+        popset=wildcards.popset).output[0]
+    pop_path = Path(co, '{pop}.txt').as_posix()
+    pops = glob_wildcards(pop_path).pop
+    return expand(pop_path, pop=pops)
+
+# temporary, work out aggregate
+# e.g. output/100_ehh/ns.pruned/contig_3920.flag
+rule shapeit_target:        
+    input:
+        aggregate_pops
+    output:
+        'output/100_ehh/{popset}.{pruned}/{contig}.flag'
+    singularity:
+        samtools
+    shell:
+        'touch {output}'
+
+rule shapeit_haps:
+    input:
+        vcf = 'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.vcf'
+    output:
+        haps = 'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.haps',
+        vcf = 'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.phased.vcf'
+    params:
+        vcf = lambda wildcards, input: resolve_path(input.vcf),
+        wd = 'output/100_ehh/{popset}.{pruned}',
+    log:
+        resolve_path(
+            'output/logs/shapeit_haps.{popset}.{pruned}.{pop}.{contig}.log')
+    singularity:
+        shapeit
+    shell:
+        'cd {params.wd} || exit 1 ; '
+        'shapeit '
+        '--input-vcf {params.vcf} '
+        '-O {wildcards.pop}.{wildcards.contig} '
+        '-T {threads} '
+        '--force '
+        '&> {log} ; '
+        'shapeit '
+        '--convert '
+        '--input-haps {wildcards.pop}.{wildcards.contig} '
+        '--output-vcf {wildcards.pop}.{wildcards.contig}.phased.vcf '
+        '&>> {log}'
+
+
 rule pop_vcf:
     input:
         vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf',
@@ -84,7 +133,10 @@ rule pop_vcf:
     shell:
         'bcftools view '
         '--regions {wildcards.contig} '
-        '-S {input.popmap}'
+        '-S <( cut -f1 {input.popmap} ) '
+        '{input.vcf} '
+        '> {output} '
+        '2> {log}'
 
 checkpoint get_pop_indivs:
     input:
