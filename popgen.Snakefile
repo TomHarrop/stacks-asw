@@ -79,12 +79,12 @@ def aggregate_pops(wildcards):
     pops = glob_wildcards(pop_path).pop
     vcf_path = ('output/100_ehh/'
                 f'{wildcards.popset}.{wildcards.pruned}/'
-                f'{{pop}}.{wildcards.contig}.phased.vcf')
+                f'{{pop}}.{wildcards.contig}.phased.vcf.gz')
     return expand(vcf_path, pop=pops)
 
 # temporary, work out aggregate
 # e.g. output/100_ehh/ns.pruned/contig_3920.flag
-rule shapeit_target:        
+rule shapeit_target:
     input:
         aggregate_pops
     output:
@@ -125,7 +125,7 @@ rule shapeit_haps:
 
 rule pop_vcf:
     input:
-        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf',
+        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf.gz',
         popmap = 'output/100_ehh/{popset}_pops/{pop}.txt'
     output:
         'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.vcf'
@@ -581,3 +581,18 @@ rule index_genome:
         samtools
     shell:
         'samtools faidx {input}'
+
+
+# generic vcf index
+rule index_vcf:
+    input:
+        Path('{folder}', '{file}.vcf')
+    output:
+        gz = Path('{folder}', '{file}.vcf.gz'),
+        tbi = Path('{folder}', '{file}.vcf.gz.tbi')
+    singularity:
+        samtools
+    shell:
+        'bgzip -c {input} > {output.gz} '
+        '; '
+        'tabix -p vcf {output.gz}'
