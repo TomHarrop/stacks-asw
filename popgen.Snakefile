@@ -584,7 +584,7 @@ rule index_genome:
 
 
 # generic vcf index
-rule index_vcf:
+rule generic_index_vcf:
     input:
         Path('{folder}', '{file}.vcf')
     output:
