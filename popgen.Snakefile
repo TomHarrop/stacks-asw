@@ -53,7 +53,7 @@ ext_to_arg = {
 
 # not complete, just testing
 bayescan_sig_contigs = [
-    "contig_23638",,
+    "contig_23638",
     "contig_12006",
     "contig_205",
     "contig_19450",
