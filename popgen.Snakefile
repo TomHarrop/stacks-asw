@@ -79,7 +79,7 @@ def aggregate_pops(wildcards):
     pops = glob_wildcards(pop_path).pop
     vcf_path = ('output/100_ehh/'
                 f'{wildcards.popset}.{wildcards.pruned}/'
-                '{{pop}}.{wildcards.contig}.phased.vcf')
+                f'{{pop}}.{wildcards.contig}.phased.vcf')
     return expand(vcf_path, pop=pops)
 
 # temporary, work out aggregate
