@@ -88,14 +88,17 @@ rule target:
                 'fastsimcoal2/populations_MSFS.obs'),
                popset=['ns'],
                pruned=['all', 'pruned']),
+
+# run ehh on north-south populations
+# temporary, work out aggregate
+# e.g. output/100_ehh/ns.pruned/contig_3920.flag
+rule shapeit:
+    input:
         expand('output/100_ehh/{popset}.{pruned}/{contig}.flag',
                popset=['ns'],
                pruned=['all', 'pruned'],
                contig=bayescan_sig_contigs)
 
-# run ehh on north-south populations
-# temporary, work out aggregate
-# e.g. output/100_ehh/ns.pruned/contig_3920.flag
 rule shapeit_target:
     input:
         aggregate_pops
