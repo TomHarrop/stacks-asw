@@ -117,7 +117,7 @@ rule shapeit_haps:
         '--force '
         '&> {log} ; '
         'shapeit '
-        '--convert '
+        '-convert '
         '--input-haps {wildcards.pop}.{wildcards.contig} '
         '--output-vcf {wildcards.pop}.{wildcards.contig}.phased.vcf '
         '&>> {log}'
