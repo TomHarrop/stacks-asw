@@ -588,7 +588,7 @@ rule generic_index_vcf:
     input:
         Path('{folder}', '{file}.vcf')
     wildcard_constraints:
-        file = '(?!populations_sorted)'
+        file = '(?!populations_sorted).*'
     output:
         gz = Path('{folder}', '{file}.vcf.gz'),
         tbi = Path('{folder}', '{file}.vcf.gz.tbi')
