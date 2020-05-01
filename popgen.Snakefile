@@ -77,7 +77,10 @@ def aggregate_pops(wildcards):
         popset=wildcards.popset).output[0]
     pop_path = Path(co, '{pop}.txt').as_posix()
     pops = glob_wildcards(pop_path).pop
-    return expand(pop_path, pop=pops)
+    vcf_path = ('output/100_ehh/'
+                f'{wildcards.popset}.{wildcards.pruned}/'
+                '{{pop}}.{wildcards.contig}.phased.vcf')
+    return expand(vcf_path, pop=pops)
 
 # temporary, work out aggregate
 # e.g. output/100_ehh/ns.pruned/contig_3920.flag
