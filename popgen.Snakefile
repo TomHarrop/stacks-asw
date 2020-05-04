@@ -53,11 +53,15 @@ ext_to_arg = {
 
 # not complete, just testing
 bayescan_sig_contigs = [
-    "contig_23638",
-    "contig_12006",
-    "contig_205",
-    "contig_19450",
-    "contig_39072"]
+    'contig_40523',     # 2 loci , 5 snps, 26 total
+    'contig_11164',     # 3 loci , 4 snps, 23 total
+    'scaffold_43207',   # 1 locus, 4 snps, 11 total
+    'contig_2677',      # 2 loci , 3 snps, 22 total
+    'contig_18336',     # 3 loci , 3 snps, 20 total
+    'contig_12006',     # 1 locus, 3 snps, 10 total
+    'contig_39072',     # 1 locus, 3 snps, 10 total
+    'contig_13287'      # 1 locus, 3 snps, 10 total
+    ]
 
 #########
 # RULES #
