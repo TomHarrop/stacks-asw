@@ -99,7 +99,7 @@ rule shapeit:
     input:
         expand('output/100_ehh/{popset}.{pruned}/{contig}.flag',
                popset=['ns'],
-               pruned=['all', 'pruned'],
+               pruned=['all'],  # not enough SNPs in pruned DS for phasing
                contig=bayescan_sig_contigs)
 
 rule shapeit_target:
