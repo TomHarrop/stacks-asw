@@ -59,8 +59,9 @@ bayescan_sig_contigs = [
     'contig_18336',     # 3 loci , 3 snps, 20 total
     'contig_2677',      # 2 loci , 3 snps, 22 total
     # 'contig_39072',   # 1 locus, 3 snps, 10 total (doesn't phase)
-    'contig_40523'      # 2 loci , 5 snps, 26 total
+    'contig_40523',      # 2 loci , 5 snps, 26 total
     # 'scaffold_43207', # 1 locus, 4 snps, 11 total (doesn't phase)
+    'contig_3920'       # the test contig that worked interactively
     ]
 
 #########
