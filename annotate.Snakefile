@@ -33,7 +33,7 @@ rule target:
 rule funannotate_predict:
     input:
         # 'output/020_funannotate/training/funannotate_train.transcripts.gff3',
-        fasta = fasta = 'output/110_annotate/{contig}.fa',
+        fasta = 'output/110_annotate/{contig}.fa',
         db = 'data/fundb_20200227'
     output:
         'output/110_annotate/{contig}/ASW.gff3',
