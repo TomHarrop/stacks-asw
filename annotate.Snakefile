@@ -76,7 +76,7 @@ rule funannotate_train:
         directory('output/110_annotate/{contig}/training')
     params:
         fasta = lambda wildcards, input: resolve_path(input.fasta),
-        wd = resolve_path('output/020_funannotate'),
+        wd = resolve_path('output/110_annotate/{contig}'),
     log:
         'output/logs/funannotate_train.{contig}.log'
     threads:
