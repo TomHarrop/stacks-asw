@@ -71,9 +71,10 @@ rule target:
 rule funannotate_train:
     input:
         # fasta = 'output/110_annotate/{contig}/{contig}.fa.masked',
-        fasta = 'output/110_annotate/{contig}/{contig}.fa',
+        fasta = 'output/110_annotate/{contig}.fa',
     output:
-        directory('output/110_annotate/{contig}/training')
+        'output/110_annotate/{contig}.blah'
+        # directory('output/110_annotate/{contig}/training')
     params:
         fasta = lambda wildcards, input: resolve_path(input.fasta),
         wd = resolve_path('output/110_annotate/{contig}'),
@@ -173,7 +174,7 @@ rule get_contig:
     input:
         'data/draft_genome.fasta'
     output:
-        'output/110_annotate/{contig}/{contig}.fa'
+        'output/110_annotate/{contig}.fa'
     log:
         'output/logs/get_contig.{contig}.log'
     singularity:
