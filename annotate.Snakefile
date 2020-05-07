@@ -21,6 +21,8 @@ annot_contigs = [
     'contig_3920'       # the test contig that worked interactively
     ]
 
+wildcard_constraints:
+    contig = '|'.join(annot_contigs)
 
 rule target:
     input:
@@ -33,7 +35,7 @@ rule target:
 rule funannotate_predict:
     input:
         # 'output/020_funannotate/training/funannotate_train.transcripts.gff3',
-        fasta = 'output/110_annotate/{contig}.fa',
+        fasta = 'output/110_annotate/{contig}.masked.fa',
         db = 'data/fundb_20200227'
     output:
         'output/110_annotate/{contig}/ASW.gff3',
@@ -167,6 +169,25 @@ rule rm_build:
         '-dir {params.wd} '
         '&> {log} '
 
+
+# funannotate mask?
+rule fa_mask:
+    input:
+        'output/110_annotate/{contig}.fa'
+    output:
+        'output/110_annotate/{contig}.masked.fa'
+    log:
+        'output/logs/fa_mask.{contig}.log'
+    threads:
+        workflow.cores
+    singularity:
+        funannotate
+    shell:
+        'funannotate mask '
+        '-i {input} '
+        '-o {output} '
+        '--cpus {threads} '
+        '&> {log}'
 
 rule get_contig:
     input:
