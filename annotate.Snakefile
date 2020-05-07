@@ -24,7 +24,8 @@ annot_contigs = [
 
 rule target:
     input:
-        expand('output/110_annotate/{contig}/training',
+        expand('output/110_annotate/{contig}.blah',
+               # 'output/110_annotate/{contig}/training',
                contig=annot_contigs)
 
 
