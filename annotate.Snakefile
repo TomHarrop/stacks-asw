@@ -24,49 +24,46 @@ annot_contigs = [
 
 rule target:
     input:
-        expand('output/110_annotate/{contig}.blah',
+        expand('output/110_annotate/{contig}/ASW.gff3',
                # 'output/110_annotate/{contig}/training',
                contig=annot_contigs)
 
 
 # try to predict
-# rule funannotate_predict:
-#     input:
-#         'output/020_funannotate/training/funannotate_train.transcripts.gff3',
-#         fasta = ('output/010_prepare/repeatmasker/'
-#                  'asw-cleaned_sorted.fasta.masked'),
-#         db = 'data/fundb_20200227',
-#         trinity = 'data/Trinity.fasta'
-#     output:
-#         'output/020_funannotate/predict_results/ASW.gff3',
-#         'output/020_funannotate/predict_results/ASW.mrna-transcripts.fa'
-#     params:
-#         fasta = lambda wildcards, input: resolve_path(input.fasta),
-#         db = lambda wildcards, input: resolve_path(input.db),
-#         wd = resolve_path('output/020_funannotate')
-#     log:
-#         'output/logs/funannotate_predict.log'
-#     threads:
-#         multiprocessing.cpu_count()
-#     singularity:
-#         funannotate
-#     shell:
-#         'cp /genemark/gm_key_64 ${{HOME}}/.gm_key ; '
-#         'funannotate predict '
-#         '-i {params.fasta} '
-#         '-s ASW '
-#         '--transcript_evidence {input.trinity} '
-#         '-o {params.wd} '
-#         '-d {params.db} '
-#         '--cpus {threads} '
-#         '--augustus_species lbonariensis '
-#         '--optimize_augustus '
-#         '--busco_seed_species tribolium2012 '
-#         '--busco_db endopterygota '
-#         '--organism other '
-#         '--repeats2evm '
-#         '--max_intronlen 10000 '
-#         '&> {log}'
+rule funannotate_predict:
+    input:
+        # 'output/020_funannotate/training/funannotate_train.transcripts.gff3',
+        fasta = fasta = 'output/110_annotate/{contig}.fa',
+        db = 'data/fundb_20200227'
+    output:
+        'output/110_annotate/{contig}/ASW.gff3',
+        'output/110_annotate/{contig}/ASW.mrna-transcripts.fa'
+    params:
+        fasta = lambda wildcards, input: resolve_path(input.fasta),
+        db = lambda wildcards, input: resolve_path(input.db),
+        wd = resolve_path('output/110_annotate/{contig}')
+    log:
+        'output/logs/funannotate_predict.{contig}.log'
+    threads:
+        workflow.cores
+    singularity:
+        funannotate
+    shell:
+        'cp /genemark/gm_key_64 ${{HOME}}/.gm_key ; '
+        'funannotate predict '
+        '-i {params.fasta} '
+        '-s ASW '
+        '-o {params.wd} '
+        '-d {params.db} '
+        '--cpus {threads} '
+        '--augustus_species lbonariensis '
+        '--optimize_augustus '
+        '--busco_seed_species tribolium2012 '
+        '--busco_db endopterygota '
+        '--organism other '
+        # '--repeats2evm '
+        '--max_intronlen 10000 '
+        '&> {log}'
 
 # run training algorithm
 rule funannotate_train:
