@@ -70,7 +70,8 @@ rule target:
 # run training algorithm
 rule funannotate_train:
     input:
-        fasta = 'output/110_annotate/{contig}/{contig}.fa.masked',
+        # fasta = 'output/110_annotate/{contig}/{contig}.fa.masked',
+        fasta = 'output/110_annotate/{contig}/{contig}.fa',
     output:
         directory('output/110_annotate/{contig}/training')
     params:
