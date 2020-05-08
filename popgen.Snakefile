@@ -107,8 +107,8 @@ rule run_rehh:
         unpack(aggregate_pops),
         fai = 'output/005_ref/ref.fasta.fai'
     output:
-        'output/100_ehh/{popset}.{pruned}/xpehh.csv',
-        'output/100_ehh/{popset}.{pruned}/xpehh.pdf'
+        xpehh = 'output/100_ehh/{popset}.{pruned}/xpehh.csv',
+        pdf = 'output/100_ehh/{popset}.{pruned}/xpehh.pdf'
     log:
         'output/logs/run_rehh.{popset}.{pruned}.log'
     singularity:
