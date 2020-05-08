@@ -8,17 +8,6 @@ import tempfile
 # FUNCTIONS #
 #############
 
-def aggregate_pops(wildcards):
-    # get 'output/100_ehh/{popset}_pops'
-    co = checkpoints.get_pop_indivs.get(
-        popset=wildcards.popset).output[0]
-    pop_path = Path(co, '{pop}.txt').as_posix()
-    pops = glob_wildcards(pop_path).pop
-    vcf_path = ('output/100_ehh/'
-                f'{wildcards.popset}.{wildcards.pruned}/'
-                f'{{pop}}.{wildcards.contig}.phased.vcf.gz')
-    return expand(vcf_path, pop=pops)
-
 
 def resolve_path(path):
     return(Path(path).resolve().as_posix())
@@ -99,20 +88,42 @@ rule target:
 # e.g. output/100_ehh/ns.pruned/contig_3920.flag
 rule shapeit:
     input:
-        expand('output/100_ehh/{popset}.{pruned}/{contig}.flag',
+        expand('output/100_ehh/{popset}.{pruned}/xpehh.csv',
                popset=['ns'],
-               pruned=['all'],  # not enough SNPs in pruned DS for phasing
-               contig=bayescan_sig_contigs)
+               pruned=['all'])  # not enough SNPs in pruned DS for phasing
 
-rule shapeit_target:
+
+def aggregate_pops(wildcards):
+    # get 'output/100_ehh/{popset}_pops'
+    co = checkpoints.get_pop_indivs.get(
+        popset=wildcards.popset).output[0]
+    pop_path = Path(co, '{pop}.txt').as_posix()
+    pops = glob_wildcards(pop_path).pop
+    vcf_dict = {}
+    for pop in pops:
+        my_vcf_path = (
+            'output/100_ehh/'
+            f'{wildcards.popset}.{wildcards.pruned}/'
+            f'{pop}.{{contigs}}.phased.vcf.gz')
+        vcf_dict[pop] = snakemake.io.expand(
+            my_vcf_path,
+            contigs=bayescan_sig_contigs)
+    return vcf_dict
+
+
+rule run_rehh:
     input:
-        aggregate_pops
+        unpack(aggregate_pops),
+        fai = 'output/005_ref/ref.fasta.fai'
     output:
-        'output/100_ehh/{popset}.{pruned}/{contig}.flag'
+        'output/100_ehh/{popset}.{pruned}/xpehh.csv',
+        'output/100_ehh/{popset}.{pruned}/xpehh.pdf'
+    log:
+        'output/logs/run_rehh.{popset}.{pruned}.log'
     singularity:
-        samtools
-    shell:
-        'touch {output}'
+        bioc_container
+    script:
+        'src/run_rehh.R'
 
 rule shapeit_haps:
     input:
