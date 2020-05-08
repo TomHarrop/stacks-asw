@@ -8,6 +8,23 @@ import tempfile
 # FUNCTIONS #
 #############
 
+def aggregate_pops(wildcards):
+    # get 'output/100_ehh/{popset}_pops'
+    co = checkpoints.get_pop_indivs.get(
+        popset=wildcards.popset).output[0]
+    pop_path = Path(co, '{pop}.txt').as_posix()
+    pops = glob_wildcards(pop_path).pop
+    vcf_dict = {}
+    for pop in pops:
+        my_vcf_path = (
+            'output/100_ehh/'
+            f'{wildcards.popset}.{wildcards.pruned}/'
+            f'{pop}.{{contigs}}.phased.vcf.gz')
+        vcf_dict[pop] = snakemake.io.expand(
+            my_vcf_path,
+            contigs=bayescan_sig_contigs)
+    return vcf_dict
+
 
 def resolve_path(path):
     return(Path(path).resolve().as_posix())
@@ -82,33 +99,7 @@ rule target:
                 'fastsimcoal2/populations_MSFS.obs'),
                popset=['ns'],
                pruned=['all', 'pruned']),
-
-# run ehh on north-south populations
-# temporary, work out aggregate
-# e.g. output/100_ehh/ns.pruned/contig_3920.flag
-rule shapeit:
-    input:
-        expand('output/100_ehh/{popset}.{pruned}/xpehh.csv',
-               popset=['ns'],
-               pruned=['all'])  # not enough SNPs in pruned DS for phasing
-
-
-def aggregate_pops(wildcards):
-    # get 'output/100_ehh/{popset}_pops'
-    co = checkpoints.get_pop_indivs.get(
-        popset=wildcards.popset).output[0]
-    pop_path = Path(co, '{pop}.txt').as_posix()
-    pops = glob_wildcards(pop_path).pop
-    vcf_dict = {}
-    for pop in pops:
-        my_vcf_path = (
-            'output/100_ehh/'
-            f'{wildcards.popset}.{wildcards.pruned}/'
-            f'{pop}.{{contigs}}.phased.vcf.gz')
-        vcf_dict[pop] = snakemake.io.expand(
-            my_vcf_path,
-            contigs=bayescan_sig_contigs)
-    return vcf_dict
+        'output/100_ehh/ns.all/xpehh.csv'    # not enough SNPs to phase pruned
 
 
 rule run_rehh:
