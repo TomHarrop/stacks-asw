@@ -32,7 +32,7 @@ print(snakemake@input)
 
 fai_file <- snakemake@input[["fai"]]
 north_files <- snakemake@input[["North"]]
-south_file <- snakemake@input[["South"]]
+south_files <- snakemake@input[["South"]]
 
 # fai_file <- "output/005_ref/ref.fasta.fai"
 # north_files <- list.files("output/100_ehh/ns.all",
