@@ -35,18 +35,16 @@ def resolve_path(path):
 ###########
 
 bayescan = 'shub://TomHarrop/variant-utils:bayescan_2.1'
-# bayescan = 'shub://MarissaLL/singularity-containers:bayescan_2.1'
-bioc_container = ('shub://TomHarrop/r-containers:bioconductor_3.10'
-                  '@22b77812ec8211c7bbe29c9bbfc6dfba6a833982')
+bioc_container = 'shub://TomHarrop/r-containers:bioconductor_3.11'
 biopython = 'shub://TomHarrop/singularity-containers:biopython_1.73'
 easysfs = 'shub://TomHarrop/variant-utils:easysfs_c2b26c5'
 pgdspider = 'shub://MarissaLL/singularity-containers:pgdspider_2.1.1.5'
 plink = 'shub://MarissaLL/singularity-containers:plink_1.9'
-r_container = 'shub://TomHarrop/singularity-containers:r_3.6.0'
+r_container = 'shub://TomHarrop/singularity-containers:r_3.6.3'
 samtools = 'shub://TomHarrop/align-utils:samtools_1.9'
+shapeit = 'shub://TomHarrop/variant-utils:shapeit_v2.r904'
 stacks_container = 'shub://TomHarrop/variant-utils:stacks_2.53'
 vcftools_container = 'shub://TomHarrop/variant-utils:vcftools_0.1.16'
-shapeit = 'shub://TomHarrop/variant-utils:shapeit_v2.r904'
 
 # dict of extensions and arguments for vcftools
 ext_to_arg = {
@@ -101,7 +99,7 @@ rule target:
                pruned=['all', 'pruned']),
         'output/100_ehh/ns.all/xpehh.csv'    # not enough SNPs to phase pruned
 
-
+# run extended haplotype homozygosity 
 rule run_rehh:
     input:
         unpack(aggregate_pops),
