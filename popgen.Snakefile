@@ -148,10 +148,9 @@ rule shapeit_haps:
         '--output-vcf {wildcards.pop}.{wildcards.contig}.phased.vcf '
         '&>> {log}'
 
-
 rule pop_vcf:
     input:
-        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf.gz',
+        vcf = 'output/tmp/{popset}.{pruned}.rmdup.vcf.gz',
         popmap = 'output/100_ehh/{popset}_pops/{pop}.txt'
     output:
         'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.vcf'
@@ -172,6 +171,26 @@ rule pop_vcf:
         '- '
         '> {output} '
         '2> {log}'
+
+rule rmdup_vcf:
+    input:
+        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf.gz'
+    output:
+        vcf = temp('output/tmp/{popset}.{pruned}.rmdup.vcf.gz'),
+        tbi = temp('output/tmp/{popset}.{pruned}.rmdup.vcf.gz.tbi')
+    log:
+        'output/logs/rmdup_vcf.{popset}.{pruned}.log'
+    singularity:
+        samtools
+    shell:
+        'bcftools concat '
+        '--rm-dups snps -a '
+        '-Oz '
+        '{input.vcf} '
+        '> {output.vcf} '
+        '2> {log} '
+        '; '
+        'tabix -p {output.vcf}'
 
 checkpoint get_pop_indivs:
     input:
