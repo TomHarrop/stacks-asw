@@ -159,16 +159,10 @@ rule pop_vcf:
     singularity:
         samtools
     shell:
-        'bcftools concat '
-        '--rm-dups snps '
-        '-a '
-        '-Oz '
-        '{input.vcf} '
-        ' | '
         'bcftools view '
         '--regions {wildcards.contig} '
         '-S <( cut -f1 {input.popmap} ) '
-        '- '
+        '{input.vcf} '
         '> {output} '
         '2> {log}'
 
