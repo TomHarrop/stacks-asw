@@ -163,7 +163,7 @@ rule pop_vcf:
         'bcftools concat '
         '--rm-dups snps '
         '-a '
-        '-Ou '
+        '-Oz '
         '{input.vcf} '
         ' | '
         'bcftools view '
