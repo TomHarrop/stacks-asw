@@ -184,7 +184,7 @@ rule rmdup_vcf:
         '> {output.vcf} '
         '2> {log} '
         '; '
-        'tabix -p {output.vcf}'
+        'tabix -p vcf {output.vcf}'
 
 checkpoint get_pop_indivs:
     input:
