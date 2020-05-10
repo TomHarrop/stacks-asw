@@ -163,6 +163,7 @@ rule pop_vcf:
         'bcftools view '
         '--regions {wildcards.contig} '
         '-S <( cut -f1 {input.popmap} ) '
+        '-c snps '
         '{input.vcf} '
         '> {output} '
         '2> {log}'
