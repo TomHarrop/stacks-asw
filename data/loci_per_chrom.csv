@@ -1,8 +1,8 @@
-chrom,N
+chrom,V1
 contig_3920,108
 contig_1001,80
 contig_895,37
-contig_2239,65
+contig_2239,62
 contig_358,64
 scaffold_1203,63
 contig_9132,71
@@ -17,13 +17,13 @@ contig_2296,43
 contig_4025,42
 contig_1102,52
 contig_3577,35
-contig_11459,29
+contig_11459,28
 contig_8815,26
 contig_5636,9
 contig_426,24
 contig_5067,47
 contig_5246,14
-contig_13538,10
+contig_13538,9
 contig_2195,52
 contig_5413,29
 contig_3446,36
@@ -37,7 +37,7 @@ contig_3145,39
 contig_9855,32
 contig_916,37
 scaffold_30493,22
-contig_775,31
+contig_775,30
 contig_1390,2
 contig_23359,36
 contig_2063,31
@@ -74,10 +74,10 @@ contig_2131,44
 contig_11855,17
 contig_4585,1
 contig_8456,36
-contig_4978,21
+contig_4978,20
 scaffold_7156,18
 contig_867,42
-contig_10861,32
+contig_10861,31
 contig_44636,46
 contig_10521,16
 contig_3208,20
@@ -93,16 +93,16 @@ contig_1801,19
 contig_12330,5
 contig_3936,14
 contig_58,21
-contig_1906,48
+contig_1906,47
 contig_6800,19
 contig_1166,20
 contig_5692,17
-scaffold_5305,20
+scaffold_5305,19
 contig_21928,35
 contig_10079,21
 contig_3574,55
 contig_364,23
-contig_19157,27
+contig_19157,26
 contig_13763,17
 contig_2377,16
 contig_5451,48
@@ -113,7 +113,7 @@ contig_7525,43
 contig_9779,4
 contig_4232,22
 contig_3370,33
-contig_10836,46
+contig_10836,43
 contig_1867,22
 contig_16269,50
 contig_5860,23
@@ -122,7 +122,7 @@ contig_519,13
 contig_19741,20
 contig_582,13
 contig_29838,43
-contig_13454,21
+contig_13454,20
 contig_15344,41
 contig_4861,11
 contig_11400,10
@@ -145,8 +145,8 @@ contig_1023,6
 contig_6506,15
 contig_5261,31
 contig_5713,49
-contig_8978,19
-contig_805,26
+contig_8978,17
+contig_805,25
 contig_597,2
 contig_983,19
 contig_14155,15
@@ -181,7 +181,7 @@ contig_591,16
 contig_5390,15
 contig_1970,1
 contig_7867,36
-contig_1663,22
+contig_1663,20
 contig_16302,11
 contig_1253,8
 scaffold_561,39
@@ -215,9 +215,9 @@ contig_19786,20
 contig_10468,17
 contig_1596,8
 contig_20957,9
-contig_1850,14
+contig_1850,13
 contig_5543,8
-contig_1061,11
+contig_1061,10
 contig_3337,14
 contig_24412,18
 contig_149,14
@@ -234,14 +234,14 @@ contig_2951,16
 contig_5129,9
 contig_7989,23
 contig_4857,22
-contig_13673,36
+contig_13673,33
 contig_2638,15
 contig_910,22
 contig_1649,20
 contig_797,12
 contig_19992,34
 contig_5082,29
-contig_4611,42
+contig_4611,41
 contig_1808,21
 contig_1566,20
 contig_3281,34
@@ -279,7 +279,7 @@ scaffold_2197,33
 contig_3482,5
 contig_2428,32
 contig_13795,4
-scaffold_3663,16
+scaffold_3663,15
 scaffold_274,13
 contig_5212,10
 contig_5831,50
@@ -383,7 +383,7 @@ contig_11584,17
 contig_22937,20
 contig_5078,11
 contig_12828,7
-contig_15690,11
+contig_15690,10
 contig_4837,22
 contig_10746,10
 contig_2798,28
@@ -391,7 +391,7 @@ contig_16011,8
 contig_822,4
 contig_7652,10
 contig_1510,13
-contig_4828,24
+contig_4828,22
 contig_4413,14
 contig_18752,8
 contig_49931,10
@@ -407,7 +407,7 @@ contig_5793,24
 contig_26286,13
 contig_13383,34
 contig_28605,6
-contig_5179,43
+contig_5179,41
 contig_22663,14
 contig_7818,7
 contig_4431,25
@@ -455,7 +455,7 @@ scaffold_53305,33
 contig_9875,31
 contig_3976,24
 contig_2882,19
-contig_24985,13
+contig_24985,12
 scaffold_28333,10
 contig_10188,7
 contig_22857,31
@@ -499,7 +499,7 @@ contig_820,25
 contig_4825,24
 contig_4487,6
 contig_14525,27
-contig_4256,27
+contig_4256,25
 contig_9352,23
 scaffold_12482,6
 contig_9445,4
@@ -518,10 +518,10 @@ contig_5913,23
 contig_5508,4
 contig_15348,13
 contig_2100,10
-contig_9074,17
+contig_9074,15
 contig_31564,7
 contig_2579,5
-contig_16763,46
+contig_16763,44
 contig_28086,13
 contig_3624,15
 contig_5556,11
@@ -529,7 +529,7 @@ contig_28585,13
 contig_1606,13
 contig_3015,14
 contig_4566,19
-contig_5741,16
+contig_5741,14
 contig_12846,16
 contig_21786,7
 contig_3194,10
@@ -560,13 +560,13 @@ contig_23803,11
 contig_7271,14
 contig_4849,8
 contig_1314,2
-contig_4675,15
+contig_4675,13
 contig_16836,5
 contig_11834,12
-contig_841,17
+contig_841,15
 contig_1135,10
 contig_2238,17
-contig_1766,54
+contig_1766,52
 contig_29928,27
 contig_2191,19
 contig_1208,1
@@ -574,7 +574,7 @@ contig_893,10
 contig_25609,1
 contig_6885,14
 contig_1821,3
-contig_29170,25
+contig_29170,23
 contig_3116,3
 contig_24596,7
 scaffold_22461,6
@@ -618,7 +618,7 @@ contig_11541,29
 scaffold_36533,26
 contig_9890,10
 contig_27070,26
-contig_29962,40
+contig_29962,37
 contig_7534,9
 contig_19429,18
 contig_25214,17
@@ -747,7 +747,7 @@ contig_19877,19
 contig_5781,32
 contig_5761,8
 contig_3261,3
-contig_2317,28
+contig_2317,24
 contig_17587,4
 contig_5344,30
 contig_4465,4
@@ -789,7 +789,7 @@ contig_3956,17
 scaffold_9270,16
 contig_31738,19
 contig_10093,1
-contig_4908,14
+contig_4908,12
 contig_27552,17
 contig_11137,6
 contig_18764,27
@@ -817,7 +817,7 @@ contig_567,9
 contig_2670,19
 contig_2926,9
 contig_1816,8
-contig_7109,9
+contig_7109,8
 contig_10123,4
 contig_549,18
 contig_3344,18
@@ -866,7 +866,7 @@ contig_13358,12
 scaffold_46936,4
 contig_2205,3
 contig_48,19
-contig_14926,29
+contig_14926,25
 contig_10204,5
 contig_3247,2
 scaffold_30622,8
@@ -883,7 +883,7 @@ contig_7041,19
 contig_10467,2
 contig_2455,16
 contig_11088,9
-contig_20063,3
+contig_20063,2
 contig_25393,2
 contig_1452,1
 contig_18914,3
@@ -903,7 +903,7 @@ scaffold_33148,6
 contig_10790,7
 contig_29247,1
 contig_6899,9
-contig_1825,13
+contig_1825,12
 contig_8389,10
 scaffold_34772,8
 contig_11110,11
@@ -978,7 +978,7 @@ contig_12547,10
 contig_7202,18
 contig_2057,25
 contig_31145,7
-contig_16900,14
+contig_16900,13
 contig_6187,28
 contig_38586,9
 contig_12252,7
@@ -1037,7 +1037,7 @@ contig_829,6
 contig_8951,4
 contig_21935,11
 contig_22716,9
-contig_11910,21
+contig_11910,20
 contig_25375,5
 contig_5339,1
 contig_15932,19
@@ -1110,7 +1110,7 @@ contig_16008,8
 contig_5803,6
 contig_13139,14
 contig_3799,8
-contig_10470,20
+contig_10470,19
 contig_26368,12
 contig_225,4
 contig_8737,21
@@ -1136,7 +1136,7 @@ contig_38642,25
 contig_21841,21
 contig_23625,10
 contig_32831,14
-contig_2105,25
+contig_2105,24
 contig_3287,29
 contig_118,11
 contig_5084,5
@@ -1162,7 +1162,7 @@ contig_3758,20
 contig_12837,2
 contig_7896,6
 contig_33764,26
-contig_11861,18
+contig_11861,17
 contig_5890,13
 contig_18573,10
 contig_55678,4
@@ -1196,7 +1196,7 @@ contig_13665,3
 contig_656,1
 contig_2305,9
 contig_2796,11
-contig_22797,16
+contig_22797,15
 contig_26389,14
 contig_134,4
 contig_3009,19
@@ -1221,7 +1221,7 @@ contig_3585,2
 contig_22920,11
 scaffold_33716,14
 contig_5817,5
-contig_3760,20
+contig_3760,19
 contig_3707,9
 contig_45255,9
 contig_42469,8
@@ -1235,7 +1235,7 @@ contig_1902,6
 contig_23880,3
 contig_4745,7
 contig_12429,6
-contig_4531,15
+contig_4531,14
 contig_32504,40
 contig_25022,9
 contig_28813,5
@@ -1292,7 +1292,7 @@ contig_235,1
 contig_844,7
 contig_19995,5
 contig_16842,6
-contig_6027,4
+contig_6027,3
 contig_1862,13
 contig_31037,4
 contig_23689,4
@@ -1388,7 +1388,7 @@ contig_13129,10
 contig_19202,1
 contig_11959,12
 contig_8044,1
-contig_2787,21
+contig_2787,19
 contig_3753,10
 contig_39595,17
 contig_3916,4
@@ -1467,7 +1467,7 @@ contig_7882,2
 contig_195,1
 contig_2389,13
 contig_40137,3
-contig_7743,23
+contig_7743,20
 contig_23169,16
 contig_2522,19
 contig_33479,14
@@ -1531,7 +1531,7 @@ contig_14584,3
 contig_17520,5
 contig_2715,8
 contig_33003,3
-contig_4000,9
+contig_4000,7
 contig_9758,17
 contig_462,1
 contig_39057,12
@@ -1581,7 +1581,7 @@ contig_2167,9
 contig_2745,15
 contig_37669,18
 contig_31601,12
-contig_24799,27
+contig_24799,26
 contig_8097,1
 contig_4992,9
 contig_4294,13
@@ -1684,7 +1684,7 @@ contig_7070,10
 contig_29047,3
 contig_18382,2
 contig_5797,15
-contig_3987,15
+contig_3987,13
 scaffold_2041,2
 contig_36925,11
 contig_3068,9
@@ -1741,7 +1741,7 @@ contig_12781,5
 contig_38047,1
 contig_45977,4
 contig_8837,5
-contig_21810,16
+contig_21810,13
 contig_47020,12
 contig_7766,20
 contig_9936,9
@@ -1785,7 +1785,7 @@ contig_10013,12
 contig_8171,2
 contig_48283,5
 contig_21807,5
-contig_25479,17
+contig_25479,13
 contig_4570,7
 contig_2451,3
 contig_1588,16
@@ -1847,7 +1847,7 @@ contig_4906,5
 contig_1327,1
 contig_35719,4
 contig_5589,2
-contig_1221,10
+contig_1221,8
 contig_10135,16
 contig_32868,2
 contig_25478,5
@@ -1908,7 +1908,7 @@ contig_2720,7
 contig_47798,8
 contig_21563,11
 contig_5191,1
-contig_5087,10
+contig_5087,8
 contig_21140,1
 contig_14732,8
 contig_14206,7
@@ -1961,7 +1961,7 @@ contig_25049,5
 contig_15947,14
 contig_22737,2
 contig_23278,14
-contig_26757,18
+contig_26757,17
 contig_54218,1
 contig_9003,1
 contig_23158,1
@@ -1987,7 +1987,7 @@ contig_48563,29
 contig_27275,5
 contig_16112,3
 contig_1696,7
-contig_21192,16
+contig_21192,14
 contig_26754,3
 contig_26831,7
 contig_26791,8
@@ -2054,7 +2054,7 @@ contig_15228,2
 contig_6224,1
 contig_23223,11
 contig_7648,4
-contig_10854,4
+contig_10854,3
 contig_54607,15
 contig_12212,1
 contig_32584,3
@@ -2069,7 +2069,7 @@ contig_300,9
 contig_18520,8
 contig_2338,12
 contig_39350,1
-contig_22900,5
+contig_22900,4
 contig_5666,1
 contig_22696,8
 contig_28394,3
@@ -2079,14 +2079,14 @@ contig_2077,2
 contig_38285,18
 contig_14781,12
 contig_3133,3
-contig_21359,3
+contig_21359,2
 contig_22137,3
 contig_14977,13
 contig_1476,3
 contig_12515,1
 contig_12884,16
 contig_3914,14
-contig_8749,8
+contig_8749,5
 contig_35868,15
 contig_27359,10
 contig_34614,11
@@ -2135,7 +2135,7 @@ contig_23827,11
 contig_40892,7
 contig_26656,15
 contig_31093,7
-contig_6796,10
+contig_6796,8
 contig_21982,19
 contig_9944,6
 contig_585,25
@@ -2146,7 +2146,7 @@ contig_32654,4
 contig_211,11
 contig_2001,21
 contig_11701,2
-contig_9622,22
+contig_9622,20
 contig_21370,7
 contig_25032,1
 contig_935,1
@@ -2312,7 +2312,7 @@ contig_3064,3
 contig_4376,30
 contig_31967,17
 scaffold_36818,4
-contig_3178,21
+contig_3178,20
 contig_514,2
 contig_19272,6
 contig_24814,12
@@ -2347,11 +2347,11 @@ contig_31828,4
 contig_33653,10
 contig_20667,1
 contig_5275,5
-contig_9850,12
+contig_9850,8
 contig_8038,9
 scaffold_36046,5
 contig_31902,4
-contig_5902,11
+contig_5902,10
 contig_2662,1
 contig_28293,1
 contig_110,4
@@ -2463,7 +2463,7 @@ contig_43651,14
 contig_35889,2
 contig_24654,7
 contig_960,6
-contig_28915,15
+contig_28915,14
 contig_2909,17
 contig_3960,18
 contig_18935,1
@@ -2480,7 +2480,7 @@ contig_52168,6
 contig_35934,1
 contig_39343,3
 contig_49132,10
-contig_54603,4
+contig_54603,3
 contig_8368,1
 contig_22097,10
 contig_132,7
@@ -2574,7 +2574,7 @@ contig_3295,1
 contig_17553,3
 contig_24789,3
 contig_9036,4
-contig_12306,2
+contig_12306,1
 contig_17945,4
 contig_26940,1
 contig_11662,4
@@ -2675,7 +2675,7 @@ contig_31709,8
 contig_33086,5
 contig_11417,2
 contig_23931,9
-contig_17075,5
+contig_17075,4
 contig_24999,8
 contig_20590,2
 contig_29801,6
@@ -2820,7 +2820,7 @@ contig_15566,4
 contig_1400,11
 contig_33677,2
 contig_2634,4
-contig_51066,15
+contig_51066,14
 contig_29118,13
 contig_7685,3
 contig_23210,3
@@ -2962,11 +2962,11 @@ contig_14933,7
 contig_7736,8
 contig_52122,3
 contig_4378,6
-contig_2324,8
+contig_2324,7
 contig_31166,6
 contig_24426,5
 contig_5286,10
-contig_22922,16
+contig_22922,15
 contig_5578,1
 contig_52169,4
 contig_27158,2
@@ -3006,7 +3006,7 @@ contig_21843,7
 contig_14106,4
 contig_47058,3
 contig_28876,15
-scaffold_22768,9
+scaffold_22768,8
 contig_30646,1
 contig_34828,14
 contig_38333,4
@@ -3041,12 +3041,12 @@ contig_1241,4
 scaffold_12021,2
 contig_35116,7
 contig_31165,3
-contig_972,8
+contig_972,7
 contig_30708,2
 contig_3380,9
 contig_22342,3
 contig_18008,1
-contig_9772,6
+contig_9772,4
 contig_34970,1
 contig_23041,2
 contig_25825,2
@@ -3081,7 +3081,7 @@ contig_4630,1
 contig_16111,9
 contig_11972,4
 contig_6214,4
-contig_32950,4
+contig_32950,3
 contig_2312,4
 contig_12257,2
 contig_15897,5
@@ -3101,7 +3101,7 @@ contig_13161,2
 contig_32046,1
 contig_29987,4
 contig_23040,7
-contig_26961,4
+contig_26961,3
 contig_37945,7
 contig_3005,8
 contig_3303,3
@@ -3159,7 +3159,7 @@ contig_46728,5
 contig_19625,17
 contig_14428,4
 contig_34846,5
-contig_3156,7
+contig_3156,6
 contig_5568,8
 contig_757,8
 contig_43753,1
@@ -3264,7 +3264,7 @@ contig_45895,4
 contig_21052,1
 contig_3497,2
 contig_6788,6
-contig_24720,5
+contig_24720,4
 contig_23558,5
 contig_31755,2
 contig_18642,9
@@ -3285,7 +3285,7 @@ contig_2245,1
 contig_21618,12
 contig_21711,5
 contig_2999,3
-contig_2382,24
+contig_2382,18
 contig_7983,13
 contig_40701,1
 contig_77475,3
@@ -3293,7 +3293,7 @@ contig_10309,7
 contig_49500,8
 contig_45112,2
 contig_3472,6
-contig_34786,8
+contig_34786,7
 contig_36916,3
 contig_32236,7
 contig_50017,6
@@ -3382,7 +3382,7 @@ contig_7146,4
 contig_494,1
 scaffold_8958,7
 contig_10416,3
-contig_33119,8
+contig_33119,6
 contig_30823,11
 contig_4957,1
 contig_3620,1
@@ -3417,7 +3417,7 @@ contig_20157,4
 contig_3614,2
 contig_13047,3
 contig_20259,14
-contig_50471,13
+contig_50471,12
 contig_18136,16
 contig_20662,4
 contig_37219,3
@@ -3626,7 +3626,7 @@ contig_1633,3
 contig_7337,6
 contig_21436,2
 contig_12196,4
-contig_17851,3
+contig_17851,2
 contig_18558,17
 contig_31947,1
 contig_2221,10
@@ -3724,7 +3724,7 @@ contig_33989,2
 contig_34053,17
 contig_16511,3
 contig_25956,3
-contig_28413,5
+contig_28413,4
 contig_24564,14
 contig_7951,8
 contig_3694,1
@@ -3732,14 +3732,14 @@ contig_30173,5
 contig_16025,3
 contig_1742,6
 contig_8128,2
-contig_6779,9
+contig_6779,8
 contig_54510,21
 contig_56408,3
 contig_36349,5
 contig_4302,2
 contig_7362,1
 contig_27885,17
-contig_70817,19
+contig_70817,14
 contig_21327,4
 contig_14661,31
 contig_52679,3
@@ -3769,7 +3769,7 @@ contig_9241,2
 contig_40455,3
 contig_2165,18
 contig_10,2
-contig_2254,6
+contig_2254,5
 contig_44814,3
 contig_17572,7
 contig_16848,1
@@ -3832,7 +3832,7 @@ contig_68933,3
 contig_14890,3
 contig_23811,7
 contig_53119,2
-contig_35133,7
+contig_35133,6
 contig_6277,7
 contig_19450,6
 contig_2028,2
@@ -3884,7 +3884,7 @@ contig_25287,11
 contig_28207,2
 contig_29379,2
 contig_61246,10
-contig_3643,2
+contig_3643,1
 contig_13570,3
 contig_33797,2
 contig_38457,6
@@ -3899,7 +3899,7 @@ contig_4203,2
 contig_47814,6
 contig_24276,11
 contig_11426,5
-contig_41251,6
+contig_41251,4
 contig_20229,2
 contig_3014,12
 contig_2727,7
@@ -3942,9 +3942,9 @@ contig_39180,9
 contig_52818,3
 contig_2341,2
 contig_5714,10
-contig_7895,14
+contig_7895,13
 contig_3977,11
-contig_33111,8
+contig_33111,7
 contig_41866,3
 contig_39279,1
 contig_43829,7
@@ -3970,7 +3970,7 @@ contig_19402,17
 contig_24749,7
 contig_5043,10
 contig_2956,6
-contig_695,11
+contig_695,10
 contig_31207,2
 contig_28312,2
 contig_9517,8
@@ -4013,13 +4013,13 @@ contig_21996,4
 contig_16004,11
 contig_25382,9
 contig_3389,5
-scaffold_22197,11
+scaffold_22197,10
 contig_28836,8
 contig_34422,5
 contig_1879,2
 contig_6111,11
 contig_40114,9
-contig_26261,10
+contig_26261,8
 contig_14323,10
 contig_21721,3
 contig_18528,9
@@ -4162,7 +4162,7 @@ contig_32028,4
 contig_5164,4
 contig_2519,2
 contig_30946,4
-contig_41677,24
+contig_41677,22
 contig_12091,3
 contig_31484,1
 contig_36649,6
@@ -4178,7 +4178,7 @@ contig_60075,6
 contig_2820,1
 contig_27880,5
 contig_3141,1
-contig_34464,6
+contig_34464,4
 contig_50485,3
 contig_27438,4
 contig_23440,4
@@ -4285,7 +4285,7 @@ contig_29364,2
 contig_45894,6
 contig_46982,3
 contig_34945,2
-contig_50604,6
+contig_50604,4
 contig_23156,2
 contig_52210,10
 contig_26870,2
@@ -4331,7 +4331,7 @@ contig_24022,6
 contig_3260,4
 contig_28641,1
 contig_30732,11
-contig_44943,4
+contig_44943,3
 contig_34501,4
 contig_11999,1
 contig_5638,1
@@ -4379,7 +4379,7 @@ contig_41868,5
 contig_61423,11
 contig_20441,1
 contig_27709,16
-contig_29571,5
+contig_29571,4
 contig_33157,1
 contig_19731,1
 contig_612,1
@@ -4396,7 +4396,7 @@ contig_33935,3
 contig_9720,8
 contig_19398,2
 contig_34375,2
-contig_59042,4
+contig_59042,3
 contig_28851,3
 contig_37135,8
 contig_41582,11
@@ -4537,7 +4537,7 @@ contig_21606,4
 contig_10735,2
 contig_29846,2
 contig_5438,1
-contig_70470,9
+contig_70470,8
 contig_34699,5
 contig_19821,5
 contig_8652,11
@@ -4588,7 +4588,7 @@ contig_4863,2
 contig_14331,6
 contig_77341,2
 contig_29068,2
-contig_21701,8
+contig_21701,6
 contig_30685,1
 contig_20444,1
 contig_24410,6
@@ -4603,7 +4603,7 @@ contig_3642,1
 contig_875,6
 contig_904,4
 contig_22543,4
-contig_244,13
+contig_244,10
 contig_8067,4
 contig_54637,2
 contig_41941,4
@@ -4618,7 +4618,7 @@ contig_24395,1
 contig_53039,8
 contig_12974,5
 contig_5933,2
-contig_1819,10
+contig_1819,9
 contig_21584,8
 contig_39650,3
 contig_32575,2
@@ -4670,7 +4670,7 @@ contig_45904,3
 contig_1075,13
 contig_34060,4
 contig_2761,2
-contig_240,7
+contig_240,5
 contig_928,9
 contig_37077,1
 contig_228,25
@@ -4691,7 +4691,7 @@ contig_30729,4
 contig_10758,2
 contig_25239,5
 contig_30609,2
-contig_24728,9
+contig_24728,5
 contig_37035,2
 contig_74822,17
 contig_12513,2
@@ -4790,7 +4790,7 @@ contig_33424,7
 contig_30673,7
 contig_40855,5
 contig_29770,3
-contig_38183,3
+contig_38183,2
 contig_35256,4
 contig_26031,4
 contig_8230,2
@@ -4946,7 +4946,7 @@ contig_25265,11
 contig_998,2
 contig_51598,9
 contig_5582,1
-contig_16179,2
+contig_16179,1
 contig_45461,6
 contig_32523,11
 contig_21557,4
@@ -4997,7 +4997,7 @@ contig_58303,4
 contig_27205,1
 contig_31388,14
 contig_34335,1
-contig_382,12
+contig_382,10
 contig_3597,14
 contig_21001,5
 contig_4694,2
@@ -5041,7 +5041,7 @@ contig_26994,1
 contig_18660,2
 contig_15555,10
 contig_21023,2
-contig_60551,15
+contig_60551,14
 contig_48991,3
 contig_44253,16
 contig_5188,4
@@ -5052,7 +5052,7 @@ contig_17598,6
 contig_24230,3
 contig_38999,1
 contig_22185,4
-contig_21508,5
+contig_21508,4
 contig_31209,5
 contig_26030,2
 contig_39278,8
@@ -5111,7 +5111,7 @@ contig_52715,4
 contig_9299,4
 contig_5852,7
 contig_4875,3
-contig_3863,18
+contig_3863,17
 contig_12941,1
 contig_24442,2
 contig_44490,1
@@ -5129,7 +5129,7 @@ contig_2856,4
 contig_6700,5
 contig_71740,4
 contig_45148,1
-contig_50362,3
+contig_50362,2
 contig_36894,3
 contig_18166,12
 contig_31214,1
@@ -5143,7 +5143,7 @@ contig_48260,4
 contig_42888,4
 contig_34344,7
 contig_52743,6
-contig_17035,5
+contig_17035,4
 contig_16493,1
 contig_31480,1
 contig_2679,1
@@ -5297,7 +5297,7 @@ contig_21972,3
 contig_55195,5
 contig_30773,6
 contig_21826,9
-contig_27013,9
+contig_27013,8
 contig_73200,7
 contig_32953,3
 contig_29084,3
@@ -5380,7 +5380,7 @@ contig_25043,1
 contig_52974,7
 contig_77822,9
 contig_23165,8
-contig_939,12
+contig_939,10
 contig_49387,7
 contig_13693,3
 contig_34520,3
@@ -5725,7 +5725,7 @@ contig_47748,1
 contig_43255,2
 contig_76832,3
 contig_32992,7
-contig_32014,6
+contig_32014,3
 contig_33093,2
 contig_36479,3
 contig_50449,3
@@ -6105,7 +6105,7 @@ contig_72156,7
 contig_46801,3
 contig_13145,1
 contig_82297,2
-contig_32667,4
+contig_32667,3
 contig_47046,1
 contig_61161,4
 contig_49204,4
@@ -6257,7 +6257,7 @@ contig_60640,1
 contig_51150,3
 contig_32980,5
 contig_54951,2
-contig_54994,8
+contig_54994,5
 contig_33394,2
 contig_43908,1
 contig_78140,1
@@ -6549,7 +6549,7 @@ contig_27339,3
 contig_70739,3
 contig_71614,2
 contig_34214,4
-contig_2659,12
+contig_2659,9
 contig_60568,7
 contig_54184,19
 contig_72202,2
@@ -6566,7 +6566,7 @@ contig_7918,2
 contig_50193,1
 contig_82301,3
 contig_76122,1
-contig_52239,10
+contig_52239,7
 contig_11356,1
 contig_68455,2
 contig_24453,4
@@ -6632,7 +6632,7 @@ contig_68869,1
 contig_39802,1
 contig_52041,1
 contig_80764,3
-contig_70084,5
+contig_70084,3
 contig_70455,1
 contig_58252,1
 contig_51285,3
