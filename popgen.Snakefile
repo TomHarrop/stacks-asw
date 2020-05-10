@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import pandas
 from pathlib import Path
 import tempfile
 
@@ -22,7 +23,7 @@ def aggregate_pops(wildcards):
             f'{pop}.{{contigs}}.phased.vcf.gz')
         vcf_dict[pop] = snakemake.io.expand(
             my_vcf_path,
-            contigs=bayescan_sig_contigs)
+            contigs=longish_chrom)
     return vcf_dict
 
 
@@ -68,6 +69,11 @@ bayescan_sig_contigs = [
     'contig_8456',      # longest contig with sig SNPs
     'contig_3920'       # the test contig that worked interactively
     ]
+
+# chromosomes with > 20 SNPs for "phasing"
+loci_per_chrom = 'data/loci_per_chrom.csv'
+loci_chrom = pandas.read_csv(loci_per_chrom)
+longish_chrom = sorted(set(loci_chrom.loc[loci_chrom['N'] > 20]['chrom']))
 
 #########
 # RULES #
