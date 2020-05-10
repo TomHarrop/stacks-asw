@@ -151,6 +151,7 @@ rule shapeit_haps:
 rule pop_vcf:
     input:
         vcf = 'output/tmp/{popset}.{pruned}.rmdup.vcf.gz',
+        tbi = 'output/tmp/{popset}.{pruned}.rmdup.vcf.gz.tbi',
         popmap = 'output/100_ehh/{popset}_pops/{pop}.txt'
     output:
         'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.vcf'
