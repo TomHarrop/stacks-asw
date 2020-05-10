@@ -11,7 +11,7 @@ loci <- fread(cmd = paste('grep -v "^#"', vcf_file),
               header = FALSE,
               col.names = vcf_names,
               select = 1:6)
-loci_per_chrom <- loci[, .N, by = chrom]
+loci_per_chrom <- loci[, .(N = length(unique(pos))), by = chrom]
 fwrite(loci_per_chrom, "data/loci_per_chrom.csv")
 
 
