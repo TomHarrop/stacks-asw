@@ -169,7 +169,8 @@ rule pop_vcf:
 
 rule rmdup_vcf:
     input:
-        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf.gz'
+        vcf = 'output/060_popgen/populations.{popset}.{pruned}.vcf.gz',
+        fa = 'output/005_ref/ref.fasta'
     output:
         vcf = temp('output/tmp/{popset}.{pruned}.rmdup.vcf.gz'),
         tbi = temp('output/tmp/{popset}.{pruned}.rmdup.vcf.gz.tbi')
@@ -178,9 +179,11 @@ rule rmdup_vcf:
     singularity:
         samtools
     shell:
-        'bcftools concat '
-        '--rm-dups snps -a '
+        'bcftools norm '
+        '--rm-dup snps '
         '-Oz '
+        '-N '
+        '--fasta-ref {input.fa} '
         '{input.vcf} '
         '> {output.vcf} '
         '2> {log} '
