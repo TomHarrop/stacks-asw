@@ -28,11 +28,12 @@ RunIhs <- function(contig_vcf, min_pct){
 # GLOBALS #
 ###########
 
-print(snakemake@input)
+pop_names <- names(snakemake@input)[names(snakemake@input) != "fai"]
+print(pop_names)
 
 fai_file <- snakemake@input[["fai"]]
-north_files <- snakemake@input[["North"]]
-south_files <- snakemake@input[["South"]]
+pop1_files <- snakemake@input[[pop_names[[1]]]]
+pop2_files <- snakemake@input[[pop_names[[2]]]]
 
 # fai_file <- "output/005_ref/ref.fasta.fai"
 # north_files <- list.files("output/100_ehh/ns.all",
@@ -48,14 +49,14 @@ south_files <- snakemake@input[["South"]]
 ########
 
 # run scans
-north_scans <- rbindlist(lapply(north_files, RunIhs, min_pct = 0.9))
-south_scans <- rbindlist(lapply(south_files, RunIhs, min_pct = 0.9))
+pop1_scans <- rbindlist(lapply(pop1_files, RunIhs, min_pct = 0.9))
+pop2_scans <- rbindlist(lapply(pop2_files, RunIhs, min_pct = 0.9))
 
 # compare
-xpehh <- data.table(ies2xpehh(scan_pop1 = data.frame(north_scans),
-                              scan_pop2 = data.frame(south_scans),
-                              popname1 = "North",
-                              popname2 = "South",
+xpehh <- data.table(ies2xpehh(scan_pop1 = data.frame(pop1_scans),
+                              scan_pop2 = data.frame(pop2_scans),
+                              popname1 = pop_names[[1]],
+                              popname2 = pop_names[[2]],
                               p.adjust.method = "BH",
                               include_freq = TRUE))
 
