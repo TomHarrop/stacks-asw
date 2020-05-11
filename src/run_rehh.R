@@ -28,7 +28,8 @@ RunIhs <- function(contig_vcf, min_pct){
 # GLOBALS #
 ###########
 
-pop_names <- names(snakemake@input)[names(snakemake@input) != "fai"]
+pop_names <- names(snakemake@input)[
+  !names(snakemake@input) %in% c("fai", "")]
 print(pop_names)
 
 fai_file <- snakemake@input[["fai"]]
