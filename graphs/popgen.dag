@@ -2,570 +2,81 @@ digraph snakemake_dag {
     graph[bgcolor=white, margin=0];
     node[shape=box, style=rounded, fontname=sans,                 fontsize=10, penwidth=2];
     edge[penwidth=2, color=grey];
-0 [ shape=none, margin=0, label=<<table border="2" color="#9CD957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">target</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/dapc.geo.all.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/dapc.geo.pruned.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/dapc.para.all.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/dapc.para.pruned.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/dapc.rlpara.all.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/dapc.rlpara.pruned.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/geo.all/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/geo.pruned/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/lpara.all/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/lpara.pruned/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/ns.all/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/ns.pruned/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/para.all/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/para.pruned/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/rlpara.all/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/rlpara.pruned/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/rpara.all/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/rpara.pruned/bayescan_qvals.pdf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/090_demographics/ns.all/sfs/fastsimcoal2/populations_MSFS.obs</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/090_demographics/ns.pruned/sfs/fastsimcoal2/populations_MSFS.obs</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/ns.all/xpehh.csv</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/rlpara.all/xpehh.csv</font></td>
-</tr>
-<hr/>
-<tr><td align="right">  </td> </tr>
-</table>>]
-1 [ shape=none, margin=0, label=<<table border="2" color="#D97957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">dapc</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.{pruned}.vcf</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/dapc.{popset}.{pruned}.pdf</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/dapc_xv.{popset}.{pruned}.Rds</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/pca.{popset}.{pruned}.pdf</font></td></tr>
-</table>>]
-2 [ shape=none, margin=0, label=<<table border="2" color="#57D9AD" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">plot_bayescan</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/005_ref/ref.fasta.fai</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.{pruned}.vcf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/{popset}.{pruned}/bs/populations_fst.txt</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/{popset}.{pruned}/bayescan_qvals.pdf</font></td></tr>
-</table>>]
-3 [ shape=none, margin=0, label=<<table border="2" color="#D0D957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">generate_sfs</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.{pruned}.vcf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/{popset}/popmap.txt</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/090_demographics/{popset}.{pruned}/proj.txt</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/090_demographics/{popset}.{pruned}/sfs/fastsimcoal2/populations_MSFS.obs</font></td></tr>
-</table>>]
-4 [ shape=none, margin=0, label=<<table border="2" color="#57D9D0" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">run_rehh</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">&lt;function aggregate_pops at 0x7efe08007400&gt;</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/005_ref/ref.fasta.fai</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/{popset}.{pruned}/xpehh.csv</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/{popset}.{pruned}/xpehh.pdf</font></td></tr>
-</table>>]
-5 [ shape=none, margin=0, label=<<table border="2" color="#57D979" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">filter_populations_vcf</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.vcf.gz</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.vcf.gz.tbi</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/{popset}/popmap.txt</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.all.vcf</font></td></tr>
-</table>>]
-6 [ shape=none, margin=0, label=<<table border="2" color="#5768D9" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">prune_vcf</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.all.vcf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/{popset}.prune.in</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.pruned.vcf</font></td></tr>
-</table>>]
-7 [ shape=none, margin=0, label=<<table border="2" color="#57D99C" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">bayescan</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/{popset}.{pruned}/populations.geste</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/{popset}.{pruned}/bs/populations_fst.txt</font></td></tr>
-</table>>]
-8 [ shape=none, margin=0, label=<<table border="2" color="#79D957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">index_genome</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">/Volumes/archive/deardenlab/tomharrop/projects/asw-stacks-singleplate/output/005_ref/ref.fasta</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/005_ref/ref.fasta.fai</font></td></tr>
-</table>>]
-9 [ shape=none, margin=0, label=<<table border="2" color="#8BD957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">generate_whitelist</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">data/para_sample_info.tsv</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/005_ref/ref.fasta.fai</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations_filtered.vcf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/stats_locusfilter.imiss</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/whitelist.txt</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/geo/popmap.txt</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/ns/popmap.txt</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/para/popmap.txt</font></td></tr>
-</table>>]
-10 [ shape=none, margin=0, label=<<table border="2" color="#57BFD9" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">get_best_proj</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/090_demographics/{popset}.{pruned}/preview.txt</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/090_demographics/{popset}.{pruned}/proj.txt</font></td></tr>
-</table>>]
-11 [ shape=none, margin=0, label=<<table border="2" color="#57D968" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">generic_index_vcf</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">{folder}/{file}.vcf</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">{folder}/{file,(?!populations_sorted).*}.vcf.gz</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">{folder}/{file,(?!populations_sorted).*}.vcf.gz.tbi</font></td></tr>
-</table>>]
-12 [ shape=none, margin=0, label=<<table border="2" color="#579CD9" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">bgzip_vcf</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/tmp/populations_sorted.vcf</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.vcf.gz</font></td></tr>
-</table>>]
-13 [ shape=none, margin=0, label=<<table border="2" color="#57D0D9" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">index_vcf</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.vcf.gz</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.vcf.gz.tbi</font></td></tr>
-</table>>]
-14 [ shape=none, margin=0, label=<<table border="2" color="#D96857" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">list_pruned_snps</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.all.vcf</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/{popset}.prune.in</font></td></tr>
-</table>>]
-15 [ shape=none, margin=0, label=<<table border="2" color="#57D98B" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">generate_rlpara_popmap</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/para/popmap.txt</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/rlpara/popmap.txt</font></td></tr>
-</table>>]
-16 [ shape=none, margin=0, label=<<table border="2" color="#BFD957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">convert_to_geste</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.{pruned}.vcf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/{popset}.spid</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/{popset}.{pruned}/populations.geste</font></td></tr>
-</table>>]
-17 [ shape=none, margin=0, label=<<table border="2" color="#5779D9" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">generate_rl_popmap</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/rlpara/popmap.txt</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/lpara/popmap.txt</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/rpara/popmap.txt</font></td></tr>
-</table>>]
-18 [ shape=none, margin=0, label=<<table border="2" color="#578BD9" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">locusfilter</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.vcf.gz</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.vcf.gz.tbi</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations_filtered.vcf</font></td></tr>
-</table>>]
-19 [ shape=none, margin=0, label=<<table border="2" color="#57D957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">stats_postfilter</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations_filtered.vcf</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/stats_locusfilter.{ext}</font></td></tr>
-</table>>]
-20 [ shape=none, margin=0, label=<<table border="2" color="#57D9BF" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">preview_projection</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.{pruned}.vcf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/{popset}/popmap.txt</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/090_demographics/{popset}.{pruned}/preview.txt</font></td></tr>
-</table>>]
-21 [ shape=none, margin=0, label=<<table border="2" color="#D98B57" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">shapeit_haps</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/{popset}.{pruned}/{pop}.{contig}.vcf</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/{popset}.{pruned}/{pop}.{contig}.haps</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/{popset}.{pruned}/{pop}.{contig}.phased.vcf</font></td></tr>
-</table>>]
-22 [ shape=none, margin=0, label=<<table border="2" color="#D9D057" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">sort_vcf</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/tmp/populations_header.vcf</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/tmp/populations_sorted.vcf</font></td></tr>
-</table>>]
-23 [ shape=none, margin=0, label=<<table border="2" color="#D9BF57" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">write_spid</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">data/blank_spid.spid</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/070_populations/{popset}/popmap.txt</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/080_bayescan/{popset}.spid</font></td></tr>
-</table>>]
-24 [ shape=none, margin=0, label=<<table border="2" color="#D9AD57" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">pop_vcf</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/{popset}_pops/{pop}.txt</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/tmp/{popset}.{pruned}.rmdup.vcf.gz</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/tmp/{popset}.{pruned}.rmdup.vcf.gz.tbi</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/100_ehh/{popset}.{pruned}/{pop}.{contig}.vcf</font></td></tr>
-</table>>]
-25 [ shape=none, margin=0, label=<<table border="2" color="#68D957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">add_vcf_header</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">/Volumes/archive/deardenlab/tomharrop/projects/asw-stacks-singleplate/output/050_stacks/populations/populations.snps.vcf</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/005_ref/ref.fasta.fai</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/tmp/populations_header.vcf</font></td></tr>
-</table>>]
-26 [ shape=none, margin=0, label=<<table border="2" color="#ADD957" cellspacing="3" cellborder="0">
-<tr><td>
-<b><font point-size="18">rmdup_vcf</font></b>
-</td></tr>
-<hr/>
-<tr><td align="left"> <b><font point-size="14">&#8618; input</font></b> </td></tr>
-<tr>
-<td align="left"><font face="monospace">output/005_ref/ref.fasta</font></td>
-</tr>
-<tr>
-<td align="left"><font face="monospace">output/060_popgen/populations.{popset}.{pruned}.vcf.gz</font></td>
-</tr>
-<hr/>
-<tr><td align="right"> <b><font point-size="14">output &rarr;</font></b> </td> </tr>
-<tr>
-<td align="left"><font face="monospace">output/tmp/{popset}.{pruned}.rmdup.vcf.gz</font></td></tr>
-<tr>
-<td align="left"><font face="monospace">output/tmp/{popset}.{pruned}.rmdup.vcf.gz.tbi</font></td></tr>
-</table>>]
-	2 -> 0
+	0[label = "target", color = "0.07 0.6 0.85", style="rounded"];
+	1[label = "dapc", color = "0.16 0.6 0.85", style="rounded"];
+	2[label = "plot_bayescan", color = "0.02 0.6 0.85", style="rounded"];
+	3[label = "generate_sfs", color = "0.00 0.6 0.85", style="rounded"];
+	4[label = "run_rehh", color = "0.29 0.6 0.85", style="rounded"];
+	5[label = "filter_populations_vcf", color = "0.51 0.6 0.85", style="rounded"];
+	6[label = "prune_vcf", color = "0.38 0.6 0.85", style="rounded"];
+	7[label = "bayescan", color = "0.24 0.6 0.85", style="rounded"];
+	8[label = "index_genome", color = "0.36 0.6 0.85", style="rounded"];
+	9[label = "generate_whitelist", color = "0.42 0.6 0.85", style="rounded"];
+	10[label = "get_best_proj", color = "0.58 0.6 0.85", style="rounded"];
+	11[label = "generic_index_vcf", color = "0.47 0.6 0.85", style="rounded"];
+	12[label = "bgzip_vcf", color = "0.56 0.6 0.85", style="rounded"];
+	13[label = "index_vcf", color = "0.53 0.6 0.85", style="rounded"];
+	14[label = "list_pruned_snps", color = "0.62 0.6 0.85", style="rounded"];
+	15[label = "generate_rlpara_popmap", color = "0.60 0.6 0.85", style="rounded"];
+	16[label = "convert_to_geste", color = "0.04 0.6 0.85", style="rounded"];
+	17[label = "generate_rl_popmap", color = "0.64 0.6 0.85", style="rounded"];
+	18[label = "locusfilter", color = "0.31 0.6 0.85", style="rounded"];
+	19[label = "stats_postfilter", color = "0.33 0.6 0.85", style="rounded"];
+	20[label = "preview_projection", color = "0.13 0.6 0.85", style="rounded"];
+	21[label = "shapeit_haps", color = "0.44 0.6 0.85", style="rounded"];
+	22[label = "sort_vcf", color = "0.49 0.6 0.85", style="rounded"];
+	23[label = "write_spid", color = "0.20 0.6 0.85", style="rounded"];
+	24[label = "pop_vcf", color = "0.18 0.6 0.85", style="rounded"];
+	25[label = "add_vcf_header", color = "0.11 0.6 0.85", style="rounded"];
+	26[label = "rmdup_vcf", color = "0.40 0.6 0.85", style="rounded"];
 	1 -> 0
-	3 -> 0
 	4 -> 0
-	5 -> 1
+	3 -> 0
+	2 -> 0
 	6 -> 1
-	7 -> 2
+	5 -> 1
+	6 -> 2
 	5 -> 2
 	8 -> 2
-	6 -> 2
-	10 -> 3
+	7 -> 2
+	6 -> 3
 	9 -> 3
 	5 -> 3
-	6 -> 3
-	11 -> 4
+	10 -> 3
 	8 -> 4
+	11 -> 4
 	9 -> 5
 	13 -> 5
 	12 -> 5
 	15 -> 5
 	17 -> 5
-	14 -> 6
 	5 -> 6
+	14 -> 6
 	16 -> 7
+	18 -> 9
 	19 -> 9
 	8 -> 9
-	18 -> 9
 	20 -> 10
-	21 -> 11
 	5 -> 11
+	21 -> 11
 	22 -> 12
 	12 -> 13
 	5 -> 14
 	9 -> 15
-	23 -> 16
-	5 -> 16
 	6 -> 16
+	5 -> 16
+	23 -> 16
 	15 -> 17
-	13 -> 18
 	12 -> 18
+	13 -> 18
 	18 -> 19
+	6 -> 20
 	9 -> 20
 	5 -> 20
-	6 -> 20
 	24 -> 21
 	25 -> 22
-	15 -> 23
 	9 -> 23
+	15 -> 23
 	17 -> 23
 	26 -> 24
 	8 -> 25
