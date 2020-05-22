@@ -275,7 +275,7 @@ rule fsc:
     singularity:
         fastsimcoal
     threads:
-        max(12, workflow.cores // 10)
+        min(12, workflow.cores // 10)
     log:
         'output/logs/fsc.{popset}.{pruned}.{model}.{mig}.{run}.log'
     shell:
