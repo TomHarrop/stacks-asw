@@ -106,11 +106,11 @@ rule fsc:
     params:
         wd = 'output/0xx_fastsimcoal/{model}.{mig}/run{run}',
         model_prefix = '{model}.{mig}',
-        numsims = 1000000
+        numsims = 100
     singularity:
         fastsimcoal_container
-    # log:
-    #     'fsc_{model}.{mig}.{run}.log'
+    log:
+        'fsc_{model}.{mig}.{run}.log'
     shell:
         'cp {input.tpl} {output.tpl} ; '
         'cp {input.est} {output.est} ; '
@@ -124,8 +124,7 @@ rule fsc:
         '--maxlhood '
         '--numloops 60 '
         '--cores 2 '
-        '&> {log}'
-
+	'&> {log}'
 
 
 
