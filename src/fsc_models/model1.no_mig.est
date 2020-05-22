@@ -1,0 +1,26 @@
+// Priors and rules file
+// *********************
+
+[PARAMETERS]
+//#isInt? #name   #dist.#min  #max
+//all N are in number of haploid individuals
+1  ANCSIZE     unif     10000000  100000000   output
+1  BOTSIZE     unif     100 500 output
+1  NPOP1       unif     100000  1000000   output
+1  NPOP2       unif     100000  1000000   output
+1  TDIV        unif      30   200  output
+1  ENDBOT      unif     40    250 output
+1  STARTBOT    unif     50   1000 output
+
+[RULES]
+
+STARTBOT > ENDBOT 
+STARTBOT > TDIV
+ENDBOT > TDIV
+
+[COMPLEX PARAMETERS]
+0  COMBPOPS = NPOP1+NPOP2 hide
+0  DIVSCALE = COMBPOPS/NPOP1 hide
+0  POSTBOT  = DIVSCALE*NPOP1 hide
+0  BOTSCALE = BOTSIZE/POSTBOT    hide
+0  ANCSCALE = ANCSIZE/BOTSIZE hide
