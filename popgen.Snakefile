@@ -277,12 +277,13 @@ rule fsc:
     threads:
         min(12, workflow.cores // 10)
     log:
-        'output/logs/fsc.{popset}.{pruned}.{model}.{mig}.{run}.log'
+        resolve_path(
+            'output/logs/fsc.{popset}.{pruned}.{model}.{mig}.{run}.log')
     shell:
         'cp {input.tpl} {output.tpl} ; '
         'cp {input.est} {output.est} ; '
         'cp {input.sfs} {output.sfs} ; '
-        'cd {params.wd} ; '
+        'cd {params.wd} || exit 1 ; '
         'fsc26 '
         '--tplfile {params.model_prefix}.tpl '
         '--estfile {params.model_prefix}.est '
