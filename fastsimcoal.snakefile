@@ -106,7 +106,7 @@ rule fsc:
     params:
         wd = 'output/0xx_fastsimcoal/{model}.{mig}/run{run}',
         model_prefix = '{model}.{mig}',
-        numsims = 100
+        numsims = 1000000
     singularity:
         fastsimcoal_container
     log:
