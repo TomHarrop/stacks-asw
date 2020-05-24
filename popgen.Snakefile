@@ -276,7 +276,7 @@ rule fsc:
         fastsimcoal
     threads:
         #min(12, workflow.cores // 4)
-        20
+        12
     log:
         resolve_path(
             'output/logs/fsc.{popset}.{pruned}.{model}.{mig}.{run}.log')
