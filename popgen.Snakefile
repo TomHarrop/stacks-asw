@@ -127,7 +127,7 @@ rule run_rehh:
         fai = 'output/005_ref/ref.fasta.fai'
     output:
         xpehh = 'output/100_ehh/{popset}.{pruned}/xpehh.csv',
-        pdf = 'output/100_ehh/{popset}.{pruned}/xpehh.pdf'
+        # pdf = 'output/100_ehh/{popset}.{pruned}/xpehh.pdf'
     log:
         'output/logs/run_rehh.{popset}.{pruned}.log'
     singularity:

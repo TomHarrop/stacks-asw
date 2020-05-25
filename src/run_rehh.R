@@ -14,6 +14,7 @@ library(ggplot2)
 #############
 
 RunIhs <- function(contig_vcf, min_pct){
+  message(contig_vcf)
   my_hh <- data2haplohh(hap_file = contig_vcf,
                         polarize_vcf = FALSE,
                         min_perc_geno.mrk = min_pct)
@@ -105,6 +106,16 @@ keep_chr <- xpehh_coords[LOGPVALUE > 4, unique(as.character(CHR))]
 # cr <- calc_candidate_regions(xpehh, threshold = 4)
 # manhattanplot(xpehh, pval=TRUE, cr = cr)
 
+fwrite(xpehh_coords, snakemake@output[["xpehh"]])
+
+sessionInfo()
+
+quit(save = "no")
+
+###########
+# NOT RUN #
+###########
+
 # quick plot, fixme
 gp <- ggplot(xpehh_coords[CHR %in% keep_chr],
              aes(x = POSITION, y = LOGPVALUE)) +
@@ -124,17 +135,6 @@ ggsave(snakemake@output[["pdf"]],
        height = ho,
        unit = "mm",
        device = cairo_pdf)
-
-
-fwrite(xpehh_coords, snakemake@output[["xpehh"]])
-
-sessionInfo()
-
-quit(save = "no")
-
-###########
-# NOT RUN #
-###########
 
 
 # haplotype plots?
