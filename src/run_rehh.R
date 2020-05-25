@@ -19,7 +19,8 @@ RunIhs <- function(contig_vcf, min_pct){
                         min_perc_geno.mrk = min_pct)
   my_scan <- scan_hh(my_hh,
                      polarized = FALSE,
-                     discard_integration_at_border = FALSE)
+                     phased = FALSE,
+                     discard_integration_at_border = TRUE)
   #return(ihh2ihs(my_scan, freqbin = 1))
   return(data.table(my_scan))
 }
@@ -31,18 +32,34 @@ RunIhs <- function(contig_vcf, min_pct){
 pop_names <- names(snakemake@input)[
   !names(snakemake@input) %in% c("fai", "")]
 print(pop_names)
-
-fai_file <- snakemake@input[["fai"]]
-pop1_files <- snakemake@input[[pop_names[[1]]]]
-pop2_files <- snakemake@input[[pop_names[[2]]]]
-
+# 
+# fai_file <- snakemake@input[["fai"]]
+# pop1_files <- snakemake@input[[pop_names[[1]]]]
+# pop2_files <- snakemake@input[[pop_names[[2]]]]
+# 
 # fai_file <- "output/005_ref/ref.fasta.fai"
-# north_files <- list.files("output/100_ehh/ns.all",
-#                           pattern = "North.*.phased.vcf.gz$",
+# north_files <- list.files("output/100_ehh/rlp.all",
+#                           pattern = "North\\.[^\\.]+\\.vcf$",
 #                           full.names = TRUE)
 # south_files <- list.files("output/100_ehh/ns.all",
-#                           pattern = "South.*.phased.vcf.gz$",
+#                           pattern = "South\\.[^\\.]+\\.vcf$",
 #                           full.names = TRUE)
+# 
+# pop1_files <- north_files
+# pop2_files <- south_files
+# pop_names <- c("North", "South")
+# 
+# 
+# nonpara <- list.files("output/100_ehh/rlpara.all",
+#                           pattern = "nonparasitized\\.[^\\.]+\\.vcf$",
+#                           full.names = TRUE)
+# para <- list.files("output/100_ehh/rlpara.all",
+#             pattern = "parasitized\\.[^\\.]+\\.vcf$",
+#             full.names = TRUE)
+# pop1_files <- nonpara
+# pop2_files <- para
+# pop_names <- c("nonpara", "para")
+
 
 
 ########
@@ -78,7 +95,7 @@ xpehh_coords <- merge(xpehh,
 setorder(xpehh_coords, -chr_length, CHR, POSITION)
 xpehh_coords[, bp_coord := POSITION + chr_start - 1]
 xpehh_coords[, CHR := factor(CHR, levels = gtools::mixedsort(unique(CHR)))]
-
+keep_chr <- xpehh_coords[LOGPVALUE > 4, unique(as.character(CHR))]
 # xlab_dt <- xpehh_coords[, .(bp_coord = mean(bp_coord)), by = CHR]
 
 # interactive checks
@@ -87,7 +104,8 @@ xpehh_coords[, CHR := factor(CHR, levels = gtools::mixedsort(unique(CHR)))]
 # manhattanplot(xpehh, pval=TRUE, cr = cr)
 
 # quick plot, fixme
-gp <- ggplot(xpehh_coords, aes(x = POSITION, y = LOGPVALUE)) +
+gp <- ggplot(xpehh_coords[CHR %in% keep_chr],
+             aes(x = POSITION, y = LOGPVALUE)) +
   theme_minimal() +
   theme(axis.text.x = element_blank(),
         panel.border = element_rect(fill = NA)) +

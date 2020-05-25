@@ -17,10 +17,16 @@ def aggregate_pops(wildcards):
     pops = glob_wildcards(pop_path).pop
     vcf_dict = {}
     for pop in pops:
+        # this is the shapeit vcf
+        # my_vcf_path = (
+        #     'output/100_ehh/'
+        #     f'{wildcards.popset}.{wildcards.pruned}/'
+        #     f'{pop}.{{contigs}}.phased.vcf.gz')
+        # this is the unphased, rmdup vcf
         my_vcf_path = (
             'output/100_ehh/'
             f'{wildcards.popset}.{wildcards.pruned}/'
-            f'{pop}.{{contigs}}.phased.vcf.gz')
+            f'{pop}.{{contigs}}.vcf.gz')
         vcf_dict[pop] = snakemake.io.expand(
             my_vcf_path,
             contigs=longish_chrom)
