@@ -40,11 +40,11 @@ pop2_files <- snakemake@input[[pop_names[[2]]]]
 
 
 # fai_file <- "output/005_ref/ref.fasta.fai"
-# north_files <- list.files("output/100_ehh/rlp.all",
-#                           pattern = "North\\.[^\\.]+\\.vcf$",
+# north_files <- list.files("output/100_ehh/ns.pruned",
+#                           pattern = "North\\.[^\\.]+\\.vcf.gz$",
 #                           full.names = TRUE)
-# south_files <- list.files("output/100_ehh/ns.all",
-#                           pattern = "South\\.[^\\.]+\\.vcf$",
+# south_files <- list.files("output/100_ehh/ns.pruned",
+#                           pattern = "South\\.[^\\.]+\\.vcf.gz$",
 #                           full.names = TRUE)
 # 
 # pop1_files <- north_files

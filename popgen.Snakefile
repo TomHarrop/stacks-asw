@@ -26,7 +26,7 @@ def aggregate_pops(wildcards):
         my_vcf_path = (
             'output/100_ehh/'
             f'{wildcards.popset}.{wildcards.pruned}/'
-            f'{pop}.{{contigs}}.vcf.gz')
+            f'{pop}.{{contigs}}.indivremoved.vcf.gz')
         vcf_dict[pop] = snakemake.io.expand(
             my_vcf_path,
             contigs=longish_chrom)
@@ -162,6 +162,22 @@ rule shapeit_haps:
         '--input-haps {wildcards.pop}.{wildcards.contig} '
         '--output-vcf {wildcards.pop}.{wildcards.contig}.phased.vcf '
         '&>> {log}'
+
+rule check_sparsity:
+    input:
+        vcf = 'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.vcf.gz'
+    output:
+        vcf = 'output/100_ehh/{popset}.{pruned}/{pop}.{contig}.indivremoved.vcf'
+    log:
+        'output/logs/check_sparsity.{popset}.{pruned}.{pop}.{contig}.log'
+    singularity:
+        samtools
+    shell:
+        'bcftools view '
+        '-S ^<( bcftools +check-sparsity {input.vcf} | cut -f2 ) '
+        '{input.vcf} '
+        '> {output.vcf} '
+        '2>{log}'
 
 rule pop_vcf:
     input:
