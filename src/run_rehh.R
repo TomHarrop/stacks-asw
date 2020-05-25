@@ -32,11 +32,13 @@ RunIhs <- function(contig_vcf, min_pct){
 pop_names <- names(snakemake@input)[
   !names(snakemake@input) %in% c("fai", "")]
 print(pop_names)
-# 
-# fai_file <- snakemake@input[["fai"]]
-# pop1_files <- snakemake@input[[pop_names[[1]]]]
-# pop2_files <- snakemake@input[[pop_names[[2]]]]
-# 
+
+fai_file <- snakemake@input[["fai"]]
+pop1_files <- snakemake@input[[pop_names[[1]]]]
+pop2_files <- snakemake@input[[pop_names[[2]]]]
+ 
+
+
 # fai_file <- "output/005_ref/ref.fasta.fai"
 # north_files <- list.files("output/100_ehh/rlp.all",
 #                           pattern = "North\\.[^\\.]+\\.vcf$",
