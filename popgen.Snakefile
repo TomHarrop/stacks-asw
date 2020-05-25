@@ -33,6 +33,20 @@ def aggregate_pops(wildcards):
     return vcf_dict
 
 
+def get_best_run(wildcards):
+    co = checkpoints.find_best_run.get(
+        model=wildcards.model,
+        mig=wildcards.mig).output['outdir']
+    best_file = Path(co, 'best_is_{n}.txt').as_posix()
+    best_n = glob_wildcards(best_file).n[0]
+    par_file = ('output/095_fastsimcoal/'
+                f'{wildcards.popset}.{wildcards.pruned}.'
+                f'{wildcards.model}.{wildcards.mig}/'
+                f'run{{n}}/best/{wildcards.model}.{wildcards.mig}/seed.txt')
+    my_par_file = par_file.format(n=best_n)
+    return {'params': my_par_file}
+
+
 def resolve_path(path):
     return(Path(path).resolve().as_posix())
 
@@ -76,6 +90,9 @@ bayescan_sig_contigs = [
     'contig_8456',      # longest contig with sig SNPs
     'contig_3920'       # the test contig that worked interactively
     ]
+
+# which models to run (expand to 100 later)
+model_runs = [f'{x:03}' for x in range(1, 11, 1)]
 
 # chromosomes with > 20 SNPs for "phasing"
 loci_per_chrom = 'data/loci_per_chrom.csv'
@@ -234,24 +251,10 @@ checkpoint get_pop_indivs:
         'src/get_pop_indivs.R'
 
 # run fastsimcoal2 on the north-south populations
-
-def get_best_run(wildcards):
-    co = checkpoints.find_best_run.get(
-        model=wildcards.model,
-        mig=wildcards.mig).output['outdir']
-    best_file = Path(co, 'best_is_{n}.txt').as_posix()
-    best_n = glob_wildcards(best_file).n[0]
-    par_file = ('output/095_fastsimcoal/'
-                f'{wildcards.popset}.{wildcards.pruned}.'
-                f'{wildcards.model}.{wildcards.mig}/'
-                f'run{{n}}/best/{wildcards.model}.{wildcards.mig}/seed.txt')
-    my_par_file = par_file.format(n=best_n)
-    return {'params': my_par_file}
-
-
 rule fsc_target:
     input:
-        expand('output/095_fastsimcoal/{popset}.{pruned}.{model}.{mig}/best_run',
+        expand(('output/095_fastsimcoal/{popset}.{pruned}.{model}.{mig}/'
+                'best_run'),
                popset=['ns'],
                pruned=['pruned'],
                model=['model0', 'model1', 'model2', 'model3', 'model4'],
@@ -263,7 +266,7 @@ checkpoint find_best_run:
             'output/095_fastsimcoal/{{popset}}.{{pruned}}.{{model}}.{{mig}}/'
             'run{run}/'
             '{{model}}.{{mig}}/{{model}}.{{mig}}.bestlhoods'),
-            run=range(1, 101, 1)),
+            run=model_runs),
     output:
         outdir = directory((
             'output/095_fastsimcoal/{popset}.{pruned}.{model}.{mig}/best_run'))
