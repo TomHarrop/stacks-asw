@@ -110,10 +110,17 @@ rule target:
                 'fastsimcoal2/populations_MSFS.obs'),
                popset=['ns'],
                pruned=['all', 'pruned']),
-        'output/100_ehh/ns.all/xpehh.csv',    # not enough SNPs to phase pruned
-        'output/100_ehh/rlpara.all/xpehh.csv'
+        # 'output/100_ehh/ns.all/xpehh.csv',    # not enough SNPs to phase pruned
+        # 'output/100_ehh/rlpara.all/xpehh.csv'
 
 # run extended haplotype homozygosity 
+rule rehh_target:
+    input:
+        expand('output/100_ehh/{popset}.{pruned}/xpehh.csv',
+               popset=['ns', 'rlpara'],
+               pruned=['all', 'pruned']),
+
+
 rule run_rehh:
     input:
         unpack(aggregate_pops),
