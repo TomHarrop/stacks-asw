@@ -23,7 +23,7 @@ pca_plot_file <- snakemake@output[["pca_plot"]]
 dapc_xv_file <- snakemake@output[["dapc_xv"]]
 
 # DEV
-# vcf_file <- "output/080_bayescan/ns/populations.vcf"
+# vcf_file <- "output/060_popgen/populations.ns.pruned.vcf"
 
 # roughly north to south?
 pop_order <- c(

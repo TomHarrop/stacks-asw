@@ -2,10 +2,18 @@
 
 library(data.table)
 
-vcf_file <- "output/060_popgen/populations.ns.all.vcf"
 fai_file <- "output/005_ref/ref.fasta.fai"
+
+# dev - ns
+vcf_file <- "output/060_popgen/populations.ns.all.vcf"
 bs_file <- "output/080_bayescan/ns.all/bs/populations_fst.txt"
 xpehh_file <- "output/100_ehh/ns.all/xpehh.csv"
+
+# rlpara, nothing to see
+# vcf_file <- "output/060_popgen/populations.rlpara.all.vcf"
+# bs_file <- "output/080_bayescan/rlpara.all/bs/populations_fst.txt"
+# xpehh_file <- "output/100_ehh/rlpara.all/xpehh.csv"
+
 
 vcf_file <- snakemake@input[["vcf"]]
 fai_file <- snakemake@input[["fai"]]
@@ -69,8 +77,8 @@ xp_tab <- unique(sig_xpehh[, .(contig = CHR,
                                total_snps = n_all,
                                xp_snps = xp_sig,
                                xpehh = ifelse(xp_sig > 1,
-                                              paste(sp(min(XPEHH_North_South)), sp(max(XPEHH_North_South)), sep = " -- "),
-                                              sp(XPEHH_North_South)),
+                                              paste(sp(min(XPEHH_South_North)), sp(max(XPEHH_South_North)), sep = " -- "),
+                                              sp(XPEHH_South_North)),
                                xp_region = ifelse(xp_sig > 1,
                                                   paste(pn(min(POSITION)), pn(max(POSITION)), sep = " -- "),
                                                   pn(POSITION))),
