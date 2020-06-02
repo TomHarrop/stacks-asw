@@ -33,16 +33,15 @@ def aggregate_pops(wildcards):
     return vcf_dict
 
 
+# read the best run file (move to aggregate function)
 def get_best_run(wildcards):
-    co = checkpoints.find_best_run.get(
-        model=wildcards.model,
-        mig=wildcards.mig).output['outdir']
-    best_file = Path(co, 'best_is_{n}.txt').as_posix()
-    best_n = glob_wildcards(best_file).n[0]
+    best_file = checkpoints.find_best_run.get(**wildcards).output['bestrun']
+    with open(best_file, 'rt') as f:
+        best_n = f.read().rstrip()
     par_file = ('output/095_fastsimcoal/'
                 f'{wildcards.popset}.{wildcards.pruned}.'
                 f'{wildcards.model}.{wildcards.mig}/'
-                f'run{{n}}/best/{wildcards.model}.{wildcards.mig}/seed.txt')
+                f'run{{best_n}}/{wildcards.model}.{wildcards.mig}/seed.txt')
     my_par_file = par_file.format(n=best_n)
     return {'params': my_par_file}
 
@@ -253,27 +252,27 @@ checkpoint get_pop_indivs:
 # run fastsimcoal2 on the north-south populations
 rule fsc_target:
     input:
-        expand(('output/095_fastsimcoal/{popset}.{pruned}.{model}.{mig}/'
-                'best_run'),
+        expand('output/095_fastsimcoal/{popset}.{pruned}/summary.csv',
                popset=['ns'],
-               pruned=['pruned'],
-               model=['model0', 'model1', 'model2', 'model3', 'model4'],
-               mig=['no_mig', 'mig'])
+               pruned=['pruned'])
+  
 
 checkpoint find_best_run:
     input:
         bestlhoods = expand((
-            'output/095_fastsimcoal/{{popset}}.{{pruned}}.{{model}}.{{mig}}/'
+            'output/095_fastsimcoal/{{popset}}.{{pruned}}.{model}.{mig}/'
             'run{run}/'
-            '{{model}}.{{mig}}/{{model}}.{{mig}}.bestlhoods'),
-            run=model_runs),
+            '{model}.{mig}/{model}.{mig}.bestlhoods'),
+            run=model_runs,
+            model=['model0', 'model1', 'model2', 'model3', 'model4'],
+            mig=['no_mig', 'mig']),
     output:
-        outdir = directory((
-            'output/095_fastsimcoal/{popset}.{pruned}.{model}.{mig}/best_run'))
+        summary = ('output/095_fastsimcoal/{popset}.{pruned}/summary.csv'),
+        bestrun = ('output/095_fastsimcoal/{popset}.{pruned}/best_run.txt'),
     singularity:
         r_container
     log:
-        'output/logs/find_best_run.{popset}.{pruned}.{model}.{mig}.log'
+        'output/logs/find_best_run.{popset}.{pruned}.log'
     script:
         'src/find_best_run.R'
 
