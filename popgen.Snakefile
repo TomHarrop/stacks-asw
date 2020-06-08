@@ -306,7 +306,8 @@ rule fsc:
     singularity:
         fastsimcoal
     threads:
-        max(1, workflow.cores // len(model_runs))
+        # max(1, workflow.cores // len(model_runs))
+        1
     log:
         resolve_path(
             'output/logs/fsc.{popset}.{pruned}.{model}.{mig}.{run}.log')
