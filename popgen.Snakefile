@@ -91,7 +91,7 @@ bayescan_sig_contigs = [
     ]
 
 # which models to run (expand to 100 later)
-model_runs = [f'{x:03}' for x in range(1, 11, 1)]
+model_runs = [f'{x:03}' for x in range(1, 101, 1)]
 
 # chromosomes with > 20 SNPs for "phasing"
 loci_per_chrom = 'data/loci_per_chrom.csv'
@@ -306,8 +306,7 @@ rule fsc:
     singularity:
         fastsimcoal
     threads:
-        #min(12, workflow.cores // 4)
-        12
+        max(1, workflow.cores // len(model_runs))
     log:
         resolve_path(
             'output/logs/fsc.{popset}.{pruned}.{model}.{mig}.{run}.log')
@@ -323,7 +322,8 @@ rule fsc:
         '--msfs '
         '--maxlhood '
         '--numloops 60 '
-        '--cores {threads} '
+        '--cores {threads} '    # cores
+        '-B{threads} '          # batches
         '&> {log}'
 
 
