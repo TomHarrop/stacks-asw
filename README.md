@@ -36,3 +36,7 @@ All software run in containers, so the only requirements are:
 ### Popgen analysis
 
 ![](graphs/popgen.svg)
+
+### `fastsimcoal2` analysis
+
+![](graphs/fsc.svg)
